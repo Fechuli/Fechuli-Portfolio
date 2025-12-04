@@ -51,7 +51,7 @@ export default function RootLayout({
     return (
         <html lang="it">
             <body
-                className={`${arimo.variable} antialiased sm:px-6 px-2 pt-6 bg-[#330014]`}
+                className={`${arimo.variable} antialiased sm:px-6 px-0 sm:pt-6 bg-[#330014]`}
             >
                 <GrainOverlay />
                 <LoaderProvider>
@@ -59,7 +59,7 @@ export default function RootLayout({
                     <TransitionProvider>
                         <TransitionWrapper>
                             <LenisProvider>
-                                <div className="rounded-t-3xl bg-[#FFF5F5] p-4">
+                                <div className="sm:rounded-t-3xl bg-[#FFF5F5] p-4">
                                     <Navbar />
                                     <ViewTransition>
                                         {children}

@@ -15,9 +15,7 @@ export default function TransitionWrapper({ children }: TransitionWrapperProps) 
     const prevPathname = useRef(pathname);
 
     useEffect(() => {
-        // Quando la pathname cambia, significa che la navigazione è avvenuta
         if (prevPathname.current !== pathname && isTransitioning) {
-            // Aspetta un attimo e poi termina la transizione (slide out del video)
             const timer = setTimeout(() => {
                 endTransition();
             }, 100);

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { createContext, useContext, useState, useCallback, ReactNode } from "react";
@@ -33,10 +34,9 @@ export function TransitionProvider({ children }: TransitionProviderProps) {
         setIsTransitioning(true);
         setPendingHref(href);
 
-        // Dopo che l'animazione di ingresso è completata, naviga
         setTimeout(() => {
             router.push(href);
-        }, 500); // Tempo dell'animazione slide-in
+        }, 500);
     }, [isTransitioning, router]);
 
     const endTransition = useCallback(() => {

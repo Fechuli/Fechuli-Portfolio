@@ -26,13 +26,10 @@ export default function TransitionLink({
     const handleClick = (e: React.MouseEvent) => {
         e.preventDefault();
 
-        // Non fare nulla se siamo già su questa pagina o se è in corso una transizione
         if (pathname === href || isTransitioning) return;
 
-        // Chiama onClick se fornito (es. per chiudere il menu)
         onClick?.();
 
-        // Avvia la transizione
         startTransition(href);
     };
 

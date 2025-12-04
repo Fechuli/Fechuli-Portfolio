@@ -152,7 +152,9 @@ export default function PageTransition({ show }: PageTransitionProps) {
                     loop
                     muted
                     playsInline
-                    className="w-full h-full object-cover"
+                    disablePictureInPicture
+                    controls={false}
+                    className="w-full h-full object-cover [&::-webkit-media-controls]:hidden [&::-webkit-media-controls-start-playback-button]:hidden"
                     style={{ filter: "url(#redChannel)" }}
                 >
                     <source src="/video/static.webm" type="video/webm" />
@@ -169,7 +171,9 @@ export default function PageTransition({ show }: PageTransitionProps) {
                     loop
                     muted
                     playsInline
-                    className="w-full h-full object-cover"
+                    disablePictureInPicture
+                    controls={false}
+                    className="w-full h-full object-cover [&::-webkit-media-controls]:hidden [&::-webkit-media-controls-start-playback-button]:hidden"
                     style={{ filter: "url(#greenChannel)" }}
                 >
                     <source src="/video/static.webm" type="video/webm" />
@@ -186,7 +190,9 @@ export default function PageTransition({ show }: PageTransitionProps) {
                     loop
                     muted
                     playsInline
-                    className="w-full h-full object-cover"
+                    disablePictureInPicture
+                    controls={false}
+                    className="w-full h-full object-cover [&::-webkit-media-controls]:hidden [&::-webkit-media-controls-start-playback-button]:hidden"
                     style={{ filter: "url(#blueChannel)" }}
                 >
                     <source src="/video/static.webm" type="video/webm" />

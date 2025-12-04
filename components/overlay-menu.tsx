@@ -69,12 +69,25 @@ export default function OverlayMenu({ isOpen, onClose }: OverlayMenuProps) {
     useEffect(() => {
         const menu = menuRef.current;
         const overlay = overlayRef.current;
+        const container = linksContainerRef.current;
 
         if (!menu || !overlay) return;
 
+        gsap.killTweensOf(menu);
+        gsap.killTweensOf(overlay);
+        if (container) {
+            const chars = container.querySelectorAll(".menu-char");
+            gsap.killTweensOf(chars);
+        }
+
         if (isOpen) {
-            gsap.set(overlay, { display: "block" });
-            gsap.set(menu, { display: "block" });
+            const chars = container?.querySelectorAll(".menu-char");
+            if (chars) {
+                gsap.set(chars, { y: "100%", opacity: 0 });
+            }
+
+            gsap.set(overlay, { display: "block", opacity: 0 });
+            gsap.set(menu, { display: "block", y: "100%" });
 
             gsap.to(overlay, {
                 opacity: 1,
@@ -82,38 +95,28 @@ export default function OverlayMenu({ isOpen, onClose }: OverlayMenuProps) {
                 ease: "power2.out",
             });
 
-            gsap.fromTo(
-                menu,
-                { y: "100%" },
-                {
-                    y: "0%",
-                    duration: 0.5,
-                    ease: "power3.out",
-                    onComplete: () => {
-                        const container = linksContainerRef.current;
-                        if (!container) return;
-
-                        const chars = container.querySelectorAll(".menu-char");
-                        gsap.fromTo(
-                            chars,
-                            { y: "100%", opacity: 0 },
-                            {
-                                y: "0%",
-                                opacity: 1,
-                                duration: 0.5,
-                                stagger: 0.02,
-                                ease: "power3.out",
-                            }
-                        );
-                    },
-                }
-            );
+            gsap.to(menu, {
+                y: "0%",
+                duration: 0.5,
+                ease: "power3.out",
+                onComplete: () => {
+                    if (!container) return;
+                    const chars = container.querySelectorAll(".menu-char");
+                    gsap.to(chars, {
+                        y: "0%",
+                        opacity: 1,
+                        duration: 0.5,
+                        stagger: 0.02,
+                        ease: "power3.out",
+                    });
+                },
+            });
         } else {
-            const container = linksContainerRef.current;
             if (container) {
                 const chars = container.querySelectorAll(".menu-char");
                 gsap.set(chars, { y: "100%", opacity: 0 });
             }
+
             gsap.to(menu, {
                 y: "100%",
                 duration: 0.4,
@@ -127,7 +130,7 @@ export default function OverlayMenu({ isOpen, onClose }: OverlayMenuProps) {
                 ease: "power2.in",
                 onComplete: () => {
                     gsap.set(overlay, { display: "none" });
-                    gsap.set(menu, { display: "none" });
+                    gsap.set(menu, { display: "none", y: "100%" });
                 },
             });
         }
@@ -137,13 +140,13 @@ export default function OverlayMenu({ isOpen, onClose }: OverlayMenuProps) {
         <>
             <div
                 ref={overlayRef}
-                className="fixed inset-0 lg:top-5 top-6 left-2 right-2 sm:left-6 sm:right-6 bg-black/50 z-50 hidden opacity-0 rounded-t-3xl"
+                className="fixed inset-0 lg:top-5 top-0 left-0 right-0 sm:left-6 sm:right-6 bg-black/50 z-50 hidden opacity-0 sm:rounded-t-3xl"
                 onClick={onClose}
             />
 
             <div
                 ref={menuRef}
-                className="fixed bottom-0 left-2 right-2 sm:left-6 sm:right-6 h-[70vh] sm:h-[90vh] bg-[#FFF5F5] z-50 rounded-t-3xl hidden"
+                className="fixed bottom-0 left-0 right-0 sm:left-6 sm:right-6 h-[70vh] sm:h-[90vh] bg-[#FFF5F5] z-50 rounded-t-3xl hidden"
                 style={{ transform: "translateY(100%)" }}
             >
                 <div className="flex justify-end p-4 border-b border-[#330014]/20">

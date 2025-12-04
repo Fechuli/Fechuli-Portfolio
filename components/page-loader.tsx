@@ -45,7 +45,6 @@ export default function PageLoader({ onComplete }: PageLoaderProps) {
         0.43, 0.43, 0.44, 0.45, 0.46, 0.46, 0.47, 0.48, 0.49, 0.49, 0.5,
     ];
 
-    // Funzione per far brillare una cella
     const glowCell = useCallback((cell: HTMLDivElement) => {
         gsap.to(cell, {
             backgroundColor: "rgba(255, 245, 245, 0.25)",
@@ -61,7 +60,6 @@ export default function PageLoader({ onComplete }: PageLoaderProps) {
         });
     }, []);
 
-    // Calcola dimensioni griglia e avvia glow casuale
     useEffect(() => {
         const updateGridDimensions = () => {
             const cols = Math.ceil(window.innerWidth / GRID_SIZE) + 2;
@@ -81,7 +79,6 @@ export default function PageLoader({ onComplete }: PageLoaderProps) {
         };
     }, []);
 
-    // Glow casuale automatico
     useEffect(() => {
         if (gridDimensions.cols === 0 || gridDimensions.rows === 0) return;
 
@@ -89,7 +86,6 @@ export default function PageLoader({ onComplete }: PageLoaderProps) {
             const cells = Array.from(cellsRef.current.values());
             if (cells.length === 0) return;
 
-            // Seleziona 1-3 celle casuali
             const numCells = Math.floor(Math.random() * 3) + 1;
             for (let i = 0; i < numCells; i++) {
                 const randomIndex = Math.floor(Math.random() * cells.length);
@@ -100,7 +96,6 @@ export default function PageLoader({ onComplete }: PageLoaderProps) {
             }
         };
 
-        // Avvia glow casuale ogni 600-1400ms (più lento)
         const scheduleNextGlow = () => {
             const delay = Math.random() * 800 + 600;
             randomGlowIntervalRef.current = setTimeout(() => {
@@ -118,7 +113,6 @@ export default function PageLoader({ onComplete }: PageLoaderProps) {
         };
     }, [gridDimensions, glowCell]);
 
-    // Gestione mouse hover sulle celle
     const handleMouseMove = useCallback(
         (e: React.MouseEvent) => {
             const grid = gridRef.current;
@@ -141,13 +135,12 @@ export default function PageLoader({ onComplete }: PageLoaderProps) {
         [glowCell, gridOffset]
     );
 
-    // Timecode e frame counter dinamici
     useEffect(() => {
         const startTime = Date.now();
 
         timecodeIntervalRef.current = setInterval(() => {
             const elapsed = Date.now() - startTime;
-            const totalFrames = Math.floor(elapsed / (1000 / 25)); // 25 fps
+            const totalFrames = Math.floor(elapsed / (1000 / 25));
             const frames = totalFrames % 25;
             const totalSeconds = Math.floor(totalFrames / 25);
             const seconds = totalSeconds % 60;
@@ -163,7 +156,7 @@ export default function PageLoader({ onComplete }: PageLoaderProps) {
                 ).padStart(2, "0")}`
             );
             setFrameCount(totalFrames);
-        }, 40); // ~25fps update
+        }, 40);
 
         return () => {
             if (timecodeIntervalRef.current) {
@@ -201,7 +194,6 @@ export default function PageLoader({ onComplete }: PageLoaderProps) {
             },
         });
 
-        // Stato iniziale
         gsap.set(pathElements, {
             opacity: 0,
             scale: 1.5,
@@ -213,14 +205,12 @@ export default function PageLoader({ onComplete }: PageLoaderProps) {
         gsap.set(percentage, { opacity: 0, textContent: "0" });
         gsap.set(decorations, { opacity: 0 });
 
-        // Fase 0: Decorazioni appaiono
         tl.to(decorations, {
             opacity: 1,
             duration: 0.4,
             ease: "power2.out",
         });
 
-        // Fase 1: Path appaiono uno alla volta (più lento)
         pathElements.forEach((path, i) => {
             const delay = i * 0.12;
 
@@ -235,7 +225,6 @@ export default function PageLoader({ onComplete }: PageLoaderProps) {
                 0.3 + delay
             );
 
-            // Piccolo tremito glitch
             tl.to(
                 path,
                 {
@@ -255,7 +244,6 @@ export default function PageLoader({ onComplete }: PageLoaderProps) {
             );
         });
 
-        // Fase 2: Loader bar e percentuale appaiono
         tl.to(
             [loaderBar, percentage],
             {

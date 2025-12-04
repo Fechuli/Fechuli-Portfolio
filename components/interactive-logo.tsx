@@ -18,7 +18,6 @@ export default function InteractiveLogo({ className = "", animate = false, hover
     const isMobile = useIsMobile();
 
     useEffect(() => {
-        // Skip animazioni su mobile
         if (isMobile) return;
 
         const paths = pathsRef.current.filter(Boolean) as SVGPathElement[];
@@ -47,21 +46,17 @@ export default function InteractiveLogo({ className = "", animate = false, hover
     }, [animate, isMobile]);
 
     useEffect(() => {
-        // Skip animazioni su mobile
         if (isMobile) return;
 
         const paths = pathsRef.current.filter(Boolean) as SVGPathElement[];
 
-        // Non interrompere l'animazione draw iniziale
         if (isDrawingRef.current) return;
 
-        // Uccidi la timeline precedente se esiste
         if (hoverTimelineRef.current) {
             hoverTimelineRef.current.kill();
             hoverTimelineRef.current = null;
         }
 
-        // Reset delle proprietà (senza killTweensOf che interromperebbe il draw)
         gsap.to(paths, {
             scale: 1,
             rotation: 0,
@@ -78,12 +73,11 @@ export default function InteractiveLogo({ className = "", animate = false, hover
             return;
         }
 
-        // Crea una nuova timeline per l'animazione hover
         const tl = gsap.timeline();
         hoverTimelineRef.current = tl;
 
         switch (hoveredLink) {
-            case 0: // Home - pulse dal centro
+            case 0:
                 tl.to(paths, {
                     scale: 1.03,
                     transformOrigin: "center center",
@@ -98,7 +92,7 @@ export default function InteractiveLogo({ className = "", animate = false, hover
                 });
                 break;
 
-            case 1: // About - rotazione leggera alternata
+            case 1:
                 tl.to(paths, {
                     rotation: (i) => i % 2 === 0 ? 3 : -3,
                     transformOrigin: "center center",
@@ -110,7 +104,7 @@ export default function InteractiveLogo({ className = "", animate = false, hover
                 });
                 break;
 
-            case 2: // Progetti - explode/separate con ritorno
+            case 2:
                 paths.forEach((path, i) => {
                     const offset = (paths.length - 1 - i) * 0.8;
                     tl.to(path, {
@@ -123,7 +117,7 @@ export default function InteractiveLogo({ className = "", animate = false, hover
                 });
                 break;
 
-            case 3: // Contatti - wave verticale sfalsata
+            case 3:
                 paths.forEach((path, i) => {
                     tl.to(path, {
                         y: Math.sin(i * 0.8) * 2,
@@ -136,7 +130,7 @@ export default function InteractiveLogo({ className = "", animate = false, hover
                 });
                 break;
 
-            case 4: // Blog - wave orizzontale
+            case 4:
                 paths.forEach((path, i) => {
                     tl.to(path, {
                         x: Math.sin(i * 0.5) * 3,
@@ -149,7 +143,7 @@ export default function InteractiveLogo({ className = "", animate = false, hover
                 });
                 break;
 
-            case 5: // Studios - spin
+            case 5:
                 tl.to(paths, {
                     rotation: 360,
                     transformOrigin: "center center",
