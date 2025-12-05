@@ -21,7 +21,6 @@ html::-webkit-scrollbar {
     display: none;
 }
 
-/* Nascondi scrollbar per elementi specifici */
 .scrollbar-hide {
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -37,6 +36,11 @@ html::-webkit-scrollbar {
 
 .arimo {
     font-family: var(--font-arimo), sans-serif;
+}
+
+::selection {
+    background-color: #330014;
+    color: #FFF5F5;
 }
 
 /* Nascondi controlli video su mobile */

@@ -7,7 +7,7 @@ interface PageLoaderProps {
     onComplete?: () => void;
 }
 
-const GRID_SIZE = 60; // dimensione cella in px
+const GRID_SIZE = 60;
 
 export default function PageLoader({ onComplete }: PageLoaderProps) {
     const containerRef = useRef<HTMLDivElement>(null);

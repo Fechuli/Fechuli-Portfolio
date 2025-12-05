@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useImperativeHandle, forwardRef } from "react";
 import gsap from "gsap";
 import { useIsMobile } from "@/lib/use-media-query";
 
@@ -10,39 +10,86 @@ interface InteractiveLogoProps {
     hoveredLink?: number | null;
 }
 
-export default function InteractiveLogo({ className = "", animate = false, hoveredLink = null }: InteractiveLogoProps) {
+export interface InteractiveLogoHandle {
+    reset: () => void;
+}
+
+const InteractiveLogo = forwardRef<InteractiveLogoHandle, InteractiveLogoProps>(function InteractiveLogo({ className = "", animate = false, hoveredLink = null }, ref) {
     const svgRef = useRef<SVGSVGElement>(null);
     const pathsRef = useRef<(SVGPathElement | null)[]>([]);
     const isDrawingRef = useRef(false);
     const hoverTimelineRef = useRef<gsap.core.Timeline | null>(null);
     const isMobile = useIsMobile();
 
-    useEffect(() => {
-        if (isMobile) return;
+    useImperativeHandle(ref, () => ({
+        reset: () => {
+            const paths = pathsRef.current.filter(Boolean) as SVGPathElement[];
+            if (paths.length === 0) return;
 
-        const paths = pathsRef.current.filter(Boolean) as SVGPathElement[];
-
-        if (animate) {
-            isDrawingRef.current = true;
+            if (hoverTimelineRef.current) {
+                hoverTimelineRef.current.kill();
+                hoverTimelineRef.current = null;
+            }
+            gsap.killTweensOf(paths);
+            isDrawingRef.current = false;
 
             paths.forEach((path) => {
                 const length = path.getTotalLength();
                 gsap.set(path, {
+                    scale: 1,
+                    rotation: 0,
+                    x: 0,
+                    y: 0,
                     strokeDasharray: length,
                     strokeDashoffset: length,
+                    transformOrigin: "center center",
                 });
             });
+        },
+    }));
 
-            gsap.to(paths, {
-                strokeDashoffset: 0,
-                duration: 1.5,
-                stagger: 0.1,
-                ease: "power2.inOut",
-                onComplete: () => {
-                    isDrawingRef.current = false;
-                },
-            });
+    useEffect(() => {
+        if (!animate || isMobile) return;
+
+        const paths = pathsRef.current.filter(Boolean) as SVGPathElement[];
+        if (paths.length === 0) return;
+
+        if (hoverTimelineRef.current) {
+            hoverTimelineRef.current.kill();
+            hoverTimelineRef.current = null;
         }
+        gsap.killTweensOf(paths);
+
+        isDrawingRef.current = true;
+
+        paths.forEach((path) => {
+            const length = path.getTotalLength();
+            gsap.set(path, {
+                strokeDasharray: length,
+                strokeDashoffset: length,
+                scale: 1,
+                rotation: 0,
+                x: 0,
+                y: 0,
+                opacity: 1,
+            });
+        });
+
+        gsap.to(paths, {
+            strokeDashoffset: 0,
+            duration: 1.5,
+            stagger: 0.1,
+            ease: "power2.inOut",
+            onComplete: () => {
+                isDrawingRef.current = false;
+                paths.forEach((path) => {
+                    gsap.set(path, {
+                        strokeDasharray: "none",
+                        strokeDashoffset: 0,
+                    });
+                });
+            },
+        });
     }, [animate, isMobile]);
 
     useEffect(() => {
@@ -223,4 +270,6 @@ export default function InteractiveLogo({ className = "", animate = false, hover
             ))}
         </svg>
     );
-}
+});
+
+export default InteractiveLogo;

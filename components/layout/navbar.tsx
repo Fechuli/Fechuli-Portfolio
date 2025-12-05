@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import OverlayMenu from "./overlay-menu";
-import AnimatedLink from "./animated-link";
-import TransitionLink from "./transition-link";
-import MenuButton from "./menu-button";
+import AnimatedLink from "../ui/animated-link";
+import TransitionLink from "../ui/transition-link";
+import MenuButton from "../ui/menu-button";
 import Image from "next/image";
 
 export default function Navbar() {
@@ -18,7 +18,7 @@ export default function Navbar() {
 
     return (
         <>
-            <nav className="flex items-center justify-between sticky top-0 z-50 py-4 rounded-t-3xl -mx-4 -mt-4 px-4 w-[calc(100%+2rem)]">
+            <nav className="flex items-center justify-between sticky top-0 z-50 py-4 rounded-t-3xl px-4 sm:-mx-4 sm:-mt-4 sm:px-4 sm:w-[calc(100%+2rem)]">
                 <TransitionLink href="/">
                     <Image
                         src={"/images/logo.svg"}

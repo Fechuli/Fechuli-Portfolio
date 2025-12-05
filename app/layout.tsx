@@ -1,14 +1,15 @@
-import type { Metadata } from "next";
+"use client";
+
 import "./globals.css";
 import { Arimo } from "next/font/google";
 import { ViewTransition } from "react";
 import { LenisProvider } from "@/lib/lenis-context";
 import { TransitionProvider } from "@/lib/transition-context";
-import { LoaderProvider } from "@/lib/loader-context";
-import Navbar from "@/components/navbar";
-import GrainOverlay from "@/components/grain-overlay";
-import TransitionWrapper from "@/components/transition-wrapper";
-import PageLoader from "@/components/page-loader";
+import { LoaderProvider, useLoader } from "@/lib/loader-context";
+import Navbar from "@/components/layout/navbar";
+import GrainOverlay from "@/components/effects/grain-overlay";
+import TransitionWrapper from "@/components/effects/transition-wrapper";
+import PageLoader from "@/components/effects/page-loader";
 
 const arimo = Arimo({
     subsets: ["latin"],
@@ -16,32 +17,28 @@ const arimo = Arimo({
     display: "swap",
 });
 
-const SITE_NAME = "Fechuli";
-const SITE_URL = "https://fechuli.it";
+function LayoutContent({ children }: { children: React.ReactNode }) {
+    const { setIsLoading } = useLoader();
 
-export const metadata: Metadata = {
-    metadataBase: new URL(SITE_URL),
-    title: {
-        default: SITE_NAME,
-        template: `%s | ${SITE_NAME}`,
-    },
-    description: "Fechuli - Sviluppatore Web",
-    openGraph: {
-        title: SITE_NAME,
-        description: "Fechuli - Sviluppatore Web",
-        url: SITE_URL,
-        siteName: SITE_NAME,
-        locale: "it_IT",
-        type: "website",
-    },
-    twitter: {
-        card: "summary_large_image",
-    },
-    robots: {
-        index: true,
-        follow: true,
-    },
-};
+    return (
+        <>
+            <GrainOverlay />
+            <PageLoader onComplete={() => setIsLoading(false)} />
+            <TransitionProvider>
+                <TransitionWrapper>
+                    <LenisProvider>
+                        <div className="sm:rounded-t-3xl bg-[#FFF5F5] p-0 sm:p-4">
+                            <Navbar />
+                            <ViewTransition>
+                                {children}
+                            </ViewTransition>
+                        </div>
+                    </LenisProvider>
+                </TransitionWrapper>
+            </TransitionProvider>
+        </>
+    );
+}
 
 export default function RootLayout({
     children,
@@ -53,21 +50,8 @@ export default function RootLayout({
             <body
                 className={`${arimo.variable} antialiased sm:px-6 px-0 sm:pt-6 bg-[#330014]`}
             >
-                <GrainOverlay />
                 <LoaderProvider>
-                    <PageLoader />
-                    <TransitionProvider>
-                        <TransitionWrapper>
-                            <LenisProvider>
-                                <div className="sm:rounded-t-3xl bg-[#FFF5F5] p-4">
-                                    <Navbar />
-                                    <ViewTransition>
-                                        {children}
-                                    </ViewTransition>
-                                </div>
-                            </LenisProvider>
-                        </TransitionWrapper>
-                    </TransitionProvider>
+                    <LayoutContent>{children}</LayoutContent>
                 </LoaderProvider>
             </body>
         </html>
