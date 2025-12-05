@@ -18,7 +18,7 @@ export default function Navbar() {
 
     return (
         <>
-            <nav className="flex items-center justify-between sticky top-0 z-50 py-4 rounded-t-3xl px-4 sm:-mx-4 sm:-mt-4 sm:px-4 sm:w-[calc(100%+2rem)]">
+            <nav className="flex items-center justify-between sticky top-0 z-50 py-4 sm:rounded-t-3xl px-4 sm:px-14">
                 <TransitionLink href="/">
                     <Image
                         src={"/images/logo.svg"}

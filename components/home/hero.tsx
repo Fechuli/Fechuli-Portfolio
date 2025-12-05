@@ -3,6 +3,7 @@
 import { useRef, useEffect, useCallback, useState } from "react";
 import InteractivePortrait from "../effects/interactive-portrait";
 import PixelKnob from "../ui/pixel-knob";
+import VerticalKnob from "../ui/vertical-knob";
 import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
 import { useLoader } from "@/lib/loader-context";
@@ -26,6 +27,7 @@ export default function Hero() {
     const renderRef = useRef<() => void>(() => {});
     const [fontLoaded, setFontLoaded] = useState(false);
     const [pixelSize, setPixelSize] = useState(50);
+    const [noise, setNoise] = useState(0);
     const titleRef = useRef<HTMLHeadingElement>(null);
     const akaRef = useRef<HTMLDivElement>(null);
     const fechuliContainerRef = useRef<HTMLDivElement>(null);
@@ -62,21 +64,17 @@ export default function Hero() {
         canvas.width = rect.width + padding * 2;
         canvas.height = rect.height + padding * 2;
 
-        // Calculate responsive font size based on viewport width
-        const vw = window.innerWidth;
-        const baseFontSize = vw < 768 ? vw * 0.12 : vw * 0.088;
-        const fontSize = Math.min(baseFontSize, rect.height * 0.7);
+        const fontSize = rect.height * 0.75;
 
         ctx.fillStyle = "#330014";
         ctx.font = `${fontSize}px "Resin", sans-serif`;
-        ctx.textAlign = "right";
+        ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        ctx.fillText("Fechuli", canvas.width - padding, canvas.height / 2);
+        ctx.fillText("Fechuli", canvas.width / 2, canvas.height / 2);
 
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         const pixels: typeof pixelsRef.current = [];
 
-        // Check if animation has already completed
         const initialAlpha = pixelsRef.current.length > 0 && pixelsRef.current[0].alpha > 0 ? 1 : 0;
 
         for (let y = 0; y < canvas.height; y += PIXEL_SIZE) {
@@ -208,7 +206,6 @@ export default function Hero() {
             }, i * 0.03);
         });
 
-        // First: Container expands from w-0 to auto
         tl.to(akaRef.current, {
             width: "auto",
             duration: 0.6,
@@ -228,14 +225,12 @@ export default function Hero() {
                         return;
                     }
 
-                    // Create shuffled indices
                     const indices = pixels.map((_, i) => i);
                     for (let i = indices.length - 1; i > 0; i--) {
                         const j = Math.floor(Math.random() * (i + 1));
                         [indices[i], indices[j]] = [indices[j], indices[i]];
                     }
 
-                    // Animate each particle
                     indices.forEach((index, i) => {
                         gsap.to(pixels[index], {
                             alpha: 1,
@@ -257,46 +252,60 @@ export default function Hero() {
     }, [isLoading, fontLoaded]);
 
     return (
-        <div className="text-[#330014] h-dvh flex flex-col items-center justify-between w-full relative pb-4 sm:pb-20 md:pb-26">
-            <div className="absolute inset-0 w-screen h-dvh z-0">
+        <div className="text-[#330014] h-dvh flex flex-col justify-between w-full relative pb-4 sm:pb-26">
+            <div className="absolute inset-0 w-full h-full z-0">
                 <InteractivePortrait
                     className="w-full h-full"
                     startAnimation={!isLoading}
                     pixelSize={pixelSize}
+                    noise={noise}
                 />
             </div>
 
-            <div className="flex flex-col items-end relative z-10 pointer-events-none w-full px-4 sm:-mx-4 sm:px-4 sm:w-[calc(100%+2rem)] pt-2 sm:pt-0 overflow-visible">
+            <div className="flex flex-col relative z-10 pointer-events-none w-full">
                 <h1
                     ref={titleRef}
-                    className="text-[11.5vw] sm:text-[12vw] md:text-[13vw] lg:text-[13.2vw] tracking-[-0.04em] font-bold leading-none opacity-0 whitespace-nowrap w-full text-right overflow-visible"
+                    className="font-bold leading-[0.9] opacity-0 whitespace-nowrap text-center text-[2.5rem] sm:text-[4rem] md:text-[5.5rem] lg:text-[8rem] xl:text-[10rem] 2xl:text-[13rem]"
+                    style={{
+                        letterSpacing: '-0.033em',
+                    }}
                 >
                     Federico Fiaschi
                 </h1>
-                <div className="overflow-hidden mt-2 sm:mt-4" ref={akaRef} style={{ width: 0 }}>
-                    <span className="bg-[#330014] text-[#FFF5F5] text-[11px] sm:text-sm md:text-base tracking-[0.35em] sm:tracking-[0.4em] uppercase arimo pl-1 sm:pl-2 block whitespace-nowrap">
-                        aka
-                    </span>
-                </div>
-                <div
-                    ref={fechuliContainerRef}
-                    className="pointer-events-auto relative -mt-2 sm:mt-2 w-[70vw] sm:w-[50vw] md:w-[35vw] h-[18vw] sm:h-[12vw] md:h-[8vw] overflow-visible opacity-0 -ml-10 sm:ml-0"
-                    onMouseMove={handleMouseMove}
-                    onMouseLeave={handleMouseLeave}
-                >
-                    <canvas
-                        ref={canvasRef}
-                        className="absolute overflow-visible"
-                        style={{
-                            overflow: "visible",
-                            top: -(DISTORT_STRENGTH + 10),
-                            left: -(DISTORT_STRENGTH + 10),
-                        }}
-                    />
+                <div className="flex flex-col items-center w-full">
+                    <div className="overflow-hidden mt-1 sm:mt-2" ref={akaRef} style={{ width: 0 }}>
+                        <span className="bg-[#330014] text-[#FFF5F5] text-[10px] sm:text-xs md:text-sm tracking-[0.3em] sm:tracking-[0.4em] uppercase arimo px-2 py-0.5 block whitespace-nowrap">
+                            aka
+                        </span>
+                    </div>
+                    <div
+                        ref={fechuliContainerRef}
+                        className="pointer-events-auto relative w-[70%] sm:w-[50%] md:w-[40%] lg:w-[35%] h-12 sm:h-16 md:h-20 lg:h-24 xl:h-28 2xl:h-36 overflow-visible opacity-0"
+                        onMouseMove={handleMouseMove}
+                        onMouseLeave={handleMouseLeave}
+                    >
+                        <canvas
+                            ref={canvasRef}
+                            className="absolute overflow-visible left-1/2 -translate-x-1/2"
+                            style={{
+                                overflow: "visible",
+                                top: -(DISTORT_STRENGTH + 10),
+                            }}
+                        />
+                    </div>
                 </div>
             </div>
 
-            <div className="relative z-10 self-center sm:self-end bg-[#FFF5F5] px-3 py-2.5 sm:px-6 sm:py-4">
+            <div className="absolute left-4 sm:left-10 top-1/2 -translate-y-1/2 z-10 bg-[#FFF5F5] px-2 py-3 sm:px-3 sm:py-4">
+                <VerticalKnob
+                    value={noise}
+                    onChange={setNoise}
+                    min={0}
+                    max={100}
+                />
+            </div>
+
+            <div className="relative z-10 self-end bg-[#FFF5F5] px-3 py-2 sm:px-4 sm:py-3 mx-4 sm:mx-10">
                 <PixelKnob
                     value={pixelSize}
                     onChange={setPixelSize}

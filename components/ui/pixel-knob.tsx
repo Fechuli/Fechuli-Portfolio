@@ -80,21 +80,21 @@ export default function PixelKnob({
     const percentage = ((value - min) / (max - min)) * 100;
 
     return (
-        <div className="flex flex-col gap-1.5 sm:gap-2 w-48 sm:w-56 md:w-64">
-            <div className="flex items-center justify-between text-[8px] sm:text-[9px] md:text-[10px] arimo uppercase tracking-wider text-[#330014]">
+        <div className="flex flex-col gap-1 sm:gap-1.5 md:gap-2 w-40 sm:w-48 md:w-56 lg:w-64">
+            <div className="flex items-center justify-between text-[7px] sm:text-[8px] md:text-[9px] lg:text-[10px] arimo uppercase tracking-wider text-[#330014]">
                 <span>← High</span>
-                <span className="text-[9px] sm:text-[10px] md:text-xs font-mono tracking-wide">Resolution</span>
+                <span className="text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs font-mono tracking-wide">Resolution</span>
                 <span>Low →</span>
             </div>
 
             <div className="relative">
-                <div className="absolute -top-2 left-0 right-0 flex justify-between">
+                <div className="absolute -top-1.5 sm:-top-2 left-0 right-0 flex justify-between">
                     {Array.from({ length: 20 }).map((_, i) => (
                         <div
                             key={`top-${i}`}
                             className="w-px bg-[#330014]"
                             style={{
-                                height: i % 5 === 0 ? "8px" : "4px",
+                                height: i % 5 === 0 ? "6px" : "3px",
                                 opacity: i * 5 <= percentage ? 1 : 0.3,
                             }}
                         />
@@ -103,7 +103,7 @@ export default function PixelKnob({
 
                 <div
                     ref={sliderRef}
-                    className="h-1 bg-[#330014] cursor-ew-resize relative"
+                    className="h-0.5 sm:h-1 bg-[#330014] cursor-ew-resize relative touch-none"
                     onMouseDown={handleMouseDown}
                     onTouchStart={handleTouchStart}
                 >
@@ -113,7 +113,7 @@ export default function PixelKnob({
                     />
 
                     <div
-                        className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-[#FFF5F5] border-2 border-[#330014] rounded-sm"
+                        className="absolute top-1/2 -translate-y-1/2 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-[#FFF5F5] border-[1.5px] sm:border-2 border-[#330014] rounded-sm"
                         style={{
                             left: `${percentage}%`,
                             transform: "translate(-50%, -50%)",
@@ -121,13 +121,13 @@ export default function PixelKnob({
                     />
                 </div>
 
-                <div className="absolute -bottom-2 left-0 right-0 flex justify-between">
+                <div className="absolute -bottom-1.5 sm:-bottom-2 left-0 right-0 flex justify-between">
                     {Array.from({ length: 20 }).map((_, i) => (
                         <div
                             key={`bottom-${i}`}
                             className="w-px bg-[#330014]"
                             style={{
-                                height: i % 5 === 0 ? "8px" : "4px",
+                                height: i % 5 === 0 ? "6px" : "3px",
                                 opacity: i * 5 <= percentage ? 1 : 0.3,
                             }}
                         />
@@ -136,7 +136,7 @@ export default function PixelKnob({
             </div>
 
             <div className="text-center">
-                <span className="text-[8px] sm:text-[9px] md:text-[10px] arimo uppercase tracking-wider text-[#330014]">
+                <span className="text-[7px] sm:text-[8px] md:text-[9px] lg:text-[10px] arimo uppercase tracking-wider text-[#330014]">
                     Signal Adjustment
                 </span>
             </div>

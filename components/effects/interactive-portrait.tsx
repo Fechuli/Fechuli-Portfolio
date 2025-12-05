@@ -7,6 +7,7 @@ interface InteractivePortraitProps {
     className?: string;
     startAnimation?: boolean;
     pixelSize?: number;
+    noise?: number;
 }
 
 const IMAGE_MAP = {
@@ -27,6 +28,7 @@ export default function InteractivePortrait({
     className = "",
     startAnimation = false,
     pixelSize = 50,
+    noise = 0,
 }: InteractivePortraitProps) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
@@ -92,7 +94,6 @@ export default function InteractivePortrait({
             canvas.width = rect.width;
             canvas.height = rect.height;
 
-            // Better proportions for mobile
             const isMobile = window.innerWidth < 640;
             const portraitWidth = isMobile
                 ? Math.min(rect.width * 0.85, rect.height * 0.95)
@@ -125,7 +126,6 @@ export default function InteractivePortrait({
             );
             const pixels: typeof pixelsRef.current = [];
 
-            // Determine initial alpha based on animation state
             const initialAlpha = hasAnimated ? 1 : 0;
 
             for (let y = 0; y < canvas.height; y += pixelSize) {
@@ -182,7 +182,7 @@ export default function InteractivePortrait({
                 console.error("Failed to load image:", position, src);
             };
         });
-    }, []); // Solo una volta all'avvio
+    }, []);
 
     useEffect(() => {
         if (!imagesLoaded) return;
@@ -217,12 +217,62 @@ export default function InteractivePortrait({
         const render = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+            const noiseIntensity = noise / 100;
+            const time = Date.now() * 0.001;
+
             pixelsRef.current.forEach((pixel) => {
                 if (pixel.alpha <= 0) return;
 
-                ctx.globalAlpha = pixel.alpha;
+                let drawX = pixel.x;
+                let drawY = pixel.y;
+                let drawAlpha = pixel.alpha;
+
+                if (noiseIntensity > 0) {
+                    const rowNoise =
+                        Math.sin(pixel.y * 0.1 + time * 5) *
+                        noiseIntensity *
+                        15;
+                    const glitchChance = Math.sin(time * 10 + pixel.y * 0.05);
+
+                    if (glitchChance > 0.7) {
+                        drawX += rowNoise * 2;
+                    }
+
+                    const waveDistort =
+                        Math.sin(pixel.x * 0.02 + time * 3) *
+                        noiseIntensity *
+                        8;
+                    drawY += waveDistort;
+
+                    if (Math.random() < noiseIntensity * 0.3) {
+                        drawAlpha *= 0.3 + Math.random() * 0.7;
+                    }
+
+                    const scanlineGroup = Math.floor(pixel.y / (pixelSize * 3));
+                    if (
+                        Math.sin(scanlineGroup + time * 8) >
+                        0.8 - noiseIntensity * 0.5
+                    ) {
+                        drawX +=
+                            noiseIntensity *
+                            20 *
+                            Math.sign(Math.sin(time * 15));
+                    }
+
+                    const compressionZone = Math.sin(time * 2 + pixel.y * 0.01);
+                    if (compressionZone > 0.5) {
+                        const centerY = canvas.height / 2;
+                        const distFromCenter = pixel.y - centerY;
+                        drawY =
+                            centerY +
+                            distFromCenter *
+                                (1 - noiseIntensity * 0.3 * compressionZone);
+                    }
+                }
+
+                ctx.globalAlpha = drawAlpha;
                 ctx.fillStyle = pixel.color;
-                ctx.fillRect(pixel.x, pixel.y, pixelSize - 1, pixelSize - 1);
+                ctx.fillRect(drawX, drawY, pixelSize - 1, pixelSize - 1);
                 ctx.globalAlpha = 1;
             });
 
@@ -234,7 +284,7 @@ export default function InteractivePortrait({
         return () => {
             cancelAnimationFrame(animationRef.current);
         };
-    }, [pixelSize]);
+    }, [pixelSize, noise]);
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
         const newPosition = getImagePosition(e.clientX, e.clientY);
