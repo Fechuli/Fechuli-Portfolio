@@ -9,6 +9,7 @@ import InteractiveLogo, {
 import AnimatedLink from "../ui/animated-link";
 import TransitionLink from "../ui/transition-link";
 import { useLenis } from "@/lib/lenis-context";
+import { useHauntedCursor } from "@/lib/haunted-cursor-context";
 
 interface OverlayMenuProps {
     isOpen: boolean;
@@ -23,6 +24,7 @@ export default function OverlayMenu({ isOpen, onClose }: OverlayMenuProps) {
     const [hoveredLink, setHoveredLink] = useState<number | null>(null);
     const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const { lenis } = useLenis();
+    const { isUnlocked, isEnabled, toggle } = useHauntedCursor();
 
     const handleLinkHover = (index: number | null) => {
         if (hoverTimeoutRef.current) {
@@ -211,6 +213,7 @@ export default function OverlayMenu({ isOpen, onClose }: OverlayMenuProps) {
                                 </span>
                             </TransitionLink>
                         ))}
+
                     </div>
 
                     <div className="hidden md:flex flex-col items-center justify-between p-8 h-full overflow-visible">
@@ -221,6 +224,27 @@ export default function OverlayMenu({ isOpen, onClose }: OverlayMenuProps) {
                             <span className="block text-xs arimo opacity-50 tracking-wide mt-2">
                                 43.7696° N, 11.2558° E
                             </span>
+                            {isUnlocked && (
+                                <button
+                                    onClick={toggle}
+                                    className="flex items-center gap-2 mt-3 ml-auto text-[#330014]/40 hover:text-[#330014] transition-colors"
+                                >
+                                    <span className={`
+                                        w-3 h-3 border border-current rounded-sm flex items-center justify-center
+                                        transition-all duration-200
+                                        ${isEnabled ? "bg-[#330014] border-[#330014]" : ""}
+                                    `}>
+                                        {isEnabled && (
+                                            <svg className="w-2 h-2 text-[#FFF5F5]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                                            </svg>
+                                        )}
+                                    </span>
+                                    <span className="text-xs arimo tracking-wide">
+                                        ???
+                                    </span>
+                                </button>
+                            )}
                         </div>
                         <div className="flex-1 flex items-center justify-center w-full overflow-visible">
                             <InteractiveLogo
