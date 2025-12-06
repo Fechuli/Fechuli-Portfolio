@@ -35,7 +35,6 @@ export default function EntityInput({
                 }
             );
         }
-        // Focus input
         inputRef.current?.focus();
     }, []);
 

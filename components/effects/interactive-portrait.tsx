@@ -220,7 +220,6 @@ export default function InteractivePortrait({
             const noiseIntensity = noise / 100;
             const time = Date.now() * 0.001;
 
-            // Calcola offset globali per riga (tutti i pixel della stessa riga si muovono insieme)
             const rowOffsets: Map<number, number> = new Map();
 
             pixelsRef.current.forEach((pixel) => {
@@ -230,12 +229,13 @@ export default function InteractivePortrait({
                 let drawAlpha = pixel.alpha;
 
                 if (noiseIntensity > 0) {
-                    // Offset orizzontale per riga (tutti i pixel sulla stessa Y si spostano insieme)
                     const rowKey = Math.floor(pixel.y / pixelSize);
 
                     if (!rowOffsets.has(rowKey)) {
-                        // Calcola offset per questa riga
-                        const rowNoise = Math.sin(pixel.y * 0.05 + time * 4) * noiseIntensity * 12;
+                        const rowNoise =
+                            Math.sin(pixel.y * 0.05 + time * 4) *
+                            noiseIntensity *
+                            12;
                         const glitchChance = Math.sin(time * 8 + rowKey * 0.3);
 
                         let offset = 0;
@@ -243,10 +243,14 @@ export default function InteractivePortrait({
                             offset = rowNoise;
                         }
 
-                        // Glitch improvvisi su alcune righe
-                        const scanlineGlitch = Math.sin(rowKey * 0.7 + time * 12);
+                        const scanlineGlitch = Math.sin(
+                            rowKey * 0.7 + time * 12
+                        );
                         if (scanlineGlitch > 0.85 - noiseIntensity * 0.3) {
-                            offset += noiseIntensity * 25 * Math.sign(Math.sin(time * 20 + rowKey));
+                            offset +=
+                                noiseIntensity *
+                                25 *
+                                Math.sign(Math.sin(time * 20 + rowKey));
                         }
 
                         rowOffsets.set(rowKey, offset);
@@ -254,7 +258,6 @@ export default function InteractivePortrait({
 
                     drawX += rowOffsets.get(rowKey) || 0;
 
-                    // Flickering leggero dell'alpha
                     if (Math.random() < noiseIntensity * 0.15) {
                         drawAlpha *= 0.6 + Math.random() * 0.4;
                     }

@@ -1,12 +1,13 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useSyncExternalStore, useMemo } from "react";
 import EntityQuestion from "./entity-question";
 import EntityInput from "./entity-input";
 import EntitySlider from "./entity-slider";
 import EntityChoice from "./entity-choice";
 import CrtTurnOn from "../effects/crt-turn-on";
+
+const emptySubscribe = () => () => {};
 
 type Step = {
     question: string | string[];
@@ -596,31 +597,43 @@ function getIterationSteps(count: number, hasGift: boolean): Step[] {
 }
 
 export default function EntityInteraction() {
+
+    const destructionCount = useSyncExternalStore(
+        emptySubscribe,
+        () => parseInt(localStorage.getItem("_destruction_count") || "1"),
+        () => 1
+    );
+
+    const storedName = useSyncExternalStore(
+        emptySubscribe,
+        () => localStorage.getItem("_entity_name"),
+        () => null
+    );
+
+    const hasGift = useSyncExternalStore(
+        emptySubscribe,
+        () => localStorage.getItem("_entity_gift") === "true",
+        () => false
+    );
+
     const [currentStep, setCurrentStep] = useState(0);
     const [phase, setPhase] = useState<
         "question" | "response" | "countdown" | "turnon"
     >("question");
-    const [context, setContext] = useState<EntityContext>(() => {
-        const count = parseInt(
-            localStorage.getItem("_destruction_count") || "1"
-        );
-        const prevName = localStorage.getItem("_entity_name");
-        return {
-            name: prevName || "",
-            destructionCount: count,
-            previousName: prevName,
-        };
-    });
-    const [steps, setSteps] = useState<Step[]>(() => {
-        const count = parseInt(
-            localStorage.getItem("_destruction_count") || "1"
-        );
-        const hasGift = localStorage.getItem("_entity_gift") === "true";
-        return getIterationSteps(count, hasGift);
-    });
+    const [name, setName] = useState("");
     const [response, setResponse] = useState<string | string[]>("");
     const [countdown, setCountdown] = useState(3);
     const [forceReboot, setForceReboot] = useState(false);
+
+    // Derive context from useSyncExternalStore values + local name state
+    const context: EntityContext = useMemo(() => ({
+        name: name || storedName || "",
+        destructionCount,
+        previousName: storedName,
+    }), [name, storedName, destructionCount]);
+
+    // Derive steps from destructionCount and hasGift
+    const steps = getIterationSteps(destructionCount, hasGift);
 
     const replaceVariables = useCallback(
         (text: string | string[]): string | string[] => {
@@ -647,10 +660,9 @@ export default function EntityInteraction() {
         (value: string) => {
             const step = steps[currentStep];
 
-            // Save name when user answers the "Come ti chiami?" question (input type on first iteration)
-            if (step.type === "input" && context.destructionCount === 1 && !context.name) {
+            if (step.type === "input" && destructionCount === 1 && !name && !storedName) {
                 localStorage.setItem("_entity_name", value);
-                setContext((prev) => ({ ...prev, name: value }));
+                setName(value);
             }
 
             const stepResponse = step.getResponse(value, context);
@@ -667,11 +679,11 @@ export default function EntityInteraction() {
                 goToNextStep();
             }
         },
-        [steps, currentStep, context, goToNextStep]
+        [steps, currentStep, destructionCount, name, storedName, context, goToNextStep]
     );
 
     const handleResponseComplete = useCallback(() => {
-        if (context.destructionCount >= 4 && currentStep === 1) {
+        if (destructionCount >= 4 && currentStep === 1) {
             const lastAnswer = response;
             if (lastAnswer === "...") {
                 setForceReboot(true);
@@ -682,7 +694,7 @@ export default function EntityInteraction() {
             }
         }
         goToNextStep();
-    }, [goToNextStep, context.destructionCount, currentStep, response]);
+    }, [goToNextStep, destructionCount, currentStep, response]);
 
     useEffect(() => {
         if (phase !== "countdown") return;
@@ -700,16 +712,15 @@ export default function EntityInteraction() {
     }, [phase, countdown]);
 
     const handleTurnOnComplete = useCallback(() => {
-        // Unlock the gift if this was iteration 5 (but don't enable it automatically)
         if (
-            context.destructionCount === 5 &&
+            destructionCount === 5 &&
             localStorage.getItem("_entity_gift") !== "true"
         ) {
             localStorage.setItem("_entity_gift", "true");
         }
         localStorage.removeItem("_x_terminated");
         window.location.href = "/";
-    }, [context.destructionCount]);
+    }, [destructionCount]);
 
     if (steps.length === 0) return null;
 

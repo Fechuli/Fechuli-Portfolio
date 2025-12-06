@@ -20,7 +20,7 @@ const fragmentShaderSource = `
     uniform vec2 u_resolution;
     uniform vec2 u_mouse;
     uniform float u_time;
-    uniform float u_points[300]; // x, y, age for up to 100 points
+    uniform float u_points[300];
     uniform int u_pointCount;
 
     varying vec2 v_texCoord;
@@ -71,7 +71,6 @@ const fragmentShaderSource = `
             vec2 pointPos = vec2(px, py);
             float dist = distance(pixelCoord, pointPos);
 
-            // Radius grows as point ages, then shrinks
             float baseRadius = 40.0;
             float growFactor = min(age / 20.0, 1.0);
             float shrinkFactor = max(0.0, 1.0 - (age - 60.0) / 60.0);
@@ -81,14 +80,12 @@ const fragmentShaderSource = `
                 float strength = 1.0 - (dist / radius);
                 strength = strength * strength;
 
-                // Age-based intensity (peaks at middle age)
                 float ageIntensity = shrinkFactor * growFactor;
                 strength *= ageIntensity;
 
                 totalDistortion += strength * 0.4;
                 erosion += strength * ageIntensity * 0.8;
 
-                // Swirl distortion
                 vec2 dir = pixelCoord - pointPos;
                 float angle = age * 0.05;
                 vec2 rotatedDir = vec2(

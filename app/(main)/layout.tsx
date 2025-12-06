@@ -1,7 +1,7 @@
 "use client";
 
 import "../globals.css";
-import { useState } from "react";
+import { useSyncExternalStore } from "react";
 import { usePathname } from "next/navigation";
 import { Arimo } from "next/font/google";
 import { ViewTransition } from "react";
@@ -22,6 +22,8 @@ import {
 } from "@/lib/haunted-cursor-context";
 import HauntedCursor from "@/components/effects/haunted-cursor";
 
+const emptySubscribe = () => () => {};
+
 const arimo = Arimo({
     subsets: ["latin"],
     variable: "--font-arimo",
@@ -38,10 +40,22 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
     const { setIsLoading } = useLoader();
     const pathname = usePathname();
 
-    const [isOffline] = useState(() => {
-        if (typeof window === "undefined") return false;
-        return localStorage.getItem("_x_terminated") === "true";
-    });
+    const mounted = useSyncExternalStore(
+        emptySubscribe,
+        () => true,
+        () => false
+    );
+
+    const isOffline = useSyncExternalStore(
+        emptySubscribe,
+        () => localStorage.getItem("_x_terminated") === "true",
+        () => false
+    );
+
+    // Show nothing until mounted to avoid hydration mismatch
+    if (!mounted) {
+        return null;
+    }
 
     if (isOffline && pathname === "/") {
         return <EntityInteraction />;

@@ -268,7 +268,6 @@ export default function Hero() {
             "+=0.1"
         );
 
-        // Animate roles after Fechuli pixels
         const roleItems = rolesRef.current?.querySelectorAll(".role-item");
         if (roleItems && roleItems.length > 0) {
             gsap.set(roleItems, { opacity: 0, y: 15 });

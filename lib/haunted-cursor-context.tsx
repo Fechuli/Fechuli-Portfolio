@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { createContext, useContext, useState, ReactNode } from "react";
 
 interface HauntedCursorContextType {
     isUnlocked: boolean;
@@ -17,16 +17,20 @@ const HauntedCursorContext = createContext<HauntedCursorContextType>({
 });
 
 export function HauntedCursorProvider({ children }: { children: ReactNode }) {
-    const [isUnlocked, setIsUnlocked] = useState(false);
-    const [isEnabled, setIsEnabled] = useState(false);
-
-    useEffect(() => {
-        // Check localStorage on mount
-        const unlocked = localStorage.getItem("_entity_gift") === "true";
-        const enabled = localStorage.getItem("_entity_gift_enabled") === "true";
-        setIsUnlocked(unlocked);
-        setIsEnabled(unlocked && enabled);
-    }, []);
+    const [isUnlocked, setIsUnlocked] = useState(() => {
+        if (typeof window !== 'undefined') {
+            return localStorage.getItem("_entity_gift") === "true";
+        }
+        return false;
+    });
+    const [isEnabled, setIsEnabled] = useState(() => {
+        if (typeof window !== 'undefined') {
+            const unlocked = localStorage.getItem("_entity_gift") === "true";
+            const enabled = localStorage.getItem("_entity_gift_enabled") === "true";
+            return unlocked && enabled;
+        }
+        return false;
+    });
 
     const unlock = () => {
         localStorage.setItem("_entity_gift", "true");

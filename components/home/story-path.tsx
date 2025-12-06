@@ -31,7 +31,7 @@ const ANCHORS: AnchorConfig[] = [
     { id: "anchor-7", position: "bottom-left", offsetX: -10, offsetY: 100 },
     { id: "anchor-9", position: "top-left", offsetX: 0 },
     { id: "anchor-9b", position: "top-right", offsetX: 0 },
-    { id: "anchor-10", position: "center-right", offsetX: -10 },
+    { id: "anchor-10", position: "center-right", offsetX: 30 },
 ];
 
 const DEBUG_MODE = true;
@@ -208,7 +208,7 @@ export default function StoryPath() {
                     d={generatePath()}
                     fill="none"
                     stroke="rgba(255, 245, 245, 0.3)"
-                    strokeWidth="2"
+                    strokeWidth="1"
                     strokeLinecap="square"
                     strokeLinejoin="miter"
                 />

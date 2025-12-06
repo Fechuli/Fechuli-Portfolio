@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useSyncExternalStore } from "react";
 
-// Seeded random number generator for consistent results
 function seededRandom(seed: number) {
     const x = Math.sin(seed) * 10000;
     return x - Math.floor(x);
@@ -74,7 +73,9 @@ export default function PixelTransition({
                     if (seededRandom(seed) < density) {
                         seed++;
                         const useToColor = seededRandom(seed) < progress;
-                        ctx.fillStyle = useToColor ? `rgb(${to.r}, ${to.g}, ${to.b})` : `rgb(${from.r}, ${from.g}, ${from.b})`;
+                        ctx.fillStyle = useToColor
+                            ? `rgb(${to.r}, ${to.g}, ${to.b})`
+                            : `rgb(${from.r}, ${from.g}, ${from.b})`;
                         ctx.fillRect(x, y, pixelSize, pixelSize);
                     }
                 }
@@ -87,7 +88,6 @@ export default function PixelTransition({
         return () => window.removeEventListener("resize", updateCanvas);
     }, [mounted, fromColor, toColor, rows, pixelSize]);
 
-    // Don't render anything on server
     if (!mounted) {
         return <div style={{ height: rows * pixelSize }} className="w-full" />;
     }

@@ -78,7 +78,6 @@ export default function EntityChoice({
         );
     }
 
-    // Checkbox type
     return (
         <div ref={containerRef} className="space-y-4" style={{ opacity: 0 }}>
             {options.map((option) => (

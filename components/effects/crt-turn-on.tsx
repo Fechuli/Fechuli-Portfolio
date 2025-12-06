@@ -10,11 +10,8 @@ export default function CrtTurnOn({ onComplete }: CrtTurnOnProps) {
     const [phase, setPhase] = useState<"line" | "expand" | "flash" | "done">("line");
 
     useEffect(() => {
-        // Phase 1: Line appears (0 - 300ms)
         const timer1 = setTimeout(() => setPhase("expand"), 300);
-        // Phase 2: Expand (300 - 800ms)
         const timer2 = setTimeout(() => setPhase("flash"), 800);
-        // Phase 3: Flash (800 - 1000ms)
         const timer3 = setTimeout(() => {
             setPhase("done");
             onComplete?.();

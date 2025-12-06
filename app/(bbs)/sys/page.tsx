@@ -166,7 +166,12 @@ const COMMANDS: Record<
     autodistruzione: { description: "???" },
 };
 
-type DestructionPhase = "idle" | "confirm1" | "confirm2" | "loading" | "shutdown";
+type DestructionPhase =
+    | "idle"
+    | "confirm1"
+    | "confirm2"
+    | "loading"
+    | "shutdown";
 
 export default function Sys() {
     const [currentSection, setCurrentSection] = useState<Section>("home");
@@ -175,7 +180,8 @@ export default function Sys() {
     const [commandInput, setCommandInput] = useState("");
     const [commandHistory, setCommandHistory] = useState<string[]>([]);
     const [commandOutput, setCommandOutput] = useState<string[]>([]);
-    const [destructionPhase, setDestructionPhase] = useState<DestructionPhase>("idle");
+    const [destructionPhase, setDestructionPhase] =
+        useState<DestructionPhase>("idle");
     const [loadingProgress, setLoadingProgress] = useState(0);
 
     const welcomeText = `
@@ -398,7 +404,10 @@ Digita 'CONFERMA' per procedere.
                 }
                 break;
             case "no":
-                if (destructionPhase === "confirm1" || destructionPhase === "confirm2") {
+                if (
+                    destructionPhase === "confirm1" ||
+                    destructionPhase === "confirm2"
+                ) {
                     setDestructionPhase("idle");
                     output = "Protocollo di autodistruzione annullato.";
                 } else {
@@ -408,7 +417,8 @@ Digita 'CONFERMA' per procedere.
             case "conferma":
                 if (destructionPhase === "confirm2") {
                     setDestructionPhase("loading");
-                    output = "Inizializzazione protocollo di autodistruzione...";
+                    output =
+                        "Inizializzazione protocollo di autodistruzione...";
                     startDestruction();
                 } else {
                     output = "Comando non riconosciuto.";
@@ -420,7 +430,8 @@ Digita 'CONFERMA' per procedere.
                 if (destructionPhase === "confirm1") {
                     output = "Digita 'si' per confermare o 'no' per annullare.";
                 } else if (destructionPhase === "confirm2") {
-                    output = "Digita 'CONFERMA' per procedere o 'no' per annullare.";
+                    output =
+                        "Digita 'CONFERMA' per procedere o 'no' per annullare.";
                 } else {
                     output = `Command not found: ${cmd}. Type 'help' for available commands.`;
                 }
@@ -447,7 +458,10 @@ Digita 'CONFERMA' per procedere.
             if (progress > 100) progress = 100;
             setLoadingProgress(Math.floor(progress));
 
-            if (progress >= (stepIndex + 1) * (100 / loadingSteps.length) && stepIndex < loadingSteps.length) {
+            if (
+                progress >= (stepIndex + 1) * (100 / loadingSteps.length) &&
+                stepIndex < loadingSteps.length
+            ) {
                 setCommandOutput((prev) => [...prev, loadingSteps[stepIndex]]);
                 stepIndex++;
             }
@@ -456,11 +470,14 @@ Digita 'CONFERMA' per procedere.
                 clearInterval(progressInterval);
                 setTimeout(() => {
                     setDestructionPhase("shutdown");
-                    // Increment destruction count
-                    const currentCount = parseInt(localStorage.getItem("_destruction_count") || "0");
-                    localStorage.setItem("_destruction_count", String(currentCount + 1));
+                    const currentCount = parseInt(
+                        localStorage.getItem("_destruction_count") || "0"
+                    );
+                    localStorage.setItem(
+                        "_destruction_count",
+                        String(currentCount + 1)
+                    );
                     localStorage.setItem("_x_terminated", "true");
-                    // No auto redirect - user must navigate manually
                 }, 500);
             }
         }, 300);
@@ -474,7 +491,9 @@ Digita 'CONFERMA' per procedere.
 
     const renderHome = () => (
         <div>
-            <pre className="text-[#00ff00] text-[8px] sm:text-base overflow-x-auto">{ASCII_ART}</pre>
+            <pre className="text-[#00ff00] text-[8px] sm:text-base overflow-x-auto">
+                {ASCII_ART}
+            </pre>
             <pre>{typedText}</pre>
 
             <div className="mt-4 space-y-1">
@@ -493,7 +512,11 @@ Digita 'CONFERMA' per procedere.
             {destructionPhase === "loading" && (
                 <div className="mt-4">
                     <pre className="text-[#00ff00]">
-                        [{`${"#".repeat(Math.floor(loadingProgress / 5))}${".".repeat(20 - Math.floor(loadingProgress / 5))}`}] {loadingProgress}%
+                        [
+                        {`${"#".repeat(
+                            Math.floor(loadingProgress / 5)
+                        )}${".".repeat(20 - Math.floor(loadingProgress / 5))}`}
+                        ] {loadingProgress}%
                     </pre>
                 </div>
             )}
@@ -513,7 +536,10 @@ Digita 'CONFERMA' per procedere.
                     autoFocus
                     spellCheck={false}
                     autoComplete="off"
-                    disabled={destructionPhase === "loading" || destructionPhase === "shutdown"}
+                    disabled={
+                        destructionPhase === "loading" ||
+                        destructionPhase === "shutdown"
+                    }
                 />
             </form>
 
@@ -624,10 +650,7 @@ Digita 'CONFERMA' per procedere.
             </pre>
             <div className="space-y-6">
                 {VOCABOLARIO.map((entry, index) => (
-                    <div
-                        key={index}
-                        className="border border-[#00ff00] p-4"
-                    >
+                    <div key={index} className="border border-[#00ff00] p-4">
                         <p className="text-[#00ff00] text-lg mb-2">
                             {entry.termine}
                         </p>
@@ -648,7 +671,6 @@ Digita 'CONFERMA' per procedere.
         </div>
     );
 
-    // CRT Shutdown overlay
     if (destructionPhase === "shutdown") {
         return (
             <div className="fixed inset-0 bg-black z-99999 flex items-center justify-center overflow-hidden">

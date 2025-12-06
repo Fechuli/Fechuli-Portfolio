@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import StoryPath from "./story-path";
+import LowVibesPlayer from "./lowvibes-player";
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
@@ -49,6 +50,7 @@ interface ParallaxImageProps {
     className?: string;
     height?: string;
     objectPosition?: string;
+    imageRef?: React.RefObject<HTMLDivElement | null>;
 }
 
 function ParallaxImage({
@@ -57,10 +59,12 @@ function ParallaxImage({
     className = "",
     height = "h-[300px] sm:h-[400px] md:h-[500px]",
     objectPosition = "object-center",
+    imageRef,
 }: ParallaxImageProps) {
     const wrapperRef = useRef<HTMLDivElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
-    const innerRef = useRef<HTMLDivElement>(null);
+    const localInnerRef = useRef<HTMLDivElement>(null);
+    const innerRef = imageRef || localInnerRef;
 
     useEffect(() => {
         const wrapper = wrapperRef.current;
@@ -72,11 +76,11 @@ function ParallaxImage({
 
         const revealAnimation = gsap.to(wrapper, {
             height: "100%",
-            duration: 1,
-            ease: "power3.inOut",
+            duration: 1.4,
+            ease: "power2.out",
             scrollTrigger: {
                 trigger: wrapper,
-                start: "top 110%",
+                start: "top 95%",
                 toggleActions: "play none none none",
             },
         });
@@ -98,7 +102,7 @@ function ParallaxImage({
             revealAnimation.kill();
             parallaxAnimation.kill();
         };
-    }, []);
+    }, [innerRef]);
 
     return (
         <div className={className}>
@@ -112,7 +116,7 @@ function ParallaxImage({
                         className={`relative ${height} overflow-hidden`}
                     >
                         <div
-                            ref={innerRef}
+                            ref={imageRef || innerRef}
                             className="absolute inset-x-0 h-[120%] -top-[10%]"
                         >
                             <Image
@@ -132,6 +136,7 @@ function ParallaxImage({
 
 export default function SecondSection() {
     const titleRef = useRef<HTMLHeadingElement>(null);
+    const lowvibesImageRef = useRef<HTMLDivElement>(null);
     const [fontLoaded, setFontLoaded] = useState(false);
 
     useEffect(() => {
@@ -191,11 +196,16 @@ export default function SecondSection() {
                 </h2>
 
                 <div className="space-y-16 sm:space-y-20 md:space-y-32">
-                    {/* Primo paragrafo + immagine Hallasan */}
                     <div className="grid grid-cols-12 gap-4 md:gap-8 items-center">
                         <div className="col-span-12 md:col-span-5 space-y-6 text-base sm:text-lg md:text-xl font-light leading-relaxed relative">
-                            <span data-anchor="anchor-1" className="absolute left-0 bottom-0" />
-                            <span data-anchor="anchor-1b" className="absolute right-0 bottom-0" />
+                            <span
+                                data-anchor="anchor-1"
+                                className="absolute left-0 bottom-0"
+                            />
+                            <span
+                                data-anchor="anchor-1b"
+                                className="absolute right-0 bottom-0"
+                            />
                             <p>
                                 Ciao, sono Federico, classe 1998 e nato a
                                 Firenze. Da quando mio babbo ha portato la
@@ -214,9 +224,11 @@ export default function SecondSection() {
                         </div>
                     </div>
 
-                    {/* Immagine Io e Lorenzo dj set */}
                     <div className="grid grid-cols-12 gap-4 md:gap-8">
-                        <div data-anchor="anchor-2" className="col-span-8 md:col-span-4 md:col-start-2 relative">
+                        <div
+                            data-anchor="anchor-2"
+                            className="col-span-8 md:col-span-4 md:col-start-2 relative"
+                        >
                             <ParallaxImage
                                 src={IMAGES[1].src}
                                 caption={IMAGES[1].caption}
@@ -225,11 +237,16 @@ export default function SecondSection() {
                         </div>
                     </div>
 
-                    {/* Secondo paragrafo + immagine Tenax */}
                     <div className="grid grid-cols-12 gap-4 md:gap-8 items-center">
                         <div className="col-span-12 md:col-span-4 md:col-start-2 space-y-6 text-base sm:text-lg md:text-xl font-light leading-relaxed order-2 md:order-1 relative">
-                            <span data-anchor="anchor-3" className="absolute left-0 top-0" />
-                            <span data-anchor="anchor-3b" className="absolute left-0 bottom-0" />
+                            <span
+                                data-anchor="anchor-3"
+                                className="absolute left-0 top-0"
+                            />
+                            <span
+                                data-anchor="anchor-3b"
+                                className="absolute left-0 bottom-0"
+                            />
                             <p>
                                 Tuttavia la vita a volte prende strade
                                 inaspettate e dopo i primi anni di scuola ho
@@ -238,7 +255,10 @@ export default function SecondSection() {
                                 Teatro Puccini a Firenze.
                             </p>
                         </div>
-                        <div data-anchor="anchor-4" className="col-span-12 md:col-span-5 md:col-start-8 order-1 md:order-2 relative">
+                        <div
+                            data-anchor="anchor-4"
+                            className="col-span-12 md:col-span-5 md:col-start-8 order-1 md:order-2 relative"
+                        >
                             <ParallaxImage
                                 src={IMAGES[2].src}
                                 caption={IMAGES[2].caption}
@@ -247,16 +267,21 @@ export default function SecondSection() {
                         </div>
                     </div>
 
-                    {/* Immagini Duccio/Nicco + Orso */}
                     <div className="grid grid-cols-12 gap-4 md:gap-8 items-end">
-                        <div data-anchor="anchor-5" className="col-span-12 md:col-span-5 md:col-start-1 relative">
+                        <div
+                            data-anchor="anchor-5"
+                            className="col-span-12 md:col-span-5 md:col-start-1 relative"
+                        >
                             <ParallaxImage
                                 src={IMAGES[3].src}
                                 caption={IMAGES[3].caption}
                                 height="h-[220px] sm:h-[400px] md:h-[480px]"
                             />
                         </div>
-                        <div data-anchor="anchor-6" className="col-span-5 md:col-span-3 md:col-start-7 mt-8 md:mt-32 hidden md:block relative">
+                        <div
+                            data-anchor="anchor-6"
+                            className="col-span-5 md:col-span-3 md:col-start-7 mt-8 md:mt-32 hidden md:block relative"
+                        >
                             <ParallaxImage
                                 src={IMAGES[4].src}
                                 caption={IMAGES[4].caption}
@@ -275,7 +300,6 @@ export default function SecondSection() {
                         </div>
                     </div>
 
-                    {/* Terzo paragrafo */}
                     <div className="grid grid-cols-12 gap-4 md:gap-8">
                         <div className="col-span-12 md:col-span-6 md:col-start-4 space-y-6 text-base sm:text-lg md:text-xl font-light leading-relaxed text-center">
                             <p>
@@ -288,9 +312,11 @@ export default function SecondSection() {
                         </div>
                     </div>
 
-                    {/* LowVibes */}
                     <div className="grid grid-cols-12 gap-4 md:gap-8 -mt-60 sm:-mt-28 md:-mt-120">
-                        <div data-anchor="anchor-7" className="col-span-12 md:col-span-8 md:col-start-3 relative">
+                        <div
+                            data-anchor="anchor-7"
+                            className="col-span-12 md:col-span-8 md:col-start-3 relative"
+                        >
                             <Image
                                 src={"/images/about-me/lowvibes.webp"}
                                 alt="Low Vibes Logo"
@@ -303,13 +329,19 @@ export default function SecondSection() {
                                 caption={IMAGES[5].caption}
                                 height="h-[300px] sm:h-[450px] md:h-[800px]"
                                 objectPosition="object-top"
+                                imageRef={lowvibesImageRef}
                             />
+                        </div>
+                        <div className="col-span-12 md:col-span-2 hidden md:flex md:items-center">
+                            <LowVibesPlayer imageRef={lowvibesImageRef} />
                         </div>
                     </div>
 
-                    {/* Immagine Dudade e Vieri */}
                     <div className="grid grid-cols-12 gap-4 md:gap-8 -mt-6 sm:-mt-10 md:-mt-16">
-                        <div data-anchor="anchor-8" className="col-span-10 sm:col-span-6 sm:col-start-7 md:col-span-5 md:col-start-9 relative">
+                        <div
+                            data-anchor="anchor-8"
+                            className="col-span-10 sm:col-span-6 sm:col-start-7 md:col-span-5 md:col-start-9 relative"
+                        >
                             <ParallaxImage
                                 src={IMAGES[6].src}
                                 caption={IMAGES[6].caption}
@@ -318,7 +350,6 @@ export default function SecondSection() {
                         </div>
                     </div>
 
-                    {/* Quarto paragrafo + immagine ascensore */}
                     <div className="grid grid-cols-12 gap-4 md:gap-8 items-center">
                         <div className="col-span-12 md:col-span-5 md:col-start-1 relative">
                             <ParallaxImage
@@ -328,8 +359,14 @@ export default function SecondSection() {
                             />
                         </div>
                         <div className="col-span-12 md:col-span-5 md:col-start-7 space-y-6 text-base sm:text-lg md:text-xl font-light leading-relaxed relative">
-                            <span data-anchor="anchor-9" className="absolute left-0 top-0" />
-                            <span data-anchor="anchor-9b" className="absolute right-0 top-0" />
+                            <span
+                                data-anchor="anchor-9"
+                                className="absolute left-0 top-0"
+                            />
+                            <span
+                                data-anchor="anchor-9b"
+                                className="absolute right-0 top-0"
+                            />
                             <p>
                                 Nel 2019 insieme a Tommaso, Duccio e Lorenzo
                                 apro Backdoor Studio che è attualmente la realtà
@@ -339,10 +376,12 @@ export default function SecondSection() {
                         </div>
                     </div>
 
-                    {/* Immagine finale Purrino */}
                     <div className="grid grid-cols-12 gap-4 md:gap-8">
                         <div className="col-span-12 md:col-span-7 md:col-start-6 relative">
-                            <span data-anchor="anchor-10" className="absolute right-0 top-1/2 -translate-y-1/2" />
+                            <span
+                                data-anchor="anchor-10"
+                                className="absolute right-0 top-1/2 -translate-y-1/2"
+                            />
                             <ParallaxImage
                                 src={IMAGES[8].src}
                                 caption={IMAGES[8].caption}

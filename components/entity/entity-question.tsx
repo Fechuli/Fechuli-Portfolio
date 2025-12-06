@@ -21,9 +21,7 @@ export default function EntityQuestion({
     const lines = Array.isArray(text) ? text : [text];
     const textKey = JSON.stringify(text);
 
-    // Use layoutEffect to kill previous animation and set initial hidden state before paint
     useLayoutEffect(() => {
-        // Kill any existing animation
         if (timelineRef.current) {
             timelineRef.current.kill();
             timelineRef.current = null;
@@ -32,14 +30,12 @@ export default function EntityQuestion({
         const container = containerRef.current;
         if (!container) return;
 
-        // Immediately set all lines to hidden state (before paint)
         const lineElements = container.querySelectorAll(".entity-line");
         gsap.set(lineElements, { opacity: 0, y: 20 });
 
         prevTextKeyRef.current = textKey;
     }, [textKey]);
 
-    // Start animation after layout is complete
     useEffect(() => {
         const container = containerRef.current;
         if (!container) return;
@@ -47,7 +43,6 @@ export default function EntityQuestion({
         const lineElements = container.querySelectorAll(".entity-line");
         if (lineElements.length === 0) return;
 
-        // Create and start the animation
         const tl = gsap.timeline({
             onComplete: () => {
                 setTimeout(() => {
