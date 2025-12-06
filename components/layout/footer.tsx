@@ -77,9 +77,14 @@ export default function Footer() {
                 <p className="text-sm arimo opacity-50">
                     © {currentYear} Federico Fiaschi. Tutti i diritti riservati.
                 </p>
-                <p className="text-sm arimo opacity-50">
-                    Available for freelance
-                </p>
+                <div className="flex items-center gap-4">
+                    <p className="text-sm arimo opacity-50">
+                        Available for freelance
+                    </p>
+                    <AnimatedLink href="/sys">
+                        {">_sys"}
+                    </AnimatedLink>
+                </div>
             </div>
         </footer>
     );
