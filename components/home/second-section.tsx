@@ -5,6 +5,7 @@ import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
+import StoryPath from "./story-path";
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
@@ -179,7 +180,8 @@ export default function SecondSection() {
     }, [fontLoaded]);
 
     return (
-        <div className="bg-[#330014] text-[#FFF5F5]">
+        <div className="bg-[#330014] text-[#FFF5F5] relative">
+            <StoryPath />
             <div className="px-4 md:px-10 lg:px-16 py-16 md:py-24">
                 <h2
                     ref={titleRef}
@@ -189,8 +191,11 @@ export default function SecondSection() {
                 </h2>
 
                 <div className="space-y-16 sm:space-y-20 md:space-y-32">
+                    {/* Primo paragrafo + immagine Hallasan */}
                     <div className="grid grid-cols-12 gap-4 md:gap-8 items-center">
-                        <div className="col-span-12 md:col-span-5 space-y-6 text-base sm:text-lg md:text-xl font-light leading-relaxed">
+                        <div className="col-span-12 md:col-span-5 space-y-6 text-base sm:text-lg md:text-xl font-light leading-relaxed relative">
+                            <span data-anchor="anchor-1" className="absolute left-0 bottom-0" />
+                            <span data-anchor="anchor-1b" className="absolute right-0 bottom-0" />
                             <p>
                                 Ciao, sono Federico, classe 1998 e nato a
                                 Firenze. Da quando mio babbo ha portato la
@@ -209,8 +214,9 @@ export default function SecondSection() {
                         </div>
                     </div>
 
+                    {/* Immagine Io e Lorenzo dj set */}
                     <div className="grid grid-cols-12 gap-4 md:gap-8">
-                        <div className="col-span-8 md:col-span-4 md:col-start-2">
+                        <div data-anchor="anchor-2" className="col-span-8 md:col-span-4 md:col-start-2 relative">
                             <ParallaxImage
                                 src={IMAGES[1].src}
                                 caption={IMAGES[1].caption}
@@ -219,8 +225,11 @@ export default function SecondSection() {
                         </div>
                     </div>
 
+                    {/* Secondo paragrafo + immagine Tenax */}
                     <div className="grid grid-cols-12 gap-4 md:gap-8 items-center">
-                        <div className="col-span-12 md:col-span-4 md:col-start-2 space-y-6 text-base sm:text-lg md:text-xl font-light leading-relaxed order-2 md:order-1">
+                        <div className="col-span-12 md:col-span-4 md:col-start-2 space-y-6 text-base sm:text-lg md:text-xl font-light leading-relaxed order-2 md:order-1 relative">
+                            <span data-anchor="anchor-3" className="absolute left-0 top-0" />
+                            <span data-anchor="anchor-3b" className="absolute left-0 bottom-0" />
                             <p>
                                 Tuttavia la vita a volte prende strade
                                 inaspettate e dopo i primi anni di scuola ho
@@ -229,7 +238,7 @@ export default function SecondSection() {
                                 Teatro Puccini a Firenze.
                             </p>
                         </div>
-                        <div className="col-span-12 md:col-span-5 md:col-start-8 order-1 md:order-2">
+                        <div data-anchor="anchor-4" className="col-span-12 md:col-span-5 md:col-start-8 order-1 md:order-2 relative">
                             <ParallaxImage
                                 src={IMAGES[2].src}
                                 caption={IMAGES[2].caption}
@@ -238,15 +247,16 @@ export default function SecondSection() {
                         </div>
                     </div>
 
+                    {/* Immagini Duccio/Nicco + Orso */}
                     <div className="grid grid-cols-12 gap-4 md:gap-8 items-end">
-                        <div className="col-span-12 md:col-span-5 md:col-start-1">
+                        <div data-anchor="anchor-5" className="col-span-12 md:col-span-5 md:col-start-1 relative">
                             <ParallaxImage
                                 src={IMAGES[3].src}
                                 caption={IMAGES[3].caption}
                                 height="h-[220px] sm:h-[400px] md:h-[480px]"
                             />
                         </div>
-                        <div className="col-span-5 md:col-span-3 md:col-start-7 mt-8 md:mt-32 hidden md:block">
+                        <div data-anchor="anchor-6" className="col-span-5 md:col-span-3 md:col-start-7 mt-8 md:mt-32 hidden md:block relative">
                             <ParallaxImage
                                 src={IMAGES[4].src}
                                 caption={IMAGES[4].caption}
@@ -265,6 +275,7 @@ export default function SecondSection() {
                         </div>
                     </div>
 
+                    {/* Terzo paragrafo */}
                     <div className="grid grid-cols-12 gap-4 md:gap-8">
                         <div className="col-span-12 md:col-span-6 md:col-start-4 space-y-6 text-base sm:text-lg md:text-xl font-light leading-relaxed text-center">
                             <p>
@@ -276,8 +287,10 @@ export default function SecondSection() {
                             </p>
                         </div>
                     </div>
+
+                    {/* LowVibes */}
                     <div className="grid grid-cols-12 gap-4 md:gap-8 -mt-60 sm:-mt-28 md:-mt-120">
-                        <div className="col-span-12 md:col-span-8 md:col-start-3 relative">
+                        <div data-anchor="anchor-7" className="col-span-12 md:col-span-8 md:col-start-3 relative">
                             <Image
                                 src={"/images/about-me/lowvibes.webp"}
                                 alt="Low Vibes Logo"
@@ -294,8 +307,9 @@ export default function SecondSection() {
                         </div>
                     </div>
 
+                    {/* Immagine Dudade e Vieri */}
                     <div className="grid grid-cols-12 gap-4 md:gap-8 -mt-6 sm:-mt-10 md:-mt-16">
-                        <div className="col-span-10 sm:col-span-6 sm:col-start-7 md:col-span-5 md:col-start-9">
+                        <div data-anchor="anchor-8" className="col-span-10 sm:col-span-6 sm:col-start-7 md:col-span-5 md:col-start-9 relative">
                             <ParallaxImage
                                 src={IMAGES[6].src}
                                 caption={IMAGES[6].caption}
@@ -304,15 +318,18 @@ export default function SecondSection() {
                         </div>
                     </div>
 
+                    {/* Quarto paragrafo + immagine ascensore */}
                     <div className="grid grid-cols-12 gap-4 md:gap-8 items-center">
-                        <div className="col-span-12 md:col-span-5 md:col-start-1">
+                        <div className="col-span-12 md:col-span-5 md:col-start-1 relative">
                             <ParallaxImage
                                 src={IMAGES[7].src}
                                 caption={IMAGES[7].caption}
                                 height="h-[300px] sm:h-[380px] md:h-[450px]"
                             />
                         </div>
-                        <div className="col-span-12 md:col-span-5 md:col-start-7 space-y-6 text-base sm:text-lg md:text-xl font-light leading-relaxed">
+                        <div className="col-span-12 md:col-span-5 md:col-start-7 space-y-6 text-base sm:text-lg md:text-xl font-light leading-relaxed relative">
+                            <span data-anchor="anchor-9" className="absolute left-0 top-0" />
+                            <span data-anchor="anchor-9b" className="absolute right-0 top-0" />
                             <p>
                                 Nel 2019 insieme a Tommaso, Duccio e Lorenzo
                                 apro Backdoor Studio che è attualmente la realtà
@@ -322,8 +339,10 @@ export default function SecondSection() {
                         </div>
                     </div>
 
+                    {/* Immagine finale Purrino */}
                     <div className="grid grid-cols-12 gap-4 md:gap-8">
-                        <div className="col-span-12 md:col-span-7 md:col-start-6">
+                        <div className="col-span-12 md:col-span-7 md:col-start-6 relative">
+                            <span data-anchor="anchor-10" className="absolute right-0 top-1/2 -translate-y-1/2" />
                             <ParallaxImage
                                 src={IMAGES[8].src}
                                 caption={IMAGES[8].caption}
