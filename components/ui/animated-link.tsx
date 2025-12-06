@@ -17,7 +17,7 @@ export default function AnimatedLink({ href, children, external = false }: Anima
     const pathname = usePathname();
 
     const handleClick = (e: React.MouseEvent) => {
-        if (external) return; // Link esterni non usano la transizione
+        if (external) return;
 
         e.preventDefault();
         if (pathname === href || isTransitioning) return;
@@ -79,7 +79,7 @@ export default function AnimatedLink({ href, children, external = false }: Anima
                     </span>
                 ))}
             </span>
-            <span className="flex absolute top-0 left-0 w-full justify-center">
+            <span className="flex absolute top-0 left-0 w-full">
                 {chars.map((char, i) => (
                     <span
                         key={i}
@@ -90,7 +90,7 @@ export default function AnimatedLink({ href, children, external = false }: Anima
                     </span>
                 ))}
             </span>
-            <span className="flex absolute top-0 left-0 w-full justify-center resin">
+            <span className="flex absolute top-0 left-0 w-full resin">
                 {chars.map((char, i) => (
                     <span
                         key={i}
@@ -104,7 +104,7 @@ export default function AnimatedLink({ href, children, external = false }: Anima
         </>
     );
 
-    const className = "relative inline-block overflow-hidden";
+    const className = "relative inline-block overflow-hidden pr-2";
 
     if (external) {
         return (

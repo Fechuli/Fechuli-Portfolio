@@ -1,7 +1,7 @@
 "use client";
 
 import "../globals.css";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { Arimo } from "next/font/google";
 import { ViewTransition } from "react";
@@ -16,7 +16,10 @@ import CornerGrids from "@/components/ui/corner-grids";
 import Footer from "@/components/layout/footer";
 import OfflineOverlay from "@/components/effects/offline-overlay";
 import EntityInteraction from "@/components/entity/entity-interaction";
-import { HauntedCursorProvider, useHauntedCursor } from "@/lib/haunted-cursor-context";
+import {
+    HauntedCursorProvider,
+    useHauntedCursor,
+} from "@/lib/haunted-cursor-context";
 import HauntedCursor from "@/components/effects/haunted-cursor";
 
 const arimo = Arimo({
@@ -34,26 +37,16 @@ function HauntedCursorEffect() {
 function LayoutContent({ children }: { children: React.ReactNode }) {
     const { setIsLoading } = useLoader();
     const pathname = usePathname();
-    const [isOffline, setIsOffline] = useState(false);
-    const [isChecked, setIsChecked] = useState(false);
 
-    useEffect(() => {
-        const terminated = localStorage.getItem("_x_terminated") === "true";
-        setIsOffline(terminated);
-        setIsChecked(true);
-    }, []);
+    const [isOffline] = useState(() => {
+        if (typeof window === "undefined") return false;
+        return localStorage.getItem("_x_terminated") === "true";
+    });
 
-    // Don't render until we've checked localStorage
-    if (!isChecked) {
-        return null;
-    }
-
-    // If offline and on home page, show entity interaction
     if (isOffline && pathname === "/") {
         return <EntityInteraction />;
     }
 
-    // If offline and NOT on home page, show offline overlay
     if (isOffline) {
         return <OfflineOverlay />;
     }

@@ -227,21 +227,25 @@ export default function OverlayMenu({ isOpen, onClose }: OverlayMenuProps) {
                             {isUnlocked && (
                                 <button
                                     onClick={toggle}
-                                    className="flex items-center gap-2 mt-3 ml-auto text-[#330014]/40 hover:text-[#330014] transition-colors"
+                                    className="group flex items-center gap-2 mt-4 ml-auto transition-all duration-300"
                                 >
                                     <span className={`
-                                        w-3 h-3 border border-current rounded-sm flex items-center justify-center
-                                        transition-all duration-200
-                                        ${isEnabled ? "bg-[#330014] border-[#330014]" : ""}
+                                        text-lg transition-all duration-500
+                                        ${isEnabled
+                                            ? "text-[#330014] opacity-100"
+                                            : "text-[#330014]/30 group-hover:text-[#330014]/60"
+                                        }
                                     `}>
-                                        {isEnabled && (
-                                            <svg className="w-2 h-2 text-[#FFF5F5]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                                            </svg>
-                                        )}
+                                        {isEnabled ? "◉" : "◎"}
                                     </span>
-                                    <span className="text-xs arimo tracking-wide">
-                                        ???
+                                    <span className={`
+                                        text-[10px] font-mono tracking-[0.3em] uppercase transition-all duration-300
+                                        ${isEnabled
+                                            ? "text-[#330014]/70"
+                                            : "text-[#330014]/30 group-hover:text-[#330014]/50"
+                                        }
+                                    `}>
+                                        {isEnabled ? "∴ attivo ∴" : "∵ inattivo ∵"}
                                     </span>
                                 </button>
                             )}

@@ -31,8 +31,8 @@ export default function Hero() {
     const titleRef = useRef<HTMLHeadingElement>(null);
     const akaRef = useRef<HTMLDivElement>(null);
     const fechuliContainerRef = useRef<HTMLDivElement>(null);
+    const rolesRef = useRef<HTMLDivElement>(null);
     const { isLoading } = useLoader();
-
 
     const PIXEL_SIZE = 4;
     const DISTORT_RADIUS = 80;
@@ -75,7 +75,10 @@ export default function Hero() {
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         const pixels: typeof pixelsRef.current = [];
 
-        const initialAlpha = pixelsRef.current.length > 0 && pixelsRef.current[0].alpha > 0 ? 1 : 0;
+        const initialAlpha =
+            pixelsRef.current.length > 0 && pixelsRef.current[0].alpha > 0
+                ? 1
+                : 0;
 
         for (let y = 0; y < canvas.height; y += PIXEL_SIZE) {
             for (let x = 0; x < canvas.width; x += PIXEL_SIZE) {
@@ -178,7 +181,15 @@ export default function Hero() {
     };
 
     useEffect(() => {
-        if (isLoading || !titleRef.current || !akaRef.current || !fechuliContainerRef.current || !fontLoaded) return;
+        if (
+            isLoading ||
+            !titleRef.current ||
+            !akaRef.current ||
+            !fechuliContainerRef.current ||
+            !rolesRef.current ||
+            !fontLoaded
+        )
+            return;
 
         const tl = gsap.timeline({ delay: 0.3 });
 
@@ -194,56 +205,88 @@ export default function Hero() {
         gsap.set(chars, {
             opacity: 0,
             x: -20,
-            transformOrigin: "left center"
+            transformOrigin: "left center",
         });
 
         chars.forEach((char, i) => {
-            tl.to(char, {
-                opacity: 1,
-                x: 0,
-                duration: 0.4,
-                ease: "power2.out",
-            }, i * 0.03);
+            tl.to(
+                char,
+                {
+                    opacity: 1,
+                    x: 0,
+                    duration: 0.4,
+                    ease: "power2.out",
+                },
+                i * 0.03
+            );
         });
 
-        tl.to(akaRef.current, {
-            width: "auto",
-            duration: 0.6,
-            ease: "power2.inOut",
-        }, "+=0.2");
+        tl.to(
+            akaRef.current,
+            {
+                width: "auto",
+                duration: 0.6,
+                ease: "power2.inOut",
+            },
+            "+=0.2"
+        );
 
-        tl.to(fechuliContainerRef.current, {
-            opacity: 1,
-            duration: 0.5,
-            ease: "power2.out",
-            onComplete: () => {
-                const animatePixels = () => {
-                    const pixels = pixelsRef.current;
+        tl.to(
+            fechuliContainerRef.current,
+            {
+                opacity: 1,
+                duration: 0.5,
+                ease: "power2.out",
+                onComplete: () => {
+                    const animatePixels = () => {
+                        const pixels = pixelsRef.current;
 
-                    if (pixels.length === 0) {
-                        setTimeout(animatePixels, 50);
-                        return;
-                    }
+                        if (pixels.length === 0) {
+                            setTimeout(animatePixels, 50);
+                            return;
+                        }
 
-                    const indices = pixels.map((_, i) => i);
-                    for (let i = indices.length - 1; i > 0; i--) {
-                        const j = Math.floor(Math.random() * (i + 1));
-                        [indices[i], indices[j]] = [indices[j], indices[i]];
-                    }
+                        const indices = pixels.map((_, i) => i);
+                        for (let i = indices.length - 1; i > 0; i--) {
+                            const j = Math.floor(Math.random() * (i + 1));
+                            [indices[i], indices[j]] = [indices[j], indices[i]];
+                        }
 
-                    indices.forEach((index, i) => {
-                        gsap.to(pixels[index], {
-                            alpha: 1,
-                            duration: 0.02,
-                            delay: i * 0.003,
-                            ease: "none",
+                        indices.forEach((index, i) => {
+                            gsap.to(pixels[index], {
+                                alpha: 1,
+                                duration: 0.02,
+                                delay: i * 0.003,
+                                ease: "none",
+                            });
                         });
-                    });
-                };
+                    };
 
-                animatePixels();
-            }
-        }, "+=0.1");
+                    animatePixels();
+                },
+            },
+            "+=0.1"
+        );
+
+        // Animate roles after Fechuli pixels
+        const roleItems = rolesRef.current?.querySelectorAll(".role-item");
+        if (roleItems && roleItems.length > 0) {
+            gsap.set(roleItems, { opacity: 0, y: 15 });
+            roleItems.forEach((item, i) => {
+                const finalOpacity =
+                    (item as HTMLElement).dataset.finalOpacity || "1";
+                tl.to(
+                    item,
+                    {
+                        opacity: parseFloat(finalOpacity),
+                        y: 0,
+                        duration: 0.4,
+                        ease: "power2.out",
+                    },
+                    `+=0.${i === 0 ? 8 : 1}`
+                );
+            });
+        }
 
         return () => {
             tl.kill();
@@ -252,7 +295,7 @@ export default function Hero() {
     }, [isLoading, fontLoaded]);
 
     return (
-        <div className="text-[#330014] h-dvh flex flex-col justify-between w-full relative pb-4 sm:pb-26">
+        <div className="bg-[#fff5f5] text-[#330014] h-dvh flex flex-col justify-between w-full relative pb-4 sm:pb-26">
             <div className="absolute inset-0 w-full h-full z-0">
                 <InteractivePortrait
                     className="w-full h-full"
@@ -267,14 +310,18 @@ export default function Hero() {
                     ref={titleRef}
                     className="font-bold leading-[0.9] opacity-0 whitespace-nowrap text-center text-[2.5rem] sm:text-[4rem] md:text-[5.5rem] lg:text-[8rem] xl:text-[10rem] 2xl:text-[13rem]"
                     style={{
-                        letterSpacing: '-0.033em',
+                        letterSpacing: "-0.033em",
                     }}
                 >
                     Federico Fiaschi
                 </h1>
                 <div className="flex flex-col items-center w-full">
-                    <div className="overflow-hidden mt-1 sm:mt-2" ref={akaRef} style={{ width: 0 }}>
-                        <span className="bg-[#330014] text-[#FFF5F5] text-[10px] sm:text-xs md:text-sm tracking-[0.3em] sm:tracking-[0.4em] uppercase arimo px-2 py-0.5 block whitespace-nowrap">
+                    <div
+                        className="overflow-hidden mt-1 sm:mt-2"
+                        ref={akaRef}
+                        style={{ width: 0 }}
+                    >
+                        <span className="bg-[#330014] text-[#FFF5F5] text-[10px] sm:text-xs md:text-sm tracking-[0.3em] sm:tracking-[0.4em] uppercase arimo pl-2 pr-1 py-0.5 block whitespace-nowrap">
                             aka
                         </span>
                     </div>
@@ -294,6 +341,21 @@ export default function Hero() {
                         />
                     </div>
                 </div>
+            </div>
+
+            <div
+                ref={rolesRef}
+                className="flex flex-col items-end gap-0.5 sm:gap-1 pr-4 sm:pr-14 mb-8 sm:mb-16 z-10"
+            >
+                <span className="role-item text-[9px] sm:text-[10px] md:text-xs tracking-[0.15em] sm:tracking-[0.2em] uppercase arimo opacity-0">
+                    Frontend Developer
+                </span>
+                <span className="role-item text-[9px] sm:text-[10px] md:text-xs tracking-[0.15em] sm:tracking-[0.2em] uppercase arimo opacity-0">
+                    Produttore
+                </span>
+                <span className="role-item text-[9px] sm:text-[10px] md:text-xs tracking-[0.15em] sm:tracking-[0.2em] uppercase arimo opacity-0">
+                    Attore
+                </span>
             </div>
 
             <div className="absolute left-4 sm:left-10 top-1/2 -translate-y-1/2 z-10 bg-[#FFF5F5] px-2 py-3 sm:px-3 sm:py-4">

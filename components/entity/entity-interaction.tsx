@@ -647,7 +647,8 @@ export default function EntityInteraction() {
         (value: string) => {
             const step = steps[currentStep];
 
-            if (currentStep === 0 && context.destructionCount === 1) {
+            // Save name when user answers the "Come ti chiami?" question (input type on first iteration)
+            if (step.type === "input" && context.destructionCount === 1 && !context.name) {
                 localStorage.setItem("_entity_name", value);
                 setContext((prev) => ({ ...prev, name: value }));
             }

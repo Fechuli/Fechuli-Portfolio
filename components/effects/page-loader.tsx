@@ -368,7 +368,9 @@ export default function PageLoader({ onComplete }: PageLoaderProps) {
                             top: `${gridOffset.y}px`,
                         }}
                     >
-                        {Array.from({ length: gridDimensions.cols * gridDimensions.rows }).map((_, index) => {
+                        {Array.from({
+                            length: gridDimensions.cols * gridDimensions.rows,
+                        }).map((_, index) => {
                             const col = index % gridDimensions.cols;
                             const row = Math.floor(index / gridDimensions.cols);
                             const cellKey = `${col}-${row}`;
@@ -600,15 +602,15 @@ export default function PageLoader({ onComplete }: PageLoaderProps) {
                     </span>
                     <div className="flex flex-col items-end">
                         <p className="text-[#FFF5F5]/25 text-[4px] sm:text-[5px] md:text-[10px] font-mono mt-2 max-w-[140px] sm:max-w-[180px] md:max-w-[280px] leading-relaxed text-right">
-                            <span className="opacity-60">
-                                § DISCLAIMER LEGALE
-                            </span>
+                            <span className="opacity-60">§ DISCLAIMER</span>
                             <br />
-                            Nessun designer è stato maltrattato durante la
-                            realizzazione di questo sito, principalmente perché
-                            nessun designer ci ha mai messo gli occhi sopra. I
-                            pixel sono stati trattati con rispetto e il codice è
-                            stato scritto in orari discutibili della notte.
+                            Nessun designer è stato sfruttato durante la
+                            realizzazione di questo sito, nessuna richiesta
+                            assurda è stata avanzata, nessun brief impossibile è
+                            stato consegnato all&apos;ultimo minuto. Ma,
+                            soprattutto, nessuna modifica è stata richiesta
+                            durante il processo di realizzazione. Tutto è andato
+                            perfettamente secondo i piani.
                             <br />
                             <br />
                             <span className="opacity-60">
@@ -616,7 +618,7 @@ export default function PageLoader({ onComplete }: PageLoaderProps) {
                             </span>
                             <br />
                             Se stai leggendo questo testo, chiaramente non hai
-                            niente di meglio da fare. Ti capsico, anche io sono
+                            niente di meglio da fare. Ti capisco, anche io sono
                             stato lì. Benvenuto nel club.
                         </p>
                         <span className="text-[#FFF5F5]/40 text-[8px] sm:text-[10px] md:text-xs font-mono">

@@ -3,8 +3,9 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { VOCABOLARIO } from "@/data/vocabolario";
 
-type Section = "home" | "ascii" | "changelog";
+type Section = "home" | "ascii" | "changelog" | "vocabolario";
 
 const ASCII_ART = `
 ███████╗███████╗ ██████╗██╗  ██╗██╗   ██╗██╗     ██╗
@@ -122,7 +123,7 @@ const ASCII_GALLERY = [
 
 const CHANGELOG = [
     {
-        version: "1.0.0",
+        version: "0.0.1_alpha",
         date: "2025-12-06",
         changes: [
             "Initial release",
@@ -155,6 +156,7 @@ const COMMANDS: Record<
     social: { description: "Show social links" },
     skills: { description: "List technical skills" },
     ascii: { description: "Open ASCII gallery" },
+    vocabolario: { description: "Il mio vocabolario personale" },
     changelog: { description: "View changelog" },
     clear: { description: "Clear terminal output" },
     exit: { description: "Return to main site" },
@@ -177,7 +179,7 @@ export default function Sys() {
     const [loadingProgress, setLoadingProgress] = useState(0);
 
     const welcomeText = `
-FECHULI BBS v1.0.0
+FECHULI BBS v0.0.1_alpha
 ══════════════════════════════════════════
 Welcome, visitor.
 System online since 2025.
@@ -230,6 +232,7 @@ Type 'help' for available commands.
             if (currentSection === "home") {
                 if (e.key === "1") setCurrentSection("ascii");
                 if (e.key === "2") setCurrentSection("changelog");
+                if (e.key === "3") setCurrentSection("vocabolario");
                 if (e.key === "0") window.location.href = "/";
             } else {
                 if (
@@ -326,6 +329,10 @@ Technical Skills:
             case "changelog":
                 setCurrentSection("changelog");
                 output = "Opening Changelog...";
+                break;
+            case "vocabolario":
+                setCurrentSection("vocabolario");
+                output = "Opening Vocabolario...";
                 break;
             case "clear":
                 setCommandOutput([]);
@@ -523,6 +530,12 @@ Digita 'CONFERMA' per procedere.
                 >
                     [2] Changelog
                 </button>
+                <button
+                    onClick={() => setCurrentSection("vocabolario")}
+                    className="hover:opacity-100 transition-opacity"
+                >
+                    [3] Vocabolario
+                </button>
                 <Link href="/" className="hover:opacity-100 transition-opacity">
                     [0] Exit
                 </Link>
@@ -600,6 +613,41 @@ Digita 'CONFERMA' per procedere.
         </div>
     );
 
+    const renderVocabolario = () => (
+        <div>
+            <pre className="text-[#00ff00] mb-4">
+                {`
+╔══════════════════════════════════════╗
+║         VOCABOLARIO                  ║
+╚══════════════════════════════════════╝
+`}
+            </pre>
+            <div className="space-y-6">
+                {VOCABOLARIO.map((entry, index) => (
+                    <div
+                        key={index}
+                        className="border border-[#00ff00] p-4"
+                    >
+                        <p className="text-[#00ff00] text-lg mb-2">
+                            {entry.termine}
+                        </p>
+                        <p className="opacity-70 leading-relaxed">
+                            {entry.definizione}
+                        </p>
+                    </div>
+                ))}
+            </div>
+            <div className="mt-8">
+                <button
+                    onClick={() => setCurrentSection("home")}
+                    className="hover:bg-[#00ff00] hover:text-black px-2 transition-colors"
+                >
+                    [0] Back
+                </button>
+            </div>
+        </div>
+    );
+
     // CRT Shutdown overlay
     if (destructionPhase === "shutdown") {
         return (
@@ -654,7 +702,7 @@ Digita 'CONFERMA' per procedere.
             />
 
             <div className="flex justify-between items-start mb-8 text-xs opacity-50">
-                <span>FECHULI-BBS v1.0.0</span>
+                <span>FECHULI-BBS v0.0.1_alpha</span>
                 <span>{currentTime}</span>
             </div>
 
@@ -662,6 +710,7 @@ Digita 'CONFERMA' per procedere.
                 {currentSection === "home" && renderHome()}
                 {currentSection === "ascii" && renderAsciiGallery()}
                 {currentSection === "changelog" && renderChangelog()}
+                {currentSection === "vocabolario" && renderVocabolario()}
             </div>
 
             <div className="absolute bottom-4 left-4 right-4 sm:left-8 sm:right-8 text-xs opacity-50 flex justify-between">

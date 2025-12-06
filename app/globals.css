@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap');
 @import "tailwindcss";
 
 @font-face {
@@ -12,7 +13,6 @@ body {
     font-family: var(--font-arimo), sans-serif;
 }
 
-/* Nascondi scrollbar */
 html {
     scrollbar-width: none;
 }
@@ -36,6 +36,10 @@ html::-webkit-scrollbar {
 
 .arimo {
     font-family: var(--font-arimo), sans-serif;
+}
+
+.source {
+    font-family: 'Source Code Pro', monospace;
 }
 
 ::selection {
@@ -69,3 +73,6 @@ video::-webkit-media-controls-overlay-play-button {
     display: none !important;
 }
 
+button {
+    cursor: pointer;
+}
