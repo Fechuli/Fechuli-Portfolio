@@ -11,6 +11,7 @@ import GrainOverlay from "@/components/effects/grain-overlay";
 import TransitionWrapper from "@/components/effects/transition-wrapper";
 import PageLoader from "@/components/effects/page-loader";
 import CornerGrids from "@/components/ui/corner-grids";
+import Footer from "@/components/layout/footer";
 
 const arimo = Arimo({
     subsets: ["latin"],
@@ -31,9 +32,8 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
                     <LenisProvider>
                         <div className="sm:rounded-t-3xl bg-[#FFF5F5]">
                             <Navbar />
-                            <ViewTransition>
-                                {children}
-                            </ViewTransition>
+                            <ViewTransition>{children}</ViewTransition>
+                            <Footer />
                         </div>
                     </LenisProvider>
                 </TransitionWrapper>

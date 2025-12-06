@@ -220,59 +220,49 @@ export default function InteractivePortrait({
             const noiseIntensity = noise / 100;
             const time = Date.now() * 0.001;
 
+            // Calcola offset globali per riga (tutti i pixel della stessa riga si muovono insieme)
+            const rowOffsets: Map<number, number> = new Map();
+
             pixelsRef.current.forEach((pixel) => {
                 if (pixel.alpha <= 0) return;
 
                 let drawX = pixel.x;
-                let drawY = pixel.y;
                 let drawAlpha = pixel.alpha;
 
                 if (noiseIntensity > 0) {
-                    const rowNoise =
-                        Math.sin(pixel.y * 0.1 + time * 5) *
-                        noiseIntensity *
-                        15;
-                    const glitchChance = Math.sin(time * 10 + pixel.y * 0.05);
+                    // Offset orizzontale per riga (tutti i pixel sulla stessa Y si spostano insieme)
+                    const rowKey = Math.floor(pixel.y / pixelSize);
 
-                    if (glitchChance > 0.7) {
-                        drawX += rowNoise * 2;
+                    if (!rowOffsets.has(rowKey)) {
+                        // Calcola offset per questa riga
+                        const rowNoise = Math.sin(pixel.y * 0.05 + time * 4) * noiseIntensity * 12;
+                        const glitchChance = Math.sin(time * 8 + rowKey * 0.3);
+
+                        let offset = 0;
+                        if (glitchChance > 0.6) {
+                            offset = rowNoise;
+                        }
+
+                        // Glitch improvvisi su alcune righe
+                        const scanlineGlitch = Math.sin(rowKey * 0.7 + time * 12);
+                        if (scanlineGlitch > 0.85 - noiseIntensity * 0.3) {
+                            offset += noiseIntensity * 25 * Math.sign(Math.sin(time * 20 + rowKey));
+                        }
+
+                        rowOffsets.set(rowKey, offset);
                     }
 
-                    const waveDistort =
-                        Math.sin(pixel.x * 0.02 + time * 3) *
-                        noiseIntensity *
-                        8;
-                    drawY += waveDistort;
+                    drawX += rowOffsets.get(rowKey) || 0;
 
-                    if (Math.random() < noiseIntensity * 0.3) {
-                        drawAlpha *= 0.3 + Math.random() * 0.7;
-                    }
-
-                    const scanlineGroup = Math.floor(pixel.y / (pixelSize * 3));
-                    if (
-                        Math.sin(scanlineGroup + time * 8) >
-                        0.8 - noiseIntensity * 0.5
-                    ) {
-                        drawX +=
-                            noiseIntensity *
-                            20 *
-                            Math.sign(Math.sin(time * 15));
-                    }
-
-                    const compressionZone = Math.sin(time * 2 + pixel.y * 0.01);
-                    if (compressionZone > 0.5) {
-                        const centerY = canvas.height / 2;
-                        const distFromCenter = pixel.y - centerY;
-                        drawY =
-                            centerY +
-                            distFromCenter *
-                                (1 - noiseIntensity * 0.3 * compressionZone);
+                    // Flickering leggero dell'alpha
+                    if (Math.random() < noiseIntensity * 0.15) {
+                        drawAlpha *= 0.6 + Math.random() * 0.4;
                     }
                 }
 
                 ctx.globalAlpha = drawAlpha;
                 ctx.fillStyle = pixel.color;
-                ctx.fillRect(drawX, drawY, pixelSize - 1, pixelSize - 1);
+                ctx.fillRect(drawX, pixel.y, pixelSize - 1, pixelSize - 1);
                 ctx.globalAlpha = 1;
             });
 
