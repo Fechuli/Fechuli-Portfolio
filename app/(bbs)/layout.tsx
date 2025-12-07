@@ -2,7 +2,7 @@
 
 import "@/app/globals.css";
 import { JetBrains_Mono } from "next/font/google";
-import { useState, useEffect } from "react";
+import { useSyncExternalStore } from "react";
 import OfflineOverlay from "@/components/effects/offline-overlay";
 
 const jetbrainsMono = JetBrains_Mono({
@@ -11,19 +11,17 @@ const jetbrainsMono = JetBrains_Mono({
     display: "swap",
 });
 
+const subscribe = () => () => {};
+const getSnapshot = () => localStorage.getItem("_x_terminated") === "true";
+const getServerSnapshot = () => false;
+
 export default function BBSLayout({
     children,
 }: {
     children: React.ReactNode;
 }) {
-    const [isOffline, setIsOffline] = useState(false);
-    const [isChecked, setIsChecked] = useState(false);
-
-    useEffect(() => {
-        const terminated = localStorage.getItem("_x_terminated") === "true";
-        setIsOffline(terminated);
-        setIsChecked(true);
-    }, []);
+    const isOffline = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+    const isChecked = useSyncExternalStore(subscribe, () => true, () => false);
 
     return (
         <html lang="it">

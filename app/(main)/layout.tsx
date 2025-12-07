@@ -21,6 +21,7 @@ import {
     useHauntedCursor,
 } from "@/lib/haunted-cursor-context";
 import HauntedCursor from "@/components/effects/haunted-cursor";
+import { NavbarThemeProvider } from "@/lib/navbar-theme-context";
 
 const emptySubscribe = () => () => {};
 
@@ -52,7 +53,6 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
         () => false
     );
 
-    // Show nothing until mounted to avoid hydration mismatch
     if (!mounted) {
         return null;
     }
@@ -68,17 +68,19 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
     return (
         <>
             <GrainOverlay />
-            <CornerGrids />
             <HauntedCursorEffect />
             <PageLoader onComplete={() => setIsLoading(false)} />
             <TransitionProvider>
                 <TransitionWrapper>
                     <LenisProvider>
-                        <div className="sm:rounded-t-3xl bg-[#FFF5F5]">
-                            <Navbar />
-                            <ViewTransition>{children}</ViewTransition>
-                            <Footer />
-                        </div>
+                        <NavbarThemeProvider>
+                            <CornerGrids />
+                            <div className="sm:rounded-t-3xl bg-[#FFF5F5]">
+                                <Navbar />
+                                <ViewTransition>{children}</ViewTransition>
+                                <Footer />
+                            </div>
+                        </NavbarThemeProvider>
                     </LenisProvider>
                 </TransitionWrapper>
             </TransitionProvider>

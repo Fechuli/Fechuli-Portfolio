@@ -9,9 +9,10 @@ interface AnimatedLinkProps {
     href: string;
     children: string;
     external?: boolean;
+    isDark?: boolean;
 }
 
-export default function AnimatedLink({ href, children, external = false }: AnimatedLinkProps) {
+export default function AnimatedLink({ href, children, external = false, isDark = false }: AnimatedLinkProps) {
     const containerRef = useRef<HTMLAnchorElement>(null);
     const { startTransition, isTransitioning } = usePageTransition();
     const pathname = usePathname();
@@ -104,7 +105,7 @@ export default function AnimatedLink({ href, children, external = false }: Anima
         </>
     );
 
-    const className = "relative inline-block overflow-hidden pr-2";
+    const className = `relative inline-block overflow-hidden pr-2 transition-colors duration-300 ${isDark ? "text-[#FFF5F5]" : "text-[#330014]"}`;
 
     if (external) {
         return (

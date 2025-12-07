@@ -14,7 +14,9 @@ export default function Home() {
         <div className="min-h-screen bg-[#330014]">
             <Hero />
             <div className="h-[5vw] bg-[#fff5f5]"></div>
-            <PixelTransition rows={35} pixelSize={10} />
+            <div data-navbar-theme="dark">
+                <PixelTransition rows={35} pixelSize={10} />
+            </div>
             <SecondSection />
             <ThirdSection />
         </div>

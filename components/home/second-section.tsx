@@ -185,7 +185,7 @@ export default function SecondSection() {
     }, [fontLoaded]);
 
     return (
-        <div className="bg-[#330014] text-[#FFF5F5] relative">
+        <div className="bg-[#330014] text-[#FFF5F5] relative" data-navbar-theme="dark">
             <StoryPath />
             <div className="px-4 md:px-10 lg:px-16 py-16 md:py-24">
                 <h2

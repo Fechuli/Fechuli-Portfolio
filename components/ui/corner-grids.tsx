@@ -1,13 +1,17 @@
 "use client";
 
+import { useNavbarTheme } from "@/lib/navbar-theme-context";
+
 const GRID_SIZE = 40;
 const GRID_LINES = 8;
 const LINE_OPACITY = 0.12;
 
 export default function CornerGrids() {
+    const { theme } = useNavbarTheme();
+    const strokeColor = theme === "dark" ? "#FFF5F5" : "#330014";
+
     return (
         <div className="hidden sm:block fixed inset-0 pointer-events-none z-40">
-            {/* Top Left */}
             <div className="absolute top-0 left-0">
                 <svg
                     width={GRID_SIZE * GRID_LINES}
@@ -21,7 +25,7 @@ export default function CornerGrids() {
                             y1={0}
                             x2={i * GRID_SIZE}
                             y2={i === 0 ? GRID_SIZE * GRID_LINES : GRID_SIZE * (GRID_LINES - i + 1)}
-                            stroke="#330014"
+                            stroke={strokeColor}
                             strokeWidth={0.5}
                             opacity={LINE_OPACITY * (1 - i * 0.12)}
                         />
@@ -33,7 +37,7 @@ export default function CornerGrids() {
                             y1={i * GRID_SIZE}
                             x2={i === 0 ? GRID_SIZE * GRID_LINES : GRID_SIZE * (GRID_LINES - i + 1)}
                             y2={i * GRID_SIZE}
-                            stroke="#330014"
+                            stroke={strokeColor}
                             strokeWidth={0.5}
                             opacity={LINE_OPACITY * (1 - i * 0.12)}
                         />
@@ -41,7 +45,6 @@ export default function CornerGrids() {
                 </svg>
             </div>
 
-            {/* Top Right */}
             <div className="absolute top-0 right-0">
                 <svg
                     width={GRID_SIZE * GRID_LINES}
@@ -55,7 +58,7 @@ export default function CornerGrids() {
                             y1={0}
                             x2={GRID_SIZE * GRID_LINES - i * GRID_SIZE}
                             y2={i === 0 ? GRID_SIZE * GRID_LINES : GRID_SIZE * (GRID_LINES - i + 1)}
-                            stroke="#330014"
+                            stroke={strokeColor}
                             strokeWidth={0.5}
                             opacity={LINE_OPACITY * (1 - i * 0.12)}
                         />
@@ -67,7 +70,7 @@ export default function CornerGrids() {
                             y1={i * GRID_SIZE}
                             x2={i === 0 ? 0 : GRID_SIZE * (i - 1)}
                             y2={i * GRID_SIZE}
-                            stroke="#330014"
+                            stroke={strokeColor}
                             strokeWidth={0.5}
                             opacity={LINE_OPACITY * (1 - i * 0.12)}
                         />
@@ -75,7 +78,6 @@ export default function CornerGrids() {
                 </svg>
             </div>
 
-            {/* Bottom Left */}
             <div className="absolute bottom-0 left-0">
                 <svg
                     width={GRID_SIZE * GRID_LINES}
@@ -89,7 +91,7 @@ export default function CornerGrids() {
                             y1={GRID_SIZE * GRID_LINES}
                             x2={i * GRID_SIZE}
                             y2={i === 0 ? 0 : GRID_SIZE * (i - 1)}
-                            stroke="#330014"
+                            stroke={strokeColor}
                             strokeWidth={0.5}
                             opacity={LINE_OPACITY * (1 - i * 0.12)}
                         />
@@ -101,7 +103,7 @@ export default function CornerGrids() {
                             y1={GRID_SIZE * GRID_LINES - i * GRID_SIZE}
                             x2={i === 0 ? GRID_SIZE * GRID_LINES : GRID_SIZE * (GRID_LINES - i + 1)}
                             y2={GRID_SIZE * GRID_LINES - i * GRID_SIZE}
-                            stroke="#330014"
+                            stroke={strokeColor}
                             strokeWidth={0.5}
                             opacity={LINE_OPACITY * (1 - i * 0.12)}
                         />
@@ -109,7 +111,6 @@ export default function CornerGrids() {
                 </svg>
             </div>
 
-            {/* Bottom Right */}
             <div className="absolute bottom-0 right-0">
                 <svg
                     width={GRID_SIZE * GRID_LINES}
@@ -123,7 +124,7 @@ export default function CornerGrids() {
                             y1={GRID_SIZE * GRID_LINES}
                             x2={GRID_SIZE * GRID_LINES - i * GRID_SIZE}
                             y2={i === 0 ? 0 : GRID_SIZE * (i - 1)}
-                            stroke="#330014"
+                            stroke={strokeColor}
                             strokeWidth={0.5}
                             opacity={LINE_OPACITY * (1 - i * 0.12)}
                         />
@@ -135,7 +136,7 @@ export default function CornerGrids() {
                             y1={GRID_SIZE * GRID_LINES - i * GRID_SIZE}
                             x2={i === 0 ? 0 : GRID_SIZE * (i - 1)}
                             y2={GRID_SIZE * GRID_LINES - i * GRID_SIZE}
-                            stroke="#330014"
+                            stroke={strokeColor}
                             strokeWidth={0.5}
                             opacity={LINE_OPACITY * (1 - i * 0.12)}
                         />

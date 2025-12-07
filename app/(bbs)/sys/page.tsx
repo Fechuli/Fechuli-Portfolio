@@ -187,7 +187,7 @@ export default function Sys() {
     const welcomeText = `
 FECHULI BBS v0.0.1_alpha
 ══════════════════════════════════════════
-Welcome, visitor.
+Welcome.
 System online since 2025.
 ══════════════════════════════════════════
 
@@ -724,7 +724,6 @@ Digita 'CONFERMA' per procedere.
             />
 
             <div className="flex justify-between items-start mb-8 text-xs opacity-50">
-                <span>FECHULI-BBS v0.0.1_alpha</span>
                 <span>{currentTime}</span>
             </div>
 
@@ -737,7 +736,6 @@ Digita 'CONFERMA' per procedere.
 
             <div className="absolute bottom-4 left-4 right-4 sm:left-8 sm:right-8 text-xs opacity-50 flex justify-between">
                 <span>Press number keys to navigate</span>
-                <span>CONNECTION: SECURE</span>
             </div>
 
             <style jsx>{`

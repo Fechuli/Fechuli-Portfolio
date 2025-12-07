@@ -25,8 +25,7 @@ const ANCHORS: AnchorConfig[] = [
     { id: "anchor-1", position: "bottom-left", offsetX: 0, offsetY: 30 },
     { id: "anchor-1b", position: "bottom-right", offsetX: 0, offsetY: 30 },
     { id: "anchor-2", position: "center-right", offsetX: 50 },
-    { id: "anchor-3", position: "top-left", offsetX: -0.5 },
-    { id: "anchor-3b", position: "top-left", offsetX: -0.5, offsetY: 25 },
+    { id: "anchor-3b", position: "top-left", offsetX: 100 },
     { id: "anchor-6", position: "center-right", offsetX: 15 },
     { id: "anchor-7", position: "bottom-left", offsetX: -10, offsetY: 100 },
     { id: "anchor-9", position: "top-left", offsetX: 0 },
@@ -215,7 +214,7 @@ export default function StoryPath() {
 
                 {DEBUG_MODE &&
                     points
-                        .filter((point) => ["anchor-2", "anchor-6", "anchor-7"].includes(point.id))
+                        .filter((point) => ["anchor-2", "anchor-1b", "anchor-6", "anchor-7"].includes(point.id))
                         .map((point) => (
                             <g key={point.id}>
                                 <circle
