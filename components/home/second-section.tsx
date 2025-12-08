@@ -2,6 +2,7 @@
 
 import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
+import AnimatedLink from "@/components/ui/animated-link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
@@ -370,14 +371,21 @@ export default function SecondSection() {
                             <p>
                                 Nel 2019 insieme a Tommaso, Duccio e Lorenzo
                                 apro Backdoor Studio che è attualmente la realtà
-                                in cui lavoro e condivido le mie giornate
-                                lavorative.
+                                in cui lavoro e condivido le mie giornate.
                             </p>
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-12 gap-4 md:gap-8">
-                        <div className="col-span-12 md:col-span-7 md:col-start-6 relative">
+                    <div className="grid grid-cols-12 gap-4 md:gap-8 items-center">
+                        <div className="col-span-12 md:col-span-4 md:col-start-1 space-y-6 order-2 md:order-1">
+                            <p className="text-base sm:text-lg md:text-xl font-light leading-relaxed">
+                               Clicca qui sotto per scoprire di più<br/> su di me e le mie passioni!
+                            </p>
+                            <AnimatedLink href="/about" isDark>
+                                Continua la storia
+                            </AnimatedLink>
+                        </div>
+                        <div className="col-span-12 md:col-span-7 md:col-start-6 relative order-1 md:order-2">
                             <span
                                 data-anchor="anchor-10"
                                 className="absolute right-0 top-1/2 -translate-y-1/2"
