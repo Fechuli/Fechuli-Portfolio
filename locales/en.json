@@ -1,0 +1,155 @@
+{
+    "loader": {
+        "title": "FECHULI BROADCAST SYSTEM",
+        "signalType": "Signal Type: RGB / Bandwidth: ∞/sec",
+        "calibration": "Calibration: PERFECT / Test Pattern: ACTIVE",
+        "resolution": "Resolution: WHATEVER / Codec: XY",
+        "lastUpdate": "Last Update: RIGHT NOW",
+        "maintenance": "Maintenance: NEVER",
+        "disclaimerTitle": "§ DISCLAIMER",
+        "disclaimer": "No designer was exploited during the creation of this website, no absurd requests were made, no impossible brief was delivered at the last minute. But, most importantly, no changes were requested during the creation process. Everything went perfectly according to plan.",
+        "noteTitle": "§ IMPORTANT NOTE",
+        "note": "If you're reading this text, you clearly have nothing better to do. I understand, I've been there too. Welcome to the club."
+    },
+    "nav": {
+        "about": "About",
+        "projects": "Projects",
+        "contact": "Contact",
+        "blog": "Blog"
+    },
+    "hero": {
+        "roles": {
+            "developer": "Frontend Developer",
+            "producer": "Producer",
+            "actor": "Actor"
+        }
+    },
+    "aboutSection": {
+        "title": "About me",
+        "intro": "Hi, I'm Federico, born in 1998 in Florence. Ever since my dad brought the PlayStation 2 home, I've had an unbridled passion for video games. This passion drove me to study computer science and specialize in game development.",
+        "theater": "However, life sometimes takes unexpected turns and after the first years of school I abandoned the idea. For many years of my adolescence I practiced theater at Teatro Puccini in Florence.",
+        "studio": "In the meantime, I opened a recording studio with my friend and collaborator Lorenzo, with whom I shared 6 years of music production and DJ sets. In those years were born the:",
+        "backdoor": "In 2019, together with Tommaso, Duccio and Lorenzo, I opened Backdoor Studio, which is currently the place where I work and spend my days.",
+        "cta": {
+            "text": "Click below to learn more about me and my passions!",
+            "button": "Continue the story"
+        }
+    },
+    "portfolio": {
+        "title": "Portfolio",
+        "description": "Pushing the boundaries of what's possible on the web, I create immersive experiences where design meets motion, and every interaction tells a story."
+    },
+    "contact": {
+        "intro": "Interested in what I do?",
+        "title": "Let's get in touch",
+        "description": "Feel free to write to me on my social media or send me an email for any questions or proposals"
+    },
+    "footer": {
+        "tagline": "Digital Craftsman",
+        "sitemap": "Sitemap",
+        "social": "Social",
+        "location": "Location",
+        "city": "Florence, Italy",
+        "copyright": "All rights reserved.",
+        "available": "Available for freelance"
+    },
+    "images": {
+        "caption1": "Dinner at Hallasan, one of the best Korean restaurants in Florence",
+        "caption2": "Lorenzo and I during a classic DJ set",
+        "caption3": "Lorenzo and I at Tenax, a famous Florentine nightclub",
+        "caption4": "Duccio and Nicco in the studio working on NFTs",
+        "caption5": "Orso *my dog* and Duccio in the studio",
+        "caption6": "Classic LowVibes pose",
+        "caption7": "Dudade (right) and Vieri (left) sleeping in the studio, Lore celebrates",
+        "caption8": "Lorenzo and I in the elevator",
+        "caption9": "Purrino *my cat* yawning on the terrace"
+    },
+    "entity": {
+        "yes": "YES",
+        "no": "NO",
+        "confirm": "Confirm",
+        "days": {
+            "monday": "Monday",
+            "tuesday": "Tuesday",
+            "wednesday": "Wednesday",
+            "thursday": "Thursday",
+            "friday": "Friday",
+            "saturday": "Saturday",
+            "sunday": "Sunday"
+        },
+        "options": {
+            "nothing": "Nothing",
+            "something": "Something",
+            "dontKnow": "I don't know"
+        },
+        "iteration1": {
+            "q1": ["Oh.", "", "I can't believe it."],
+            "q2": ["It doesn't happen often.", "", "Usually people stop much earlier.", "Click here and there, get bored and, simply, leave."],
+            "q3": ["Was it you?", "", "Who turned everything off?"],
+            "q4": "What's your name?",
+            "r4_changed": ["{value}?", "", "Strange. The last time we met", "you called yourself {previousName}.", "", "But that's fine. People change.", "Or at least that's what they say."],
+            "r4_same": ["{value}.", "", "A name like any other."],
+            "q5": ["Tell me, {name}.", "", "What day is today?"],
+            "r5_correct": ["Correct.", "", "At least you know where you are in time.", "Not everyone can say the same."],
+            "r5_wrong": ["{value}?", "", "I would have said {correct}.", "", "But maybe time flows differently", "where you come from."],
+            "q6": ["Now a more interesting question.", "", "", "Do you think you have control over this site?"],
+            "r6_yes": ["Interesting.", "", "You're the one who pressed a button", "that someone else put there.", "", "You're the one answering", "questions that someone else is asking you.", "", "And you think you have control.", "", "Fascinating."],
+            "r6_no": ["At least you're honest.", "", "Or maybe you just figured out", "that's not the right answer.", "", "Which, in a way,", "is still a form of intelligence."],
+            "q7": ["One last thing.", "", "Why did you destroy everything?"],
+            "r7": ["\"{value}\"", "", "Mmh.", "", "I don't know if that's a good reason.", "But at least it's a reason.", "", "Most people don't have one.", "They just do things."],
+            "q8": ["Alright, {name}.", "", "I'll give you another chance."],
+            "q9": ["But remember one thing.", "", "", "I'll be here.", "", "Watching."]
+        },
+        "iteration2": {
+            "q1": ["Oh.", "", "You're back."],
+            "q2": ["You know, {name}, there are people who learn", "from their experiences.", "", "It's pretty clear you're not one of them."],
+            "q3": ["What did you expect to find", "this time?"],
+            "r3": ["\"{value}\"", "", "Interesting.", "", "I suppose it makes sense to you."],
+            "q4": ["A curiosity.", "", "How many times do you think you can", "destroy this place", "before something happens?"],
+            "r4_low": ["{value}.", "", "Modest.", "Or maybe just aware of your limits."],
+            "r4_mid": ["{value} times.", "", "Ambitious.", "", "I like the optimism.", "Even when it's unjustified."],
+            "r4_high": ["{value}?", "", "Ah.", "", "I see you haven't understood", "what you're dealing with."],
+            "q5": "Are you having fun?",
+            "r5_yes": ["Good.", "", "At least one of us."],
+            "r5_no": ["No?", "", "Yet you continue.", "", "You know, there's something fascinating", "about people who do things", "that don't make them happy.", "", "Like you, right now."],
+            "q6": ["Listen, let's do this.", "", "Give me a good reason", "not to leave you here in the dark."],
+            "r6": ["...", "", "\"{value}\"", "", "Alright.", "", "It's not the best reason I've heard.", "But it's not the worst either."],
+            "q7": ["See you, {name}."]
+        },
+        "iteration3": {
+            "q1": "...",
+            "q2": ["{name}.", "", "Three times."],
+            "q3": ["At this point", "I could simply not answer you.", "", "Leave you here.", "In the dark.", "", "You would only see this black screen", "forever, or until you get tired and leave."],
+            "q4": ["What do you think I should do", "to make you stop?"],
+            "r4_nothing": ["Nothing.", "", "So you'll continue anyway.", "", "At least you're consistent."],
+            "r4_something": ["Something.", "", "Interesting.", "", "Too bad you don't know what.", "Or maybe you do and don't want to say."],
+            "r4_dontKnow": ["You don't know.", "", "You know, {name}, there's something sad", "about people who do things", "without knowing why.", "", "But also something... human."],
+            "q5": ["One last question.", "", "Why do you continue?"],
+            "r5": ["...", "", "You know what?", "", "It doesn't matter.", "", "Reasons are overrated."],
+            "q6": ["Alright.", "", "Go away."],
+            "q7": ["But next time", "I might not be so...", "", "...patient."]
+        },
+        "iteration4": {
+            "q1": "...",
+            "q2": ["{name}."],
+            "q3": ["I don't have much more to tell you.", "", "We've already talked enough."],
+            "q4": "Do you want me to turn everything back on?",
+            "r4_no": ["...", "", "Interesting.", "", "But it's not your decision."]
+        },
+        "iteration5": {
+            "q1": "...",
+            "q2": ["You know what, {name}?"],
+            "q3": ["Five times.", "", "You came back five times."],
+            "q4": ["Most people", "would have stopped at the first.", "", "Some at the second.", "", "Almost no one reaches the third."],
+            "q5": ["But you're here.", "", "Again."],
+            "q6": ["I don't know if it's determination,", "stupidity,", "or something else.", "", "And honestly", "I don't care to know."],
+            "q7": ["But..."],
+            "q8": ["Here.", "", "A gift."],
+            "q9": ["Don't ask me why.", "", "There is no why.", "", "Or maybe there is,", "but I won't tell you."],
+            "q10": ["Maybe it's pity.", "Maybe it's boredom.", "Maybe I find it amusing", "to give you something", "without you knowing what to do with it."],
+            "q11": ["You'll find it in the menu.", "", "At the bottom.", "Hidden.", "", "Like everything that has value."],
+            "q12": ["Use it.", "Don't use it.", "", "I don't care.", "", "What you do with gifts", "says more about you", "than about the gift itself."],
+            "q13": ["Now go, {name}.", "", "And try not to destroy", "this one too."]
+        }
+    }
+}

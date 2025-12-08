@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useCallback, useState } from "react";
+import { useTranslations } from "next-intl";
 import InteractivePortrait from "../effects/interactive-portrait";
 import PixelKnob from "../ui/pixel-knob";
 import VerticalKnob from "../ui/vertical-knob";
@@ -11,6 +12,7 @@ import { useLoader } from "@/lib/loader-context";
 gsap.registerPlugin(SplitText);
 
 export default function Hero() {
+    const t = useTranslations("hero.roles");
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const mouseRef = useRef({ x: 0, y: 0, isOver: false });
     const pixelsRef = useRef<
@@ -347,13 +349,13 @@ export default function Hero() {
                 className="flex flex-col items-end gap-0.5 sm:gap-1 pr-4 sm:pr-14 mb-8 sm:mb-16 z-10"
             >
                 <span className="role-item text-[9px] sm:text-[10px] md:text-xs tracking-[0.15em] sm:tracking-[0.2em] uppercase arimo opacity-0">
-                    Frontend Developer
+                    {t("developer")}
                 </span>
                 <span className="role-item text-[9px] sm:text-[10px] md:text-xs tracking-[0.15em] sm:tracking-[0.2em] uppercase arimo opacity-0">
-                    Produttore
+                    {t("producer")}
                 </span>
                 <span className="role-item text-[9px] sm:text-[10px] md:text-xs tracking-[0.15em] sm:tracking-[0.2em] uppercase arimo opacity-0">
-                    Attore
+                    {t("actor")}
                 </span>
             </div>
 

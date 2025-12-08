@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback } from "react";
 import gsap from "gsap";
+import { useTranslations } from "next-intl";
 
 interface PageLoaderProps {
     onComplete?: () => void;
@@ -10,6 +11,7 @@ interface PageLoaderProps {
 const GRID_SIZE = 60;
 
 export default function PageLoader({ onComplete }: PageLoaderProps) {
+    const t = useTranslations("loader");
     const containerRef = useRef<HTMLDivElement>(null);
     const logoContainerRef = useRef<HTMLDivElement>(null);
     const pathsRef = useRef<(SVGPathElement | null)[]>([]);
@@ -507,18 +509,18 @@ export default function PageLoader({ onComplete }: PageLoaderProps) {
                 <div className="pointer-events-none absolute top-4 sm:top-8 md:top-12 left-4 sm:left-8 md:left-12 right-4 sm:right-8 md:right-12 flex justify-between items-start">
                     <div className="flex flex-col items-start">
                         <span className="text-[#FFF5F5]/40 text-[8px] sm:text-[10px] md:text-xs font-mono uppercase tracking-wider">
-                            FECHULI BROADCAST SYSTEM
+                            {t("title")}
                         </span>
                         <p className="text-[#FFF5F5]/20 text-[4px] sm:text-[5px] md:text-[10px] font-mono mt-1 max-w-[120px] sm:max-w-[150px] md:max-w-[250px] leading-tight">
-                            Signal Type: RGB / Bandwidth: ∞/sec
+                            {t("signalType")}
                             <br />
-                            Calibration: PERFECT / Test Pattern: ACTIVE
+                            {t("calibration")}
                             <br />
-                            Resolution: WHATEVER / Codec: XY
+                            {t("resolution")}
                             <br />
-                            Last Update: RIGHT NOW
+                            {t("lastUpdate")}
                             <br />
-                            Maintenance: NEVER
+                            {t("maintenance")}
                         </p>
                     </div>
                     <span className="text-[#FFF5F5]/40 text-[8px] sm:text-[10px] md:text-xs font-mono tabular-nums">
@@ -602,24 +604,16 @@ export default function PageLoader({ onComplete }: PageLoaderProps) {
                     </span>
                     <div className="flex flex-col items-end">
                         <p className="text-[#FFF5F5]/25 text-[4px] sm:text-[5px] md:text-[10px] font-mono mt-2 max-w-[140px] sm:max-w-[180px] md:max-w-[280px] leading-relaxed text-right">
-                            <span className="opacity-60">§ DISCLAIMER</span>
+                            <span className="opacity-60">{t("disclaimerTitle")}</span>
                             <br />
-                            Nessun designer è stato sfruttato durante la
-                            realizzazione di questo sito, nessuna richiesta
-                            assurda è stata avanzata, nessun brief impossibile è
-                            stato consegnato all&apos;ultimo minuto. Ma,
-                            soprattutto, nessuna modifica è stata richiesta
-                            durante il processo di realizzazione. Tutto è andato
-                            perfettamente secondo i piani.
+                            {t("disclaimer")}
                             <br />
                             <br />
                             <span className="opacity-60">
-                                § NOTA IMPORTANTE
+                                {t("noteTitle")}
                             </span>
                             <br />
-                            Se stai leggendo questo testo, chiaramente non hai
-                            niente di meglio da fare. Ti capisco, anche io sono
-                            stato lì. Benvenuto nel club.
+                            {t("note")}
                         </p>
                         <span className="text-[#FFF5F5]/40 text-[8px] sm:text-[10px] md:text-xs font-mono">
                             CH-01 • 25fps

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useSyncExternalStore, useMemo } from "react";
+import { useTranslations } from "next-intl";
 import EntityQuestion from "./entity-question";
 import EntityInput from "./entity-input";
 import EntitySlider from "./entity-slider";
@@ -10,7 +11,7 @@ import CrtTurnOn from "../effects/crt-turn-on";
 const emptySubscribe = () => () => {};
 
 type Step = {
-    question: string | string[];
+    questionKey: string;
     type:
         | "none"
         | "input"
@@ -18,10 +19,10 @@ type Step = {
         | "slider-number"
         | "yesno"
         | "checkbox";
-    options?: string[];
+    optionsKey?: string;
     validate?: (value: string) => boolean;
     noSpaces?: boolean;
-    getResponse: (value: string, context: EntityContext) => string | string[];
+    getResponseKey: (value: string, context: EntityContext) => string | null;
 };
 
 type EntityContext = {
@@ -30,561 +31,267 @@ type EntityContext = {
     previousName: string | null;
 };
 
-const DAYS = [
-    "Lunedì",
-    "Martedì",
-    "Mercoledì",
-    "Giovedì",
-    "Venerdì",
-    "Sabato",
-    "Domenica",
+const DAY_KEYS = [
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+    "sunday",
 ];
 
-const getCurrentDay = () => {
+const getCurrentDayKey = () => {
     const dayIndex = new Date().getDay();
-    return DAYS[dayIndex === 0 ? 6 : dayIndex - 1];
+    return DAY_KEYS[dayIndex === 0 ? 6 : dayIndex - 1];
 };
 
 const ITERATION_1: Step[] = [
     {
-        question: [
-            "Oh.",
-            "",
-            "Non ci credo.",
-        ],
+        questionKey: "iteration1.q1",
         type: "none",
-        getResponse: () => "",
+        getResponseKey: () => null,
     },
     {
-        question: [
-            "Non capita spesso.",
-            "",
-            "Di solito la gente si ferma molto prima.",
-            "Clicca qua e là, si annoia e, semplicemente, se ne va.",
-        ],
+        questionKey: "iteration1.q2",
         type: "none",
-        getResponse: () => "",
+        getResponseKey: () => null,
     },
     {
-        question: [
-            "Sei stato tu?",
-            "",
-            "A spegnere tutto?",
-        ],
+        questionKey: "iteration1.q3",
         type: "none",
-        getResponse: () => "",
+        getResponseKey: () => null,
     },
     {
-        question: "Come ti chiami?",
+        questionKey: "iteration1.q4",
         type: "input",
         validate: (value) => !value.includes(" ") && value.length > 0,
         noSpaces: true,
-        getResponse: (value, ctx) => {
-            if (ctx.previousName && ctx.previousName !== value) {
-                return [
-                    `${value}?`,
-                    "",
-                    `Strano. L'ultima volta che ci siamo visti`,
-                    `ti facevi chiamare ${ctx.previousName}.`,
-                    "",
-                    "Ma va bene. Le persone cambiano.",
-                    "O almeno così dicono.",
-                ];
+        getResponseKey: (_value, ctx) => {
+            if (ctx.previousName && ctx.previousName !== _value) {
+                return "iteration1.r4_changed";
             }
-            return [
-                `${value}.`,
-                "",
-                "Un nome come un altro.",
-            ];
+            return "iteration1.r4_same";
         },
     },
     {
-        question: ["Dimmi, {name}.", "", "Che giorno è oggi?"],
+        questionKey: "iteration1.q5",
         type: "slider-days",
-        getResponse: (value) => {
-            const correct = getCurrentDay();
-            if (value === correct) {
-                return [
-                    "Corretto.",
-                    "",
-                    "Almeno sai dove ti trovi nel tempo.",
-                    "Non tutti possono dire lo stesso.",
-                ];
+        getResponseKey: (value) => {
+            const correctKey = getCurrentDayKey();
+            if (value === correctKey) {
+                return "iteration1.r5_correct";
             }
-            return [
-                `${value}?`,
-                "",
-                `Io avrei detto ${correct}.`,
-                "",
-                "Ma forse il tempo scorre diversamente",
-                "da dove vieni tu.",
-            ];
+            return "iteration1.r5_wrong";
         },
     },
     {
-        question: [
-            "Adesso una domanda più interessante.",
-            "",
-            "",
-            "Pensi di avere il controllo su questo sito?",
-        ],
+        questionKey: "iteration1.q6",
         type: "yesno",
-        getResponse: (value) => {
-            if (value === "si") {
-                return [
-                    "Interessante.",
-                    "",
-                    "Sei tu quello che ha premuto un pulsante",
-                    "che qualcun altro ha messo lì.",
-                    "",
-                    "Sei tu quello che sta rispondendo",
-                    "a domande che qualcun altro ti sta facendo.",
-                    "",
-                    "E pensi di avere il controllo.",
-                    "",
-                    "Affascinante.",
-                ];
+        getResponseKey: (value) => {
+            if (value === "yes") {
+                return "iteration1.r6_yes";
             }
-            return [
-                "Almeno sei onesto.",
-                "",
-                "O forse hai solo capito",
-                "che non è la risposta giusta.",
-                "",
-                "Il che, in un certo senso,",
-                "è comunque una forma di intelligenza.",
-            ];
+            return "iteration1.r6_no";
         },
     },
     {
-        question: [
-            "Un'ultima cosa.",
-            "",
-            "Perché hai distrutto tutto?",
-        ],
+        questionKey: "iteration1.q7",
         type: "input",
-        getResponse: (value) => [
-            `"${value}"`,
-            "",
-            "Mmh.",
-            "",
-            "Non so se sia una buona ragione.",
-            "Ma almeno è una ragione.",
-            "",
-            "La maggior parte delle persone non ne ha una.",
-            "Fanno le cose e basta.",
-        ],
+        getResponseKey: () => "iteration1.r7",
     },
     {
-        question: [
-            "Va bene, {name}.",
-            "",
-            "Ti darò un'altra possibilità.",
-        ],
+        questionKey: "iteration1.q8",
         type: "none",
-        getResponse: () => "",
+        getResponseKey: () => null,
     },
     {
-        question: [
-            "Ma ricorda una cosa.",
-            "",
-            "",
-            "Io sarò qui.",
-            "",
-            "A guardare.",
-        ],
+        questionKey: "iteration1.q9",
         type: "none",
-        getResponse: () => "",
+        getResponseKey: () => null,
     },
 ];
 
 const ITERATION_2: Step[] = [
     {
-        question: [
-            "Oh.",
-            "",
-            "Sei tornato.",
-        ],
+        questionKey: "iteration2.q1",
         type: "none",
-        getResponse: () => "",
+        getResponseKey: () => null,
     },
     {
-        question: [
-            "Sai, {name}, c'è gente che impara",
-            "dalle proprie esperienze.",
-            "",
-            "È piuttosto chiaro che tu non faccia parte di loro.",
-        ],
+        questionKey: "iteration2.q2",
         type: "none",
-        getResponse: () => "",
+        getResponseKey: () => null,
     },
     {
-        question: [
-            "Cosa ti aspettavi di trovare",
-            "questa volta?",
-        ],
+        questionKey: "iteration2.q3",
         type: "input",
-        getResponse: (value) => [
-            `"${value}"`,
-            "",
-            "Interessante.",
-            "",
-            "Suppongo che per te abbia senso.",
-        ],
+        getResponseKey: () => "iteration2.r3",
     },
     {
-        question: [
-            "Una curiosità.",
-            "",
-            "Quante volte pensi di poter",
-            "distruggere questo posto",
-            "prima che succeda qualcosa?",
-        ],
+        questionKey: "iteration2.q4",
         type: "slider-number",
-        getResponse: (value) => {
+        getResponseKey: (value) => {
             const num = parseInt(value);
-            if (num <= 2) return [
-                `${value}.`,
-                "",
-                "Modesto.",
-                "O forse solo consapevole dei tuoi limiti.",
-            ];
-            if (num <= 5) return [
-                `${value} volte.`,
-                "",
-                "Ambizioso.",
-                "",
-                "Mi piace l'ottimismo.",
-                "Anche quando è ingiustificato.",
-            ];
-            return [
-                `${value}?`,
-                "",
-                "Ah.",
-                "",
-                "Vedo che non hai capito",
-                "con cosa hai a che fare.",
-            ];
+            if (num <= 2) return "iteration2.r4_low";
+            if (num <= 5) return "iteration2.r4_mid";
+            return "iteration2.r4_high";
         },
     },
     {
-        question: "Ti stai divertendo?",
+        questionKey: "iteration2.q5",
         type: "yesno",
-        getResponse: (value) => {
-            if (value === "si") return [
-                "Bene.",
-                "",
-                "Almeno uno di noi due.",
-            ];
-            return [
-                "No?",
-                "",
-                "Eppure continui.",
-                "",
-                "Sai, c'è qualcosa di affascinante",
-                "nelle persone che fanno cose",
-                "che non le rendono felici.",
-                "",
-                "Tipo te, adesso.",
-            ];
+        getResponseKey: (value) => {
+            if (value === "yes") return "iteration2.r5_yes";
+            return "iteration2.r5_no";
         },
     },
     {
-        question: [
-            "Senti, facciamo così.",
-            "",
-            "Dammi un buon motivo",
-            "per non lasciarti qui nel buio.",
-        ],
+        questionKey: "iteration2.q6",
         type: "input",
-        getResponse: (value) => [
-            "...",
-            "",
-            `"${value}"`,
-            "",
-            "Va bene.",
-            "",
-            "Non è il motivo migliore che abbia sentito.",
-            "Ma non è nemmeno il peggiore.",
-        ],
+        getResponseKey: () => "iteration2.r6",
     },
     {
-        question: [
-            "Ci vediamo, {name}.",
-        ],
+        questionKey: "iteration2.q7",
         type: "none",
-        getResponse: () => "",
+        getResponseKey: () => null,
     },
 ];
 
 const ITERATION_3: Step[] = [
     {
-        question: "...",
+        questionKey: "iteration3.q1",
         type: "none",
-        getResponse: () => "",
+        getResponseKey: () => null,
     },
     {
-        question: [
-            "{name}.",
-            "",
-            "Tre volte.",
-        ],
+        questionKey: "iteration3.q2",
         type: "none",
-        getResponse: () => "",
+        getResponseKey: () => null,
     },
     {
-        question: [
-            "A questo punto",
-            "potrei semplicemente non risponderti.",
-            "",
-            "Lasciarti qui.",
-            "Nel buio.",
-            "",
-            "Vedresti solo questo schermo nero",
-            "per sempre, o finché non ti stanchi e te ne vai.",
-        ],
+        questionKey: "iteration3.q3",
         type: "none",
-        getResponse: () => "",
+        getResponseKey: () => null,
     },
     {
-        question: [
-            "Cosa pensi che debba fare",
-            "per farti smettere?",
-        ],
+        questionKey: "iteration3.q4",
         type: "checkbox",
-        options: ["Niente", "Qualcosa", "Non lo so"],
-        getResponse: (value) => {
-            if (value === "Niente") return [
-                "Niente.",
-                "",
-                "Quindi continuerai comunque.",
-                "",
-                "Almeno sei coerente.",
-            ];
-            if (value === "Qualcosa") return [
-                "Qualcosa.",
-                "",
-                "Interessante.",
-                "",
-                "Peccato che tu non sappia cosa.",
-                "O forse lo sai e non vuoi dirlo.",
-            ];
-            return [
-                "Non lo sai.",
-                "",
-                "Sai, {name}, c'è qualcosa di triste",
-                "nelle persone che fanno cose",
-                "senza sapere perché.",
-                "",
-                "Ma anche qualcosa di... umano.",
-            ];
+        optionsKey: "options",
+        getResponseKey: (value) => {
+            if (value === "nothing") return "iteration3.r4_nothing";
+            if (value === "something") return "iteration3.r4_something";
+            return "iteration3.r4_dontKnow";
         },
     },
     {
-        question: [
-            "Un'ultima domanda.",
-            "",
-            "Perché continui?",
-        ],
+        questionKey: "iteration3.q5",
         type: "input",
-        getResponse: () => [
-            "...",
-            "",
-            "Sai cosa?",
-            "",
-            "Non importa.",
-            "",
-            "Le ragioni sono sopravvalutate.",
-        ],
+        getResponseKey: () => "iteration3.r5",
     },
     {
-        question: [
-            "Va bene.",
-            "",
-            "Vattene.",
-        ],
+        questionKey: "iteration3.q6",
         type: "none",
-        getResponse: () => "",
+        getResponseKey: () => null,
     },
     {
-        question: [
-            "Ma la prossima volta",
-            "potrei non essere così...",
-            "",
-            "...paziente.",
-        ],
+        questionKey: "iteration3.q7",
         type: "none",
-        getResponse: () => "",
+        getResponseKey: () => null,
     },
 ];
 
 const ITERATION_4: Step[] = [
     {
-        question: "...",
+        questionKey: "iteration4.q1",
         type: "none",
-        getResponse: () => "",
+        getResponseKey: () => null,
     },
     {
-        question: [
-            "{name}.",
-        ],
+        questionKey: "iteration4.q2",
         type: "none",
-        getResponse: () => "",
+        getResponseKey: () => null,
     },
     {
-        question: [
-            "Non ho più molto da dirti.",
-            "",
-            "Abbiamo già parlato abbastanza.",
-        ],
+        questionKey: "iteration4.q3",
         type: "none",
-        getResponse: () => "",
+        getResponseKey: () => null,
     },
     {
-        question: "Vuoi che riaccenda tutto?",
+        questionKey: "iteration4.q4",
         type: "yesno",
-        getResponse: (value) => {
-            if (value === "no") return [
-                "...",
-                "",
-                "Interessante.",
-                "",
-                "Ma non è una tua decisione.",
-            ];
-            return "";
+        getResponseKey: (value) => {
+            if (value === "no") return "iteration4.r4_no";
+            return null;
         },
     },
 ];
 
 const ITERATION_5: Step[] = [
     {
-        question: "...",
+        questionKey: "iteration5.q1",
         type: "none",
-        getResponse: () => "",
+        getResponseKey: () => null,
     },
     {
-        question: [
-            "Sai cosa, {name}?",
-        ],
+        questionKey: "iteration5.q2",
         type: "none",
-        getResponse: () => "",
+        getResponseKey: () => null,
     },
     {
-        question: [
-            "Cinque volte.",
-            "",
-            "Sei tornato cinque volte.",
-        ],
+        questionKey: "iteration5.q3",
         type: "none",
-        getResponse: () => "",
+        getResponseKey: () => null,
     },
     {
-        question: [
-            "La maggior parte delle persone",
-            "si sarebbe fermata alla prima.",
-            "",
-            "Alcuni alla seconda.",
-            "",
-            "Quasi nessuno arriva alla terza.",
-        ],
+        questionKey: "iteration5.q4",
         type: "none",
-        getResponse: () => "",
+        getResponseKey: () => null,
     },
     {
-        question: [
-            "Ma tu sei qui.",
-            "",
-            "Ancora.",
-        ],
+        questionKey: "iteration5.q5",
         type: "none",
-        getResponse: () => "",
+        getResponseKey: () => null,
     },
     {
-        question: [
-            "Non so se sia determinazione,",
-            "stupidità,",
-            "o qualcos'altro.",
-            "",
-            "E sinceramente",
-            "non mi interessa saperlo.",
-        ],
+        questionKey: "iteration5.q6",
         type: "none",
-        getResponse: () => "",
+        getResponseKey: () => null,
     },
     {
-        question: [
-            "Ma...",
-        ],
+        questionKey: "iteration5.q7",
         type: "none",
-        getResponse: () => "",
+        getResponseKey: () => null,
     },
     {
-        question: [
-            "Tieni.",
-            "",
-            "Un regalo.",
-        ],
+        questionKey: "iteration5.q8",
         type: "none",
-        getResponse: () => "",
+        getResponseKey: () => null,
     },
     {
-        question: [
-            "Non chiedermi perché.",
-            "",
-            "Non c'è un perché.",
-            "",
-            "O forse c'è,",
-            "ma non te lo dirò.",
-        ],
+        questionKey: "iteration5.q9",
         type: "none",
-        getResponse: () => "",
+        getResponseKey: () => null,
     },
     {
-        question: [
-            "Forse è pietà.",
-            "Forse è noia.",
-            "Forse mi diverte l'idea",
-            "di darti qualcosa",
-            "senza che tu sappia cosa farne.",
-        ],
+        questionKey: "iteration5.q10",
         type: "none",
-        getResponse: () => "",
+        getResponseKey: () => null,
     },
     {
-        question: [
-            "Lo troverai nel menu.",
-            "",
-            "In basso.",
-            "Nascosto.",
-            "",
-            "Come tutto ciò che ha valore.",
-        ],
+        questionKey: "iteration5.q11",
         type: "none",
-        getResponse: () => "",
+        getResponseKey: () => null,
     },
     {
-        question: [
-            "Usalo.",
-            "Non usarlo.",
-            "",
-            "Non mi interessa.",
-            "",
-            "Quello che fai con i regali",
-            "dice più di te",
-            "che del regalo stesso.",
-        ],
+        questionKey: "iteration5.q12",
         type: "none",
-        getResponse: () => "",
+        getResponseKey: () => null,
     },
     {
-        question: [
-            "Adesso vai, {name}.",
-            "",
-            "E cerca di non distruggere",
-            "anche questo.",
-        ],
+        questionKey: "iteration5.q13",
         type: "none",
-        getResponse: () => "",
+        getResponseKey: () => null,
     },
 ];
 
@@ -597,6 +304,7 @@ function getIterationSteps(count: number, hasGift: boolean): Step[] {
 }
 
 export default function EntityInteraction() {
+    const t = useTranslations("entity");
 
     const destructionCount = useSyncExternalStore(
         emptySubscribe,
@@ -621,7 +329,8 @@ export default function EntityInteraction() {
         "question" | "response" | "countdown" | "turnon"
     >("question");
     const [name, setName] = useState("");
-    const [response, setResponse] = useState<string | string[]>("");
+    const [responseKey, setResponseKey] = useState<string | null>(null);
+    const [responseValue, setResponseValue] = useState<string>("");
     const [countdown, setCountdown] = useState(3);
     const [forceReboot, setForceReboot] = useState(false);
 
@@ -635,17 +344,37 @@ export default function EntityInteraction() {
     // Derive steps from destructionCount and hasGift
     const steps = getIterationSteps(destructionCount, hasGift);
 
+    // Get translated days array
+    const translatedDays = useMemo(() => DAY_KEYS.map(key => t(`days.${key}`)), [t]);
+
+    // Get current day in translated form
+    const getCurrentDayTranslated = useCallback(() => {
+        const dayIndex = new Date().getDay();
+        const dayKey = DAY_KEYS[dayIndex === 0 ? 6 : dayIndex - 1];
+        return t(`days.${dayKey}`);
+    }, [t]);
+
     const replaceVariables = useCallback(
-        (text: string | string[]): string | string[] => {
+        (text: string | string[], value?: string): string | string[] => {
             const replace = (str: string) =>
-                str.replace(/{name}/g, context.name || "...");
+                str
+                    .replace(/{name}/g, context.name || "...")
+                    .replace(/{value}/g, value || "")
+                    .replace(/{previousName}/g, context.previousName || "")
+                    .replace(/{correct}/g, getCurrentDayTranslated());
             if (Array.isArray(text)) {
                 return text.map(replace);
             }
             return replace(text);
         },
-        [context.name]
+        [context.name, context.previousName, getCurrentDayTranslated]
     );
+
+    // Get translation for a key, returns array or string
+    const getTranslation = useCallback((key: string): string | string[] => {
+        const result = t.raw(key);
+        return result;
+    }, [t]);
 
     const goToNextStep = useCallback(() => {
         if (currentStep >= steps.length - 1) {
@@ -660,20 +389,17 @@ export default function EntityInteraction() {
         (value: string) => {
             const step = steps[currentStep];
 
+            // For name input on first iteration, store the actual typed value
             if (step.type === "input" && destructionCount === 1 && !name && !storedName) {
                 localStorage.setItem("_entity_name", value);
                 setName(value);
             }
 
-            const stepResponse = step.getResponse(value, context);
+            const stepResponseKey = step.getResponseKey(value, context);
 
-            if (
-                stepResponse &&
-                (typeof stepResponse === "string"
-                    ? stepResponse.length > 0
-                    : stepResponse.some((s) => s.length > 0))
-            ) {
-                setResponse(stepResponse);
+            if (stepResponseKey) {
+                setResponseKey(stepResponseKey);
+                setResponseValue(value);
                 setPhase("response");
             } else {
                 goToNextStep();
@@ -684,8 +410,7 @@ export default function EntityInteraction() {
 
     const handleResponseComplete = useCallback(() => {
         if (destructionCount >= 4 && currentStep === 1) {
-            const lastAnswer = response;
-            if (lastAnswer === "...") {
+            if (responseKey === "iteration4.r4_no") {
                 setForceReboot(true);
                 setTimeout(() => {
                     setPhase("countdown");
@@ -694,7 +419,7 @@ export default function EntityInteraction() {
             }
         }
         goToNextStep();
-    }, [goToNextStep, destructionCount, currentStep, response]);
+    }, [goToNextStep, destructionCount, currentStep, responseKey]);
 
     useEffect(() => {
         if (phase !== "countdown") return;
@@ -726,6 +451,24 @@ export default function EntityInteraction() {
 
     const currentStepData = steps[currentStep];
 
+    // Get translated question
+    const questionText = getTranslation(currentStepData.questionKey);
+
+    // Get translated response if we have a response key
+    const responseText = responseKey ? getTranslation(responseKey) : "";
+
+    // Get options for checkbox (translated)
+    const getOptions = () => {
+        if (currentStepData.optionsKey) {
+            return [
+                { key: "nothing", label: t(`${currentStepData.optionsKey}.nothing`) },
+                { key: "something", label: t(`${currentStepData.optionsKey}.something`) },
+                { key: "dontKnow", label: t(`${currentStepData.optionsKey}.dontKnow`) },
+            ];
+        }
+        return [];
+    };
+
     if (phase === "turnon") {
         return <CrtTurnOn onComplete={handleTurnOnComplete} />;
     }
@@ -745,7 +488,7 @@ export default function EntityInteraction() {
             <div className="shrink-0 max-w-2xl">
                 {phase === "question" && (
                     <EntityQuestion
-                        text={replaceVariables(currentStepData.question)}
+                        text={replaceVariables(questionText)}
                         onComplete={() => {
                             if (currentStepData.type === "none") {
                                 setTimeout(() => handleAnswer(""), 2000);
@@ -755,7 +498,7 @@ export default function EntityInteraction() {
                 )}
                 {phase === "response" && (
                     <EntityQuestion
-                        text={replaceVariables(response)}
+                        text={replaceVariables(responseText, responseValue)}
                         onComplete={handleResponseComplete}
                         pauseAfter={3500}
                     />
@@ -773,7 +516,12 @@ export default function EntityInteraction() {
                         />
                     )}
                     {currentStepData.type === "slider-days" && (
-                        <EntitySlider type="days" onSubmit={handleAnswer} />
+                        <EntitySlider
+                            type="days"
+                            onSubmit={(dayKey) => handleAnswer(dayKey)}
+                            days={translatedDays}
+                            dayKeys={DAY_KEYS}
+                        />
                     )}
                     {currentStepData.type === "slider-number" && (
                         <EntitySlider
@@ -789,7 +537,7 @@ export default function EntityInteraction() {
                     {currentStepData.type === "checkbox" && (
                         <EntityChoice
                             type="checkbox"
-                            options={currentStepData.options || []}
+                            options={getOptions()}
                             onSubmit={handleAnswer}
                         />
                     )}

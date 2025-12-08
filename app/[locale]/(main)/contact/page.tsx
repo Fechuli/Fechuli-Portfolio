@@ -4,10 +4,12 @@ import { useRef, useEffect } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useTranslations } from "next-intl";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Contatti() {
+    const t = useTranslations("contact");
     const imageRef = useRef<HTMLDivElement>(null);
     const imageInnerRef = useRef<HTMLDivElement>(null);
 
@@ -38,13 +40,12 @@ export default function Contatti() {
         <div className="min-h-screen">
             <div className="flex flex-col items-center justify-center py-20 sm:py-40 px-4 sm:px-8">
                 <div className="max-w-4xl">
-                    <p className="text-lg sm:text-2xl md:text-3xl">Ti interessa ciò che faccio?</p>
+                    <p className="text-lg sm:text-2xl md:text-3xl">{t("intro")}</p>
                     <h2 className="resin text-4xl sm:text-6xl md:text-7xl text-[#330014] leading-none whitespace-nowrap">
-                        Entriamo in contatto
+                        {t("title")}
                     </h2>
                     <p className="text-base sm:text-xl md:text-2xl max-w-xs sm:max-w-sm ml-auto text-right mt-2 sm:mt-4">
-                        Sentiti liber* di scrivermi sui miei social o di
-                        mandarmi una mail per qualsiasi domanda o proposta
+                        {t("description")}
                     </p>
                 </div>
             </div>

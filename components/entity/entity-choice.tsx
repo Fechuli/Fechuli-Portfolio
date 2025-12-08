@@ -1,11 +1,17 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { useTranslations } from "next-intl";
 import gsap from "gsap";
+
+interface OptionItem {
+    key: string;
+    label: string;
+}
 
 interface EntityChoiceProps {
     type: "yesno" | "checkbox";
-    options?: string[];
+    options?: OptionItem[];
     onSubmit: (value: string) => void;
 }
 
@@ -14,6 +20,7 @@ export default function EntityChoice({
     options = [],
     onSubmit,
 }: EntityChoiceProps) {
+    const t = useTranslations("entity");
     const [selected, setSelected] = useState<string | null>(null);
     const containerRef = useRef<HTMLDivElement>(null);
 
@@ -33,8 +40,8 @@ export default function EntityChoice({
         }
     }, []);
 
-    const handleSelect = (value: string) => {
-        setSelected(value);
+    const handleSelect = (key: string) => {
+        setSelected(key);
     };
 
     const handleSubmit = () => {
@@ -51,7 +58,7 @@ export default function EntityChoice({
                 style={{ opacity: 0 }}
             >
                 <button
-                    onClick={() => onSubmit("si")}
+                    onClick={() => onSubmit("yes")}
                     className={`
                         px-12 py-6 sm:px-16 sm:py-8
                         border-2 border-white/30
@@ -60,7 +67,7 @@ export default function EntityChoice({
                         transition-all duration-200
                     `}
                 >
-                    SÌ
+                    {t("yes")}
                 </button>
                 <button
                     onClick={() => onSubmit("no")}
@@ -72,7 +79,7 @@ export default function EntityChoice({
                         transition-all duration-200
                     `}
                 >
-                    NO
+                    {t("no")}
                 </button>
             </div>
         );
@@ -82,14 +89,14 @@ export default function EntityChoice({
         <div ref={containerRef} className="space-y-4" style={{ opacity: 0 }}>
             {options.map((option) => (
                 <button
-                    key={option}
-                    onClick={() => handleSelect(option)}
+                    key={option.key}
+                    onClick={() => handleSelect(option.key)}
                     className={`
                         flex items-center gap-4 w-full
                         text-left text-xl sm:text-2xl font-mono
                         transition-all duration-200
                         ${
-                            selected === option
+                            selected === option.key
                                 ? "text-white"
                                 : "text-white/40 hover:text-white/70"
                         }
@@ -100,17 +107,17 @@ export default function EntityChoice({
                         w-6 h-6 border-2 flex items-center justify-center
                         transition-all duration-200
                         ${
-                            selected === option
+                            selected === option.key
                                 ? "border-white bg-white"
                                 : "border-white/40"
                         }
                     `}
                     >
-                        {selected === option && (
+                        {selected === option.key && (
                             <span className="text-black text-sm">✓</span>
                         )}
                     </div>
-                    {option}
+                    {option.label}
                 </button>
             ))}
 
@@ -119,7 +126,7 @@ export default function EntityChoice({
                     onClick={handleSubmit}
                     className="mt-8 text-white/40 text-sm font-mono hover:text-white/70 transition-colors"
                 >
-                    Conferma
+                    {t("confirm")}
                 </button>
             )}
         </div>

@@ -1,9 +1,14 @@
+"use client";
+
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import AnimatedLink from "../ui/animated-link";
 import TransitionLink from "../ui/transition-link";
 
 export default function Footer() {
     const currentYear = new Date().getFullYear();
+    const t = useTranslations("footer");
+    const nav = useTranslations("nav");
 
     return (
         <footer className="border-t border-[#330014]/20 px-4 sm:px-14 py-8 sm:py-5 text-[#330014]">
@@ -19,24 +24,24 @@ export default function Footer() {
                         />
                     </TransitionLink>
                     <p className="text-sm arimo opacity-50">
-                        Digital Craftsman
+                        {t("tagline")}
                     </p>
                 </div>
 
                 <div className="flex flex-col items-start gap-2">
                     <h4 className="text-sm arimo opacity-50 uppercase tracking-widest mb-1">
-                        Sitemap
+                        {t("sitemap")}
                     </h4>
                     <AnimatedLink href="/">Home</AnimatedLink>
-                    <AnimatedLink href="/about">About</AnimatedLink>
-                    <AnimatedLink href="/progetti">Progetti</AnimatedLink>
-                    <AnimatedLink href="/contatti">Contatti</AnimatedLink>
-                    <AnimatedLink href="/blog">Blog</AnimatedLink>
+                    <AnimatedLink href="/about">{nav("about")}</AnimatedLink>
+                    <AnimatedLink href="/projects">{nav("projects")}</AnimatedLink>
+                    <AnimatedLink href="/contact">{nav("contact")}</AnimatedLink>
+                    <AnimatedLink href="/blog">{nav("blog")}</AnimatedLink>
                 </div>
 
                 <div className="flex flex-col items-start gap-2">
                     <h4 className="text-sm arimo opacity-50 uppercase tracking-widest mb-1">
-                        Social
+                        {t("social")}
                     </h4>
                     <AnimatedLink
                         href="https://www.instagram.com/fechuli/"
@@ -60,9 +65,9 @@ export default function Footer() {
 
                 <div className="flex flex-col items-start gap-2">
                     <h4 className="text-sm arimo opacity-50 uppercase tracking-widest mb-1">
-                        Località
+                        {t("location")}
                     </h4>
-                    <p className="arimo">Firenze, Italia</p>
+                    <p className="arimo">{t("city")}</p>
                     <p className="text-sm arimo opacity-50">
                         43.7696° N, 11.2558° E
                     </p>
@@ -71,11 +76,11 @@ export default function Footer() {
 
             <div className="mt-12 pt-6 border-t border-[#330014]/10 flex flex-col sm:flex-row justify-between items-center gap-4">
                 <p className="text-sm arimo opacity-50">
-                    © {currentYear} Federico Fiaschi. Tutti i diritti riservati.
+                    © {currentYear} Federico Fiaschi. {t("copyright")}
                 </p>
                 <div className="flex items-center gap-4">
                     <p className="text-sm arimo opacity-50">
-                        Available for freelance
+                        {t("available")}
                     </p>
                     <AnimatedLink href="/sys">
                         {">_sys"}

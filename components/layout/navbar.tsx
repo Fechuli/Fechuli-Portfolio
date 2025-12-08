@@ -1,21 +1,24 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import OverlayMenu from "./overlay-menu";
 import AnimatedLink from "../ui/animated-link";
 import TransitionLink from "../ui/transition-link";
 import MenuButton from "../ui/menu-button";
+import LanguageSwitcher from "../ui/language-switcher";
 import Image from "next/image";
 import { useNavbarTheme } from "@/lib/navbar-theme-context";
 
 export default function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const { theme } = useNavbarTheme();
+    const t = useTranslations("nav");
 
     const navLinks = [
-        { name: "About", href: "/about" },
-        { name: "Progetti", href: "/progetti" },
-        { name: "Contatti", href: "/contatti" },
+        { name: t("about"), href: "/about" },
+        { name: t("projects"), href: "/projects" },
+        { name: t("contact"), href: "/contact" },
     ];
 
     const isDark = theme === "dark";
@@ -41,6 +44,7 @@ export default function Navbar() {
                         ))}
                     </div>
 
+                    <LanguageSwitcher />
                     <MenuButton onClick={() => setIsMenuOpen(true)} />
                 </div>
             </nav>

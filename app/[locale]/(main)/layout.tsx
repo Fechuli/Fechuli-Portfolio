@@ -1,9 +1,7 @@
 "use client";
 
-import "../globals.css";
 import { useSyncExternalStore } from "react";
 import { usePathname } from "next/navigation";
-import { Arimo } from "next/font/google";
 import { ViewTransition } from "react";
 import { LenisProvider } from "@/lib/lenis-context";
 import { TransitionProvider } from "@/lib/transition-context";
@@ -24,12 +22,6 @@ import HauntedCursor from "@/components/effects/haunted-cursor";
 import { NavbarThemeProvider } from "@/lib/navbar-theme-context";
 
 const emptySubscribe = () => () => {};
-
-const arimo = Arimo({
-    subsets: ["latin"],
-    variable: "--font-arimo",
-    display: "swap",
-});
 
 function HauntedCursorEffect() {
     const { isEnabled } = useHauntedCursor();
@@ -94,16 +86,10 @@ export default function MainLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="it">
-            <body
-                className={`${arimo.variable} antialiased sm:px-6 px-0 sm:pt-6 bg-[#330014]`}
-            >
-                <HauntedCursorProvider>
-                    <LoaderProvider>
-                        <LayoutContent>{children}</LayoutContent>
-                    </LoaderProvider>
-                </HauntedCursorProvider>
-            </body>
-        </html>
+        <HauntedCursorProvider>
+            <LoaderProvider>
+                <LayoutContent>{children}</LayoutContent>
+            </LoaderProvider>
+        </HauntedCursorProvider>
     );
 }

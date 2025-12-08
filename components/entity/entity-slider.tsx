@@ -1,24 +1,18 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { useTranslations } from "next-intl";
 import gsap from "gsap";
 
-const DAYS = ["LUN", "MAR", "MER", "GIO", "VEN", "SAB", "DOM"];
-const DAYS_FULL = [
-    "Lunedì",
-    "Martedì",
-    "Mercoledì",
-    "Giovedì",
-    "Venerdì",
-    "Sabato",
-    "Domenica",
-];
+const DAYS_SHORT = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
 
 interface EntitySliderProps {
     type: "days" | "number";
     min?: number;
     max?: number;
     onSubmit: (value: string) => void;
+    days?: string[];
+    dayKeys?: string[];
 }
 
 export default function EntitySlider({
@@ -26,7 +20,10 @@ export default function EntitySlider({
     min = 1,
     max = 10,
     onSubmit,
+    days = [],
+    dayKeys = [],
 }: EntitySliderProps) {
+    const t = useTranslations("entity");
     const [selected, setSelected] = useState<number>(
         type === "days" ? 0 : Math.floor((max - min) / 2) + min
     );
@@ -50,15 +47,17 @@ export default function EntitySlider({
 
     const handleSubmit = () => {
         if (type === "days") {
-            onSubmit(DAYS_FULL[selected]);
+            // Return the day key for comparison, not the translated text
+            onSubmit(dayKeys[selected]);
         } else {
             onSubmit(String(selected));
         }
     };
 
+    // For days, show short labels; for numbers, show the numbers
     const items =
         type === "days"
-            ? DAYS
+            ? days.map(day => day.substring(0, 3).toUpperCase())
             : Array.from({ length: max - min + 1 }, (_, i) => String(min + i));
 
     return (
@@ -115,7 +114,7 @@ export default function EntitySlider({
                 onClick={handleSubmit}
                 className="mt-8 block mx-auto text-white/40 text-sm font-mono hover:text-white/70 transition-colors"
             >
-                Conferma
+                {t("confirm")}
             </button>
         </div>
     );
