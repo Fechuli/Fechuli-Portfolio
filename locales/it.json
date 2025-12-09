@@ -17,6 +17,14 @@
         "contact": "Contatti",
         "blog": "Blog"
     },
+    "menu": {
+        "home": "Home",
+        "about": "Chi sono",
+        "projects": "Progetti",
+        "contact": "Contatti",
+        "blog": "Blog",
+        "studio": "Studio"
+    },
     "hero": {
         "roles": {
             "developer": "Frontend Developer",
@@ -36,9 +44,7 @@
         }
     },
     "portfolio": {
-        "title": "Portfolio",
-        "description": "Spingendo i confini di ciò che è possibile sul web, creo esperienze immersive dove il design incontra il movimento, e ogni interazione racconta una storia."
-    },
+        "title": "Portfolio"    },
     "contact": {
         "intro": "Ti interessa ciò che faccio?",
         "title": "Entriamo in contatto",
@@ -64,10 +70,66 @@
         "caption8": "Io e Lorenzo in ascensore",
         "caption9": "Purrino *il mio gatto* che sbadiglia in terrazza"
     },
+    "offline": {
+        "systemOffline": "SISTEMA OFFLINE",
+        "backToHome": "Torna alla home"
+    },
+    "sys": {
+        "welcome": "FECHULI BBS v0.0.1_alpha\n══════════════════════════════════════════\nBenvenuto.\nSistema online dal 2025.\n══════════════════════════════════════════\n\nDigita 'help' per i comandi disponibili.",
+        "commands": {
+            "help": "Mostra comandi disponibili",
+            "about": "Info su Federico Fiaschi",
+            "social": "Mostra link social",
+            "skills": "Lista competenze tecniche",
+            "ascii": "Apri galleria ASCII",
+            "vocabolario": "Il mio vocabolario personale",
+            "changelog": "Visualizza changelog",
+            "clear": "Pulisci output terminale",
+            "exit": "Torna al sito principale",
+            "whoami": "Mostra utente corrente",
+            "date": "Mostra data e ora corrente",
+            "echo": "Ripeti un messaggio",
+            "autodistruzione": "???"
+        },
+        "available": "Comandi disponibili:",
+        "aboutText": "╔══════════════════════════════════════╗\n║  FEDERICO FIASCHI                    ║\n╚══════════════════════════════════════╝\n\n  Digital Craftsman\n  Località: Firenze, Italia\n  43.7696° N, 11.2558° E\n\n  Creatore di Backdoor Studio.\n  Specializzato in esperienze web immersive\n  e interattive.\n\n  Come si definisce un programmatore?\n  Dalle skill? Dal talento? Dalla passione?\n  Da quanto ricorda a memoria quel particolare algoritmo\n  che gli ha permesso di superare quel difficilissimo\n  problema su leetcode?\n  Probabilmente nessuna di queste cose.\n  Se dovessi azzardare credo che Robert C. Martin\n  ci sia andato più vicino di tutti.\n  Un programmatore si definisce\n  dalla sua capacità di paragonarsi a Dio.\n\n  Disponibile per collaborazioni e progetti freelance.",
+        "socialText": "Link Social:\n═══════════════════════════════════════\n  Instagram  → instagram.com/fechuli\n  LinkedIn   → linkedin.com/in/federico-fiaschi-601737241\n  GitHub     → github.com/Fechuli\n\n  Email:\n  → federicofiaschi277@gmail.com\n  → federico@backdoor-studio.com",
+        "skillsText": "Competenze Tecniche:\n═══════════════════════════════════════\n  Frontend   → React, Threejs, Next.js, TypeScript, React Three Fiber\n  Animazione → GSAP, Framer Motion\n  Styling    → Tailwind CSS, CSS-in-JS\n  Database   → Supabase, Appwrite\n  Strumenti  → Git, Figma, VS Code, Sentry",
+        "openingAscii": "Apertura Galleria ASCII...",
+        "openingChangelog": "Apertura Changelog...",
+        "openingVocabolario": "Apertura Vocabolario...",
+        "goodbye": "Arrivederci, visitatore...",
+        "commandNotFound": "Comando non trovato: {cmd}. Digita 'help' per i comandi disponibili.",
+        "destruction": {
+            "warning": "ATTENZIONE\n═══════════════════════════════════════\nStai per avviare il protocollo di autodistruzione.\nQuesta azione è IRREVERSIBILE.\n\nSei sicuro di voler procedere? (si/no)",
+            "finalConfirm": "CONFERMA FINALE\n═══════════════════════════════════════\nIl sito verrà completamente rimosso dal web.\nTutti i dati andranno persi per sempre.\n\nDigita 'CONFERMA' per procedere.",
+            "cancelled": "Protocollo di autodistruzione annullato.",
+            "initializing": "Inizializzazione protocollo di autodistruzione...",
+            "typeYesNo": "Digita 'si' per confermare o 'no' per annullare.",
+            "typeConfirm": "Digita 'CONFERMA' per procedere o 'no' per annullare.",
+            "steps": {
+                "disconnecting": "Disconnessione dai server...",
+                "erasing": "Cancellazione database...",
+                "removing": "Rimozione record DNS...",
+                "deleting": "Eliminazione file di backup...",
+                "purging": "Pulizia cache CDN...",
+                "finalizing": "Finalizzazione distruzione..."
+            }
+        },
+        "sections": {
+            "vocabolario": "VOCABOLARIO",
+            "changelog": "CHANGELOG",
+            "ascii": "GALLERIA ASCII"
+        },
+        "back": "Indietro",
+        "pressKeys": "Premi i tasti numerici per navigare"
+    },
     "entity": {
         "yes": "SÌ",
         "no": "NO",
         "confirm": "Conferma",
+        "errorNoSpaces": "Solo una parola, senza spazi.",
+        "pressEnter": "Premi INVIO per continuare",
         "days": {
             "monday": "Lunedì",
             "tuesday": "Martedì",

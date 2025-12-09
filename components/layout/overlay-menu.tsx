@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import gsap from "gsap";
 import CloseButton from "../ui/close-button";
 import InteractiveLogo, {
@@ -17,6 +18,7 @@ interface OverlayMenuProps {
 }
 
 export default function OverlayMenu({ isOpen, onClose }: OverlayMenuProps) {
+    const t = useTranslations("menu");
     const menuRef = useRef<HTMLDivElement>(null);
     const overlayRef = useRef<HTMLDivElement>(null);
     const linksContainerRef = useRef<HTMLDivElement>(null);
@@ -44,12 +46,12 @@ export default function OverlayMenu({ isOpen, onClose }: OverlayMenuProps) {
     };
 
     const menuLinks = [
-        { name: "Home", href: "/" },
-        { name: "About", href: "/about" },
-        { name: "Progetti", href: "/progetti" },
-        { name: "Contatti", href: "/contatti" },
-        { name: "Blog", href: "/blog" },
-        { name: "Studio", href: "/studio" },
+        { name: t("home"), href: "/" },
+        { name: t("about"), href: "/about" },
+        { name: t("projects"), href: "/progetti" },
+        { name: t("contact"), href: "/contatti" },
+        { name: t("blog"), href: "/blog" },
+        { name: t("studio"), href: "/studio" },
     ];
 
     useEffect(() => {

@@ -334,20 +334,16 @@ export default function EntityInteraction() {
     const [countdown, setCountdown] = useState(3);
     const [forceReboot, setForceReboot] = useState(false);
 
-    // Derive context from useSyncExternalStore values + local name state
     const context: EntityContext = useMemo(() => ({
         name: name || storedName || "",
         destructionCount,
         previousName: storedName,
     }), [name, storedName, destructionCount]);
 
-    // Derive steps from destructionCount and hasGift
     const steps = getIterationSteps(destructionCount, hasGift);
 
-    // Get translated days array
     const translatedDays = useMemo(() => DAY_KEYS.map(key => t(`days.${key}`)), [t]);
 
-    // Get current day in translated form
     const getCurrentDayTranslated = useCallback(() => {
         const dayIndex = new Date().getDay();
         const dayKey = DAY_KEYS[dayIndex === 0 ? 6 : dayIndex - 1];
@@ -370,7 +366,6 @@ export default function EntityInteraction() {
         [context.name, context.previousName, getCurrentDayTranslated]
     );
 
-    // Get translation for a key, returns array or string
     const getTranslation = useCallback((key: string): string | string[] => {
         const result = t.raw(key);
         return result;
@@ -389,7 +384,6 @@ export default function EntityInteraction() {
         (value: string) => {
             const step = steps[currentStep];
 
-            // For name input on first iteration, store the actual typed value
             if (step.type === "input" && destructionCount === 1 && !name && !storedName) {
                 localStorage.setItem("_entity_name", value);
                 setName(value);
@@ -451,13 +445,10 @@ export default function EntityInteraction() {
 
     const currentStepData = steps[currentStep];
 
-    // Get translated question
     const questionText = getTranslation(currentStepData.questionKey);
 
-    // Get translated response if we have a response key
     const responseText = responseKey ? getTranslation(responseKey) : "";
 
-    // Get options for checkbox (translated)
     const getOptions = () => {
         if (currentStepData.optionsKey) {
             return [

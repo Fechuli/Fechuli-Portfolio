@@ -137,10 +137,10 @@ export default function SecondSection() {
             data-navbar-theme="dark"
         >
             <StoryPath />
-            <div className="px-4 md:px-10 lg:px-16 py-16 md:py-24">
+            <div className="px-4 md:px-10 lg:px-16 py-12 md:py-16">
                 <SectionTitle>{t("title")}</SectionTitle>
 
-                <div className="space-y-16 sm:space-y-20 md:space-y-32">
+                <div className="space-y-10 sm:space-y-14 md:space-y-20">
                     <div className="grid grid-cols-12 gap-4 md:gap-8 items-center">
                         <div className="col-span-12 md:col-span-5 space-y-6 text-base sm:text-lg md:text-xl font-light leading-relaxed relative">
                             <span
@@ -212,7 +212,7 @@ export default function SecondSection() {
                         </div>
                         <div
                             data-anchor="anchor-6"
-                            className="col-span-5 md:col-span-3 md:col-start-7 mt-8 md:mt-32 hidden md:block relative"
+                            className="col-span-5 md:col-span-3 md:col-start-7 mt-8 md:mt-20 hidden md:block relative"
                         >
                             <ParallaxImage
                                 src={IMAGE_SOURCES[4]}
@@ -238,7 +238,7 @@ export default function SecondSection() {
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-12 gap-4 md:gap-8 -mt-60 sm:-mt-28 md:-mt-120">
+                    <div className="grid grid-cols-12 gap-4 md:gap-8 -mt-48 sm:-mt-20 md:-mt-80">
                         <div
                             data-anchor="anchor-7"
                             className="col-span-12 md:col-span-8 md:col-start-3 relative"

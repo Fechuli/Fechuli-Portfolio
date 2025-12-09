@@ -17,6 +17,14 @@
         "contact": "Contact",
         "blog": "Blog"
     },
+    "menu": {
+        "home": "Home",
+        "about": "About",
+        "projects": "Projects",
+        "contact": "Contact",
+        "blog": "Blog",
+        "studio": "Studio"
+    },
     "hero": {
         "roles": {
             "developer": "Frontend Developer",
@@ -36,8 +44,7 @@
         }
     },
     "portfolio": {
-        "title": "Portfolio",
-        "description": "Pushing the boundaries of what's possible on the web, I create immersive experiences where design meets motion, and every interaction tells a story."
+        "title": "Portfolio"
     },
     "contact": {
         "intro": "Interested in what I do?",
@@ -64,10 +71,66 @@
         "caption8": "Lorenzo and I in the elevator",
         "caption9": "Purrino *my cat* yawning on the terrace"
     },
+    "offline": {
+        "systemOffline": "SYSTEM OFFLINE",
+        "backToHome": "Back to home"
+    },
+    "sys": {
+        "welcome": "FECHULI BBS v0.0.1_alpha\n══════════════════════════════════════════\nWelcome.\nSystem online since 2025.\n══════════════════════════════════════════\n\nType 'help' for available commands.",
+        "commands": {
+            "help": "Show available commands",
+            "about": "Info about Federico Fiaschi",
+            "social": "Show social links",
+            "skills": "List technical skills",
+            "ascii": "Open ASCII gallery",
+            "vocabolario": "My personal vocabulary",
+            "changelog": "View changelog",
+            "clear": "Clear terminal output",
+            "exit": "Return to main site",
+            "whoami": "Display current user",
+            "date": "Show current date and time",
+            "echo": "Echo a message",
+            "selfdestruct": "???"
+        },
+        "available": "Available commands:",
+        "aboutText": "╔══════════════════════════════════════╗\n║  FEDERICO FIASCHI                    ║\n╚══════════════════════════════════════╝\n\n  Digital Craftsman\n  Location: Florence, Italy\n  43.7696° N, 11.2558° E\n\n  Creator of Backdoor Studio.\n  Specialized in immersive and\n  interactive web experiences.\n\n  How do you define a programmer?\n  By skills? By talent? By passion?\n  By how much they remember that particular\n  algorithm that allowed them to pass that\n  extremely difficult leetcode problem?\n  Probably none of these things.\n  If I had to guess, I believe Robert C. Martin\n  came closest of all.\n  A programmer is defined\n  by their ability to compare themselves to God.\n\n  Available for collaborations and freelance projects.",
+        "socialText": "Social Links:\n═══════════════════════════════════════\n  Instagram  → instagram.com/fechuli\n  LinkedIn   → linkedin.com/in/federico-fiaschi-601737241\n  GitHub     → github.com/Fechuli\n\n  Email:\n  → federicofiaschi277@gmail.com\n  → federico@backdoor-studio.com",
+        "skillsText": "Technical Skills:\n═══════════════════════════════════════\n  Frontend   → React, Threejs, Next.js, TypeScript, React Three Fiber\n  Animation  → GSAP, Framer Motion\n  Styling    → Tailwind CSS, CSS-in-JS\n  Database   → Supabase, Appwrite\n  Tools      → Git, Figma, VS Code, Sentry",
+        "openingAscii": "Opening ASCII Gallery...",
+        "openingChangelog": "Opening Changelog...",
+        "openingVocabolario": "Opening Vocabulary...",
+        "goodbye": "Goodbye, visitor...",
+        "commandNotFound": "Command not found: {cmd}. Type 'help' for available commands.",
+        "destruction": {
+            "warning": "WARNING\n═══════════════════════════════════════\nYou are about to start the self-destruct protocol.\nThis action is IRREVERSIBLE.\n\nAre you sure you want to proceed? (yes/no)",
+            "finalConfirm": "FINAL CONFIRMATION\n═══════════════════════════════════════\nThe site will be completely removed from the web.\nAll data will be lost forever.\n\nType 'CONFIRM' to proceed.",
+            "cancelled": "Self-destruct protocol cancelled.",
+            "initializing": "Initializing self-destruct protocol...",
+            "typeYesNo": "Type 'yes' to confirm or 'no' to cancel.",
+            "typeConfirm": "Type 'CONFIRM' to proceed or 'no' to cancel.",
+            "steps": {
+                "disconnecting": "Disconnecting from servers...",
+                "erasing": "Erasing database...",
+                "removing": "Removing DNS records...",
+                "deleting": "Deleting backup files...",
+                "purging": "Purging CDN cache...",
+                "finalizing": "Finalizing destruction..."
+            }
+        },
+        "sections": {
+            "vocabolario": "VOCABULARY",
+            "changelog": "CHANGELOG",
+            "ascii": "ASCII GALLERY"
+        },
+        "back": "Back",
+        "pressKeys": "Press number keys to navigate"
+    },
     "entity": {
         "yes": "YES",
         "no": "NO",
         "confirm": "Confirm",
+        "errorNoSpaces": "Only one word, no spaces.",
+        "pressEnter": "Press ENTER to continue",
         "days": {
             "monday": "Monday",
             "tuesday": "Tuesday",

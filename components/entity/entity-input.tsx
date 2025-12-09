@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import gsap from "gsap";
+import { useTranslations } from "next-intl";
 
 interface EntityInputProps {
     onSubmit: (value: string) => void;
@@ -16,6 +17,7 @@ export default function EntityInput({
     placeholder = "",
     noSpaces = false,
 }: EntityInputProps) {
+    const t = useTranslations("entity");
     const [value, setValue] = useState("");
     const [error, setError] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
@@ -102,14 +104,14 @@ export default function EntityInput({
                 </div>
                 {error && (
                     <p className="text-red-500/70 text-sm mt-2 font-mono">
-                        Solo una parola, senza spazi.
+                        {t("errorNoSpaces")}
                     </p>
                 )}
                 <button
                     type="submit"
                     className="mt-8 text-white/40 text-sm font-mono hover:text-white/70 transition-colors"
                 >
-                    Premi INVIO per continuare
+                    {t("pressEnter")}
                 </button>
             </form>
         </div>

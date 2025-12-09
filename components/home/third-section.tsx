@@ -10,7 +10,6 @@ export default function ThirdSection() {
         <div className="rounded-t-3xl bg-[#FFF5F5] min-h-screen">
             <div className="text-[#330014] px-4 md:px-10 lg:px-16 py-16 md:py-24">
                 <SectionTitle>{t("title")}</SectionTitle>
-                <p>{t("description")}</p>
             </div>
         </div>
     );

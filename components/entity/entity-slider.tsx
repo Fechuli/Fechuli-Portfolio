@@ -4,8 +4,6 @@ import { useState, useRef, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import gsap from "gsap";
 
-const DAYS_SHORT = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
-
 interface EntitySliderProps {
     type: "days" | "number";
     min?: number;
@@ -102,7 +100,7 @@ export default function EntitySlider({
                     style={{
                         left: `${
                             (type === "days"
-                                ? selected / (DAYS.length - 1)
+                                ? selected / (days.length - 1 || 1)
                                 : (selected - min) / (max - min)) * 100
                         }%`,
                         transform: "translate(-50%, -50%)",

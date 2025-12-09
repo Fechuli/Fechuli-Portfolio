@@ -3,6 +3,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { useTranslations, useLocale } from "next-intl";
 import { VOCABOLARIO } from "@/data/vocabolario";
 
 type Section = "home" | "ascii" | "changelog" | "vocabolario";
@@ -147,24 +148,20 @@ const CHANGELOG = [
     },
 ];
 
-const COMMANDS: Record<
-    string,
-    { description: string; action?: () => string | null }
-> = {
-    help: { description: "Show available commands" },
-    about: { description: "Info about Federico Fiaschi" },
-    social: { description: "Show social links" },
-    skills: { description: "List technical skills" },
-    ascii: { description: "Open ASCII gallery" },
-    vocabolario: { description: "Il mio vocabolario personale" },
-    changelog: { description: "View changelog" },
-    clear: { description: "Clear terminal output" },
-    exit: { description: "Return to main site" },
-    whoami: { description: "Display current user" },
-    date: { description: "Show current date and time" },
-    echo: { description: "Echo a message" },
-    autodistruzione: { description: "???" },
-};
+const COMMAND_KEYS = [
+    "help",
+    "about",
+    "social",
+    "skills",
+    "ascii",
+    "vocabolario",
+    "changelog",
+    "clear",
+    "exit",
+    "whoami",
+    "date",
+    "echo",
+];
 
 type DestructionPhase =
     | "idle"
@@ -174,6 +171,8 @@ type DestructionPhase =
     | "shutdown";
 
 export default function Sys() {
+    const t = useTranslations("sys");
+    const locale = useLocale();
     const [currentSection, setCurrentSection] = useState<Section>("home");
     const [typedText, setTypedText] = useState("");
     const [currentTime, setCurrentTime] = useState("");
@@ -184,15 +183,12 @@ export default function Sys() {
         useState<DestructionPhase>("idle");
     const [loadingProgress, setLoadingProgress] = useState(0);
 
-    const welcomeText = `
-FECHULI BBS v0.0.1_alpha
-══════════════════════════════════════════
-Welcome.
-System online since 2025.
-══════════════════════════════════════════
+    const welcomeText = `\n${t("welcome")}\n`;
 
-Type 'help' for available commands.
-`;
+    // Destruction command is locale-dependent
+    const destructionCmd = locale === "it" ? "autodistruzione" : "selfdestruct";
+    const confirmYes = locale === "it" ? ["si", "sì"] : ["yes"];
+    const confirmWord = locale === "it" ? "conferma" : "confirm";
 
     useEffect(() => {
         const updateTime = () => {
@@ -265,105 +261,54 @@ Type 'help' for available commands.
 
         let output: string;
 
+        // Build commands list with translations
+        const commandsWithDestruction = [...COMMAND_KEYS, destructionCmd];
+
         switch (cmd) {
             case "help":
-                output = `
-Available commands:
-═══════════════════════════════════════
-${Object.entries(COMMANDS)
-    .map(([name, { description }]) => `  ${name.padEnd(12)} - ${description}`)
-    .join("\n")}
-═══════════════════════════════════════
-`;
+                output = `\n${t("available")}\n═══════════════════════════════════════\n${commandsWithDestruction
+                    .map((name) => `  ${name.padEnd(14)} - ${t(`commands.${name === destructionCmd ? (locale === "it" ? "autodistruzione" : "selfdestruct") : name}`)}`)
+                    .join("\n")}\n═══════════════════════════════════════\n`;
                 break;
             case "about":
-                output = `
-╔══════════════════════════════════════╗
-║  FEDERICO FIASCHI                    ║
-╚══════════════════════════════════════╝
-
-  Digital Craftsman
-  Location: Firenze, Italia
-  43.7696° N, 11.2558° E
-
-  Creatore di Backdoor Studio.
-  Specializzato in esperienze web immersive
-  e interattive.
-
-  Come si definisce un programmatore?
-  Dalle skill? Dal talento? Dalla passione?
-  Da quanto ricorda a memoria quel particolare algoritmo
-  che gli ha permesso di superare quel difficilissimo 
-  problema su leetcode? 
-  Probabilmente nessuna di queste cose.
-  Se dovessi azzardare credo che Robert C. Martin 
-  ci sia andato più vicino di tutti.
-  Un programmatore si definisce 
-  dalla sua capacità di paragonarsi a Dio.
-
-  Disponibile per collaborazioni e progetti freelance.
-`;
+                output = `\n${t("aboutText")}\n`;
                 break;
             case "social":
-                output = `
-Social Links:
-═══════════════════════════════════════
-  Instagram  → instagram.com/fechuli
-  LinkedIn   → linkedin.com/in/federico-fiaschi-601737241
-  GitHub     → github.com/Fechuli
-
-  Email:
-  → federicofiaschi277@gmail.com
-  → federico@backdoor-studio.com
-`;
+                output = `\n${t("socialText")}\n`;
                 break;
             case "skills":
-                output = `
-Technical Skills:
-═══════════════════════════════════════
-  Frontend   → React, Threejs, Next.js, TypeScript, React Three Fiber
-  Animation  → GSAP, Framer Motion
-  Styling    → Tailwind CSS, CSS-in-JS
-  Datbase    → Supabase, Appwrite
-  Tools      → Git, Figma, VS Code, Sentry
-`;
+                output = `\n${t("skillsText")}\n`;
                 break;
             case "ascii":
                 setCurrentSection("ascii");
-                output = "Opening ASCII Gallery...";
+                output = t("openingAscii");
                 break;
             case "changelog":
                 setCurrentSection("changelog");
-                output = "Opening Changelog...";
+                output = t("openingChangelog");
                 break;
             case "vocabolario":
                 setCurrentSection("vocabolario");
-                output = "Opening Vocabolario...";
+                output = t("openingVocabolario");
                 break;
             case "clear":
                 setCommandOutput([]);
                 setCommandHistory([]);
                 return;
             case "exit":
-                output = "Goodbye, visitor...";
+                output = t("goodbye");
                 setTimeout(() => {
                     window.location.href = "/";
                 }, 1000);
                 break;
             case "matrix":
-                output = `
-  Wake up, Neo...
-  The Matrix has you...
-  Follow the white rabbit.
-
-  Knock, knock, Neo.
-`;
+                output = `\n  Wake up, Neo...\n  The Matrix has you...\n  Follow the white rabbit.\n\n  Knock, knock, Neo.\n`;
                 break;
             case "whoami":
                 output = "guest@fechuli-bbs";
                 break;
             case "date":
-                output = new Date().toLocaleString("it-IT", {
+                output = new Date().toLocaleString(locale === "it" ? "it-IT" : "en-US", {
                     weekday: "long",
                     year: "numeric",
                     month: "long",
@@ -377,30 +322,18 @@ Technical Skills:
                 output = args || "";
                 break;
             case "autodistruzione":
+            case "selfdestruct":
                 setDestructionPhase("confirm1");
-                output = `
-ATTENZIONE
-═══════════════════════════════════════
-Stai per avviare il protocollo di autodistruzione.
-Questa azione è IRREVERSIBILE.
-
-Sei sicuro di voler procedere? (si/no)
-`;
+                output = `\n${t("destruction.warning")}\n`;
                 break;
             case "si":
+            case "sì":
             case "yes":
                 if (destructionPhase === "confirm1") {
                     setDestructionPhase("confirm2");
-                    output = `
-CONFERMA FINALE
-═══════════════════════════════════════
-Il sito verrà completamente rimosso dal web.
-Tutti i dati andranno persi per sempre.
-
-Digita 'CONFERMA' per procedere.
-`;
+                    output = `\n${t("destruction.finalConfirm")}\n`;
                 } else {
-                    output = "Comando non riconosciuto in questo contesto.";
+                    output = t("commandNotFound", { cmd });
                 }
                 break;
             case "no":
@@ -409,31 +342,30 @@ Digita 'CONFERMA' per procedere.
                     destructionPhase === "confirm2"
                 ) {
                     setDestructionPhase("idle");
-                    output = "Protocollo di autodistruzione annullato.";
+                    output = t("destruction.cancelled");
                 } else {
                     output = "";
                 }
                 break;
             case "conferma":
+            case "confirm":
                 if (destructionPhase === "confirm2") {
                     setDestructionPhase("loading");
-                    output =
-                        "Inizializzazione protocollo di autodistruzione...";
+                    output = t("destruction.initializing");
                     startDestruction();
                 } else {
-                    output = "Comando non riconosciuto.";
+                    output = t("commandNotFound", { cmd });
                 }
                 break;
             case "":
                 return;
             default:
                 if (destructionPhase === "confirm1") {
-                    output = "Digita 'si' per confermare o 'no' per annullare.";
+                    output = t("destruction.typeYesNo");
                 } else if (destructionPhase === "confirm2") {
-                    output =
-                        "Digita 'CONFERMA' per procedere o 'no' per annullare.";
+                    output = t("destruction.typeConfirm");
                 } else {
-                    output = `Command not found: ${cmd}. Type 'help' for available commands.`;
+                    output = t("commandNotFound", { cmd });
                 }
         }
 
@@ -442,12 +374,12 @@ Digita 'CONFERMA' per procedere.
 
     const startDestruction = () => {
         const loadingSteps = [
-            "Disconnecting from servers...",
-            "Erasing database...",
-            "Removing DNS records...",
-            "Deleting backup files...",
-            "Purging CDN cache...",
-            "Finalizing destruction...",
+            t("destruction.steps.disconnecting"),
+            t("destruction.steps.erasing"),
+            t("destruction.steps.removing"),
+            t("destruction.steps.deleting"),
+            t("destruction.steps.purging"),
+            t("destruction.steps.finalizing"),
         ];
 
         let stepIndex = 0;
@@ -572,11 +504,7 @@ Digita 'CONFERMA' per procedere.
     const renderAsciiGallery = () => (
         <div>
             <pre className="text-[#00ff00] mb-4">
-                {`
-╔══════════════════════════════════════╗
-║         ASCII GALLERY                ║
-╚══════════════════════════════════════╝
-`}
+                {`\n╔══════════════════════════════════════╗\n║         ${t("sections.ascii").padEnd(28)}║\n╚══════════════════════════════════════╝\n`}
             </pre>
             <div className="space-y-8">
                 {ASCII_GALLERY.map((item, index) => (
@@ -594,7 +522,7 @@ Digita 'CONFERMA' per procedere.
                     onClick={() => setCurrentSection("home")}
                     className="hover:bg-[#00ff00] hover:text-black px-2 transition-colors"
                 >
-                    [0] Back
+                    [0] {t("back")}
                 </button>
             </div>
         </div>
@@ -603,11 +531,7 @@ Digita 'CONFERMA' per procedere.
     const renderChangelog = () => (
         <div>
             <pre className="text-[#00ff00] mb-4">
-                {`
-╔══════════════════════════════════════╗
-║           CHANGELOG                  ║
-╚══════════════════════════════════════╝
-`}
+                {`\n╔══════════════════════════════════════╗\n║           ${t("sections.changelog").padEnd(26)}║\n╚══════════════════════════════════════╝\n`}
             </pre>
             <div className="space-y-6">
                 {CHANGELOG.map((entry, index) => (
@@ -633,7 +557,7 @@ Digita 'CONFERMA' per procedere.
                     onClick={() => setCurrentSection("home")}
                     className="hover:bg-[#00ff00] hover:text-black px-2 transition-colors"
                 >
-                    [0] Back
+                    [0] {t("back")}
                 </button>
             </div>
         </div>
@@ -642,11 +566,7 @@ Digita 'CONFERMA' per procedere.
     const renderVocabolario = () => (
         <div>
             <pre className="text-[#00ff00] mb-4">
-                {`
-╔══════════════════════════════════════╗
-║         VOCABOLARIO                  ║
-╚══════════════════════════════════════╝
-`}
+                {`\n╔══════════════════════════════════════╗\n║         ${t("sections.vocabolario").padEnd(28)}║\n╚══════════════════════════════════════╝\n`}
             </pre>
             <div className="space-y-6">
                 {VOCABOLARIO.map((entry, index) => (
@@ -665,7 +585,7 @@ Digita 'CONFERMA' per procedere.
                     onClick={() => setCurrentSection("home")}
                     className="hover:bg-[#00ff00] hover:text-black px-2 transition-colors"
                 >
-                    [0] Back
+                    [0] {t("back")}
                 </button>
             </div>
         </div>
@@ -735,7 +655,7 @@ Digita 'CONFERMA' per procedere.
             </div>
 
             <div className="absolute bottom-4 left-4 right-4 sm:left-8 sm:right-8 text-xs opacity-50 flex justify-between">
-                <span>Press number keys to navigate</span>
+                <span>{t("pressKeys")}</span>
             </div>
 
             <style jsx>{`

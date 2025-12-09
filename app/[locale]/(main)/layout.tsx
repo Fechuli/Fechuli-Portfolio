@@ -1,7 +1,7 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname } from "@/i18n/navigation";
 import { ViewTransition } from "react";
 import { LenisProvider } from "@/lib/lenis-context";
 import { TransitionProvider } from "@/lib/transition-context";
