@@ -496,7 +496,6 @@ export default function EntityInteraction() {
                 )}
             </div>
 
-            {/* Input area - center */}
             {phase === "question" && currentStepData.type !== "none" && (
                 <div className="flex-1 flex items-center justify-center">
                     {currentStepData.type === "input" && (
@@ -535,7 +534,6 @@ export default function EntityInteraction() {
                 </div>
             )}
 
-            {/* Force reboot message */}
             {forceReboot && (
                 <div className="absolute inset-0 flex items-center justify-center">
                     <span className="text-white/30 text-2xl font-mono">

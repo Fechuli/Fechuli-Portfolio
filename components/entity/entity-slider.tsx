@@ -45,14 +45,12 @@ export default function EntitySlider({
 
     const handleSubmit = () => {
         if (type === "days") {
-            // Return the day key for comparison, not the translated text
             onSubmit(dayKeys[selected]);
         } else {
             onSubmit(String(selected));
         }
     };
 
-    // For days, show short labels; for numbers, show the numbers
     const items =
         type === "days"
             ? days.map(day => day.substring(0, 3).toUpperCase())

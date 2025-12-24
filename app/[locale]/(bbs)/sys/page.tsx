@@ -185,10 +185,7 @@ export default function Sys() {
 
     const welcomeText = `\n${t("welcome")}\n`;
 
-    // Destruction command is locale-dependent
     const destructionCmd = locale === "it" ? "autodistruzione" : "selfdestruct";
-    const confirmYes = locale === "it" ? ["si", "sì"] : ["yes"];
-    const confirmWord = locale === "it" ? "conferma" : "confirm";
 
     useEffect(() => {
         const updateTime = () => {
