@@ -50,7 +50,7 @@ export default function Contatti() {
                 </div>
             </div>
 
-            <div className="flex items-center justify-center px-4 sm:px-14 pb-20 sm:pb-32">
+            <div className="flex items-center justify-center px-6 sm:px-14 pb-20 sm:pb-32">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 w-full max-w-6xl">
                     <div
                         ref={imageRef}

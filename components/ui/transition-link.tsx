@@ -1,7 +1,7 @@
 "use client";
 
 import { usePageTransition } from "@/lib/transition-context";
-import { usePathname } from "next/navigation";
+import { usePathname } from "@/i18n/navigation";
 
 interface TransitionLinkProps {
     href: string;

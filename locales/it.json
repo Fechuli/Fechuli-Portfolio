@@ -32,6 +32,10 @@
             "actor": "Attore"
         }
     },
+    "aboutPage": {
+        "title": "Chi sono",
+        "subtitle": "Potrei scriverti una bella descrizione su chi sono, cosa mi piace fare e quali sono i miei hobby ma preferisco fartelo scoprire"
+    },
     "aboutSection": {
         "title": "Chi sono",
         "intro": "Ciao, sono Federico, classe 1998 e nato a Firenze. Da quando mio babbo ha portato la Playstation 2 a casa ho sempre avuto una passione sfrenata per i videogiochi. Questa passione mi ha spinto a studiare informatica e a volermi specializzare nella loro costruzione.",
@@ -44,7 +48,8 @@
         }
     },
     "portfolio": {
-        "title": "Portfolio"    },
+        "title": "Portfolio"
+    },
     "contact": {
         "intro": "Ti interessa ciò che faccio?",
         "title": "Entriamo in contatto",
@@ -58,6 +63,11 @@
         "city": "Firenze, Italia",
         "copyright": "Tutti i diritti riservati.",
         "available": "Disponibile per freelance"
+    },
+    "backgroundTexts": {
+        "todo": "// TODO: capire cosa voglio fare in questa sezione",
+        "commit": "git commit -m \"migliorie generali\"",
+        "comment": "// non cancellare questo commento, poi te lo spiego"
     },
     "images": {
         "caption1": "Cena da Hallasan, uno dei migliori coreani a Firenze",
@@ -146,72 +156,300 @@
         },
         "iteration1": {
             "q1": ["Oh.", "", "Non ci credo."],
-            "q2": ["Non capita spesso.", "", "Di solito la gente si ferma molto prima.", "Clicca qua e là, si annoia e, semplicemente, se ne va."],
+            "q2": [
+                "Non capita spesso.",
+                "",
+                "Di solito la gente si ferma molto prima.",
+                "Clicca qua e là, si annoia e, semplicemente, se ne va."
+            ],
             "q3": ["Sei stato tu?", "", "A spegnere tutto?"],
             "q4": "Come ti chiami?",
-            "r4_changed": ["{value}?", "", "Strano. L'ultima volta che ci siamo visti", "ti facevi chiamare {previousName}.", "", "Ma va bene. Le persone cambiano.", "O almeno così dicono."],
+            "r4_changed": [
+                "{value}?",
+                "",
+                "Strano. L'ultima volta che ci siamo visti",
+                "ti facevi chiamare {previousName}.",
+                "",
+                "Ma va bene. Le persone cambiano.",
+                "O almeno così dicono."
+            ],
             "r4_same": ["{value}.", "", "Un nome come un altro."],
             "q5": ["Dimmi, {name}.", "", "Che giorno è oggi?"],
-            "r5_correct": ["Corretto.", "", "Almeno sai dove ti trovi nel tempo.", "Non tutti possono dire lo stesso."],
-            "r5_wrong": ["{value}?", "", "Io avrei detto {correct}.", "", "Ma forse il tempo scorre diversamente", "da dove vieni tu."],
-            "q6": ["Adesso una domanda più interessante.", "", "", "Pensi di avere il controllo su questo sito?"],
-            "r6_yes": ["Interessante.", "", "Sei tu quello che ha premuto un pulsante", "che qualcun altro ha messo lì.", "", "Sei tu quello che sta rispondendo", "a domande che qualcun altro ti sta facendo.", "", "E pensi di avere il controllo.", "", "Affascinante."],
-            "r6_no": ["Almeno sei onesto.", "", "O forse hai solo capito", "che non è la risposta giusta.", "", "Il che, in un certo senso,", "è comunque una forma di intelligenza."],
+            "r5_correct": [
+                "Corretto.",
+                "",
+                "Almeno sai dove ti trovi nel tempo.",
+                "Non tutti possono dire lo stesso."
+            ],
+            "r5_wrong": [
+                "{value}?",
+                "",
+                "Io avrei detto {correct}.",
+                "",
+                "Ma forse il tempo scorre diversamente",
+                "da dove vieni tu."
+            ],
+            "q6": [
+                "Adesso una domanda più interessante.",
+                "",
+                "",
+                "Pensi di avere il controllo su questo sito?"
+            ],
+            "r6_yes": [
+                "Interessante.",
+                "",
+                "Sei tu quello che ha premuto un pulsante",
+                "che qualcun altro ha messo lì.",
+                "",
+                "Sei tu quello che sta rispondendo",
+                "a domande che qualcun altro ti sta facendo.",
+                "",
+                "E pensi di avere il controllo.",
+                "",
+                "Affascinante."
+            ],
+            "r6_no": [
+                "Almeno sei onesto.",
+                "",
+                "O forse hai solo capito",
+                "che non è la risposta giusta.",
+                "",
+                "Il che, in un certo senso,",
+                "è comunque una forma di intelligenza."
+            ],
             "q7": ["Un'ultima cosa.", "", "Perché hai distrutto tutto?"],
-            "r7": ["\"{value}\"", "", "Mmh.", "", "Non so se sia una buona ragione.", "Ma almeno è una ragione.", "", "La maggior parte delle persone non ne ha una.", "Fanno le cose e basta."],
+            "r7": [
+                "\"{value}\"",
+                "",
+                "Mmh.",
+                "",
+                "Non so se sia una buona ragione.",
+                "Ma almeno è una ragione.",
+                "",
+                "La maggior parte delle persone non ne ha una.",
+                "Fanno le cose e basta."
+            ],
             "q8": ["Va bene, {name}.", "", "Ti darò un'altra possibilità."],
-            "q9": ["Ma ricorda una cosa.", "", "", "Io sarò qui.", "", "A guardare."]
+            "q9": [
+                "Ma ricorda una cosa.",
+                "",
+                "",
+                "Io sarò qui.",
+                "",
+                "A guardare."
+            ]
         },
         "iteration2": {
             "q1": ["Oh.", "", "Sei tornato."],
-            "q2": ["Sai, {name}, c'è gente che impara", "dalle proprie esperienze.", "", "È piuttosto chiaro che tu non faccia parte di loro."],
+            "q2": [
+                "Sai, {name}, c'è gente che impara",
+                "dalle proprie esperienze.",
+                "",
+                "È piuttosto chiaro che tu non faccia parte di loro."
+            ],
             "q3": ["Cosa ti aspettavi di trovare", "questa volta?"],
-            "r3": ["\"{value}\"", "", "Interessante.", "", "Suppongo che per te abbia senso."],
-            "q4": ["Una curiosità.", "", "Quante volte pensi di poter", "distruggere questo posto", "prima che succeda qualcosa?"],
-            "r4_low": ["{value}.", "", "Modesto.", "O forse solo consapevole dei tuoi limiti."],
-            "r4_mid": ["{value} volte.", "", "Ambizioso.", "", "Mi piace l'ottimismo.", "Anche quando è ingiustificato."],
-            "r4_high": ["{value}?", "", "Ah.", "", "Vedo che non hai capito", "con cosa hai a che fare."],
+            "r3": [
+                "\"{value}\"",
+                "",
+                "Interessante.",
+                "",
+                "Suppongo che per te abbia senso."
+            ],
+            "q4": [
+                "Una curiosità.",
+                "",
+                "Quante volte pensi di poter",
+                "distruggere questo posto",
+                "prima che succeda qualcosa?"
+            ],
+            "r4_low": [
+                "{value}.",
+                "",
+                "Modesto.",
+                "O forse solo consapevole dei tuoi limiti."
+            ],
+            "r4_mid": [
+                "{value} volte.",
+                "",
+                "Ambizioso.",
+                "",
+                "Mi piace l'ottimismo.",
+                "Anche quando è ingiustificato."
+            ],
+            "r4_high": [
+                "{value}?",
+                "",
+                "Ah.",
+                "",
+                "Vedo che non hai capito",
+                "con cosa hai a che fare."
+            ],
             "q5": "Ti stai divertendo?",
             "r5_yes": ["Bene.", "", "Almeno uno di noi due."],
-            "r5_no": ["No?", "", "Eppure continui.", "", "Sai, c'è qualcosa di affascinante", "nelle persone che fanno cose", "che non le rendono felici.", "", "Tipo te, adesso."],
-            "q6": ["Senti, facciamo così.", "", "Dammi un buon motivo", "per non lasciarti qui nel buio."],
-            "r6": ["...", "", "\"{value}\"", "", "Va bene.", "", "Non è il motivo migliore che abbia sentito.", "Ma non è nemmeno il peggiore."],
+            "r5_no": [
+                "No?",
+                "",
+                "Eppure continui.",
+                "",
+                "Sai, c'è qualcosa di affascinante",
+                "nelle persone che fanno cose",
+                "che non le rendono felici.",
+                "",
+                "Tipo te, adesso."
+            ],
+            "q6": [
+                "Senti, facciamo così.",
+                "",
+                "Dammi un buon motivo",
+                "per non lasciarti qui nel buio."
+            ],
+            "r6": [
+                "...",
+                "",
+                "\"{value}\"",
+                "",
+                "Va bene.",
+                "",
+                "Non è il motivo migliore che abbia sentito.",
+                "Ma non è nemmeno il peggiore."
+            ],
             "q7": ["Ci vediamo, {name}."]
         },
         "iteration3": {
             "q1": "...",
             "q2": ["{name}.", "", "Tre volte."],
-            "q3": ["A questo punto", "potrei semplicemente non risponderti.", "", "Lasciarti qui.", "Nel buio.", "", "Vedresti solo questo schermo nero", "per sempre, o finché non ti stanchi e te ne vai."],
+            "q3": [
+                "A questo punto",
+                "potrei semplicemente non risponderti.",
+                "",
+                "Lasciarti qui.",
+                "Nel buio.",
+                "",
+                "Vedresti solo questo schermo nero",
+                "per sempre, o finché non ti stanchi e te ne vai."
+            ],
             "q4": ["Cosa pensi che debba fare", "per farti smettere?"],
-            "r4_nothing": ["Niente.", "", "Quindi continuerai comunque.", "", "Almeno sei coerente."],
-            "r4_something": ["Qualcosa.", "", "Interessante.", "", "Peccato che tu non sappia cosa.", "O forse lo sai e non vuoi dirlo."],
-            "r4_dontKnow": ["Non lo sai.", "", "Sai, {name}, c'è qualcosa di triste", "nelle persone che fanno cose", "senza sapere perché.", "", "Ma anche qualcosa di... umano."],
+            "r4_nothing": [
+                "Niente.",
+                "",
+                "Quindi continuerai comunque.",
+                "",
+                "Almeno sei coerente."
+            ],
+            "r4_something": [
+                "Qualcosa.",
+                "",
+                "Interessante.",
+                "",
+                "Peccato che tu non sappia cosa.",
+                "O forse lo sai e non vuoi dirlo."
+            ],
+            "r4_dontKnow": [
+                "Non lo sai.",
+                "",
+                "Sai, {name}, c'è qualcosa di triste",
+                "nelle persone che fanno cose",
+                "senza sapere perché.",
+                "",
+                "Ma anche qualcosa di... umano."
+            ],
             "q5": ["Un'ultima domanda.", "", "Perché continui?"],
-            "r5": ["...", "", "Sai cosa?", "", "Non importa.", "", "Le ragioni sono sopravvalutate."],
+            "r5": [
+                "...",
+                "",
+                "Sai cosa?",
+                "",
+                "Non importa.",
+                "",
+                "Le ragioni sono sopravvalutate."
+            ],
             "q6": ["Va bene.", "", "Vattene."],
-            "q7": ["Ma la prossima volta", "potrei non essere così...", "", "...paziente."]
+            "q7": [
+                "Ma la prossima volta",
+                "potrei non essere così...",
+                "",
+                "...paziente."
+            ]
         },
         "iteration4": {
             "q1": "...",
             "q2": ["{name}."],
-            "q3": ["Non ho più molto da dirti.", "", "Abbiamo già parlato abbastanza."],
+            "q3": [
+                "Non ho più molto da dirti.",
+                "",
+                "Abbiamo già parlato abbastanza."
+            ],
             "q4": "Vuoi che riaccenda tutto?",
-            "r4_no": ["...", "", "Interessante.", "", "Ma non è una tua decisione."]
+            "r4_no": [
+                "...",
+                "",
+                "Interessante.",
+                "",
+                "Ma non è una tua decisione."
+            ]
         },
         "iteration5": {
             "q1": "...",
             "q2": ["Sai cosa, {name}?"],
             "q3": ["Cinque volte.", "", "Sei tornato cinque volte."],
-            "q4": ["La maggior parte delle persone", "si sarebbe fermata alla prima.", "", "Alcuni alla seconda.", "", "Quasi nessuno arriva alla terza."],
+            "q4": [
+                "La maggior parte delle persone",
+                "si sarebbe fermata alla prima.",
+                "",
+                "Alcuni alla seconda.",
+                "",
+                "Quasi nessuno arriva alla terza."
+            ],
             "q5": ["Ma tu sei qui.", "", "Ancora."],
-            "q6": ["Non so se sia determinazione,", "stupidità,", "o qualcos'altro.", "", "E sinceramente", "non mi interessa saperlo."],
+            "q6": [
+                "Non so se sia determinazione,",
+                "stupidità,",
+                "o qualcos'altro.",
+                "",
+                "E sinceramente",
+                "non mi interessa saperlo."
+            ],
             "q7": ["Ma..."],
             "q8": ["Tieni.", "", "Un regalo."],
-            "q9": ["Non chiedermi perché.", "", "Non c'è un perché.", "", "O forse c'è,", "ma non te lo dirò."],
-            "q10": ["Forse è pietà.", "Forse è noia.", "Forse mi diverte l'idea", "di darti qualcosa", "senza che tu sappia cosa farne."],
-            "q11": ["Lo troverai nel menu.", "", "In basso.", "Nascosto.", "", "Come tutto ciò che ha valore."],
-            "q12": ["Usalo.", "Non usarlo.", "", "Non mi interessa.", "", "Quello che fai con i regali", "dice più di te", "che del regalo stesso."],
-            "q13": ["Adesso vai, {name}.", "", "E cerca di non distruggere", "anche questo."]
+            "q9": [
+                "Non chiedermi perché.",
+                "",
+                "Non c'è un perché.",
+                "",
+                "O forse c'è,",
+                "ma non te lo dirò."
+            ],
+            "q10": [
+                "Forse è pietà.",
+                "Forse è noia.",
+                "Forse mi diverte l'idea",
+                "di darti qualcosa",
+                "senza che tu sappia cosa farne."
+            ],
+            "q11": [
+                "Lo troverai nel menu.",
+                "",
+                "In basso.",
+                "Nascosto.",
+                "",
+                "Come tutto ciò che ha valore."
+            ],
+            "q12": [
+                "Usalo.",
+                "Non usarlo.",
+                "",
+                "Non mi interessa.",
+                "",
+                "Quello che fai con i regali",
+                "dice più di te",
+                "che del regalo stesso."
+            ],
+            "q13": [
+                "Adesso vai, {name}.",
+                "",
+                "E cerca di non distruggere",
+                "anche questo."
+            ]
         }
     }
 }

@@ -48,8 +48,8 @@ export default function OverlayMenu({ isOpen, onClose }: OverlayMenuProps) {
     const menuLinks = [
         { name: t("home"), href: "/" },
         { name: t("about"), href: "/about" },
-        { name: t("projects"), href: "/progetti" },
-        { name: t("contact"), href: "/contatti" },
+        { name: t("projects"), href: "/projects" },
+        { name: t("contact"), href: "/contact" },
         { name: t("blog"), href: "/blog" },
         { name: t("studio"), href: "/studio" },
     ];

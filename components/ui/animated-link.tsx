@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import gsap from "gsap";
 import { usePageTransition } from "@/lib/transition-context";
-import { usePathname } from "next/navigation";
+import { usePathname } from "@/i18n/navigation";
 
 interface AnimatedLinkProps {
     href: string;

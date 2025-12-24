@@ -9,8 +9,115 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import StoryPath from "./story-path";
 import LowVibesPlayer from "./lowvibes-player";
+import BackgroundElement from "./background-element";
 
 gsap.registerPlugin(ScrollTrigger);
+
+const BACKGROUND_IMAGES = [
+    {
+        src: "/images/about-me/bg-1.webp",
+        position: { top: "22%", right: "8%" },
+        size: 280,
+        blur: 8,
+        opacity: 0.35,
+        parallaxSpeed: 1.8,
+    },
+    {
+        src: "/images/about-me/bg-2.webp",
+        position: { top: "32%", right: "3%" },
+        size: 320,
+        blur: 10,
+        opacity: 0.3,
+        parallaxSpeed: 2,
+    },
+    {
+        src: "/images/about-me/bg-3.webp",
+        position: { top: "48%", left: "2%" },
+        size: 350,
+        blur: 8,
+        opacity: 0.35,
+        parallaxSpeed: 1.6,
+    },
+    {
+        src: "/images/about-me/bg-4.webp",
+        position: { top: "68%", left: "15%" },
+        size: 400,
+        blur: 6,
+        opacity: 0.4,
+        parallaxSpeed: 1.5,
+    },
+    {
+        src: "/images/about-me/bg-5.webp",
+        position: { top: "88%", right: "5%" },
+        size: 300,
+        blur: 10,
+        opacity: 0.3,
+        parallaxSpeed: 2.2,
+    },
+];
+
+const getBackgroundTexts = (t: (key: string) => string) => [
+    {
+        content:
+            "const SecondSection = () => { /* who I am, what I do, why I do it */ }",
+        position: { top: "5%", right: "5%" },
+        blur: 1,
+        opacity: 0.25,
+        rotate: -2,
+    },
+    {
+        content:
+            "gsap.to(element, { yPercent: 10, ease: 'none', scrollTrigger: { scrub: true } });",
+        position: { top: "18%", right: "12%" },
+        blur: 1,
+        opacity: 0.22,
+        rotate: 1,
+    },
+    {
+        content: t("todo"),
+        position: { top: "28%", left: "2%" },
+        blur: 1,
+        opacity: 0.28,
+        rotate: -1,
+    },
+    {
+        content:
+            "const dreams = ['music', 'code', 'theater', 'games'].filter(d => d.isPassion);",
+        position: { top: "42%", right: "2%" },
+        blur: 1,
+        opacity: 0.2,
+        rotate: 2,
+    },
+    {
+        content: t("commit"),
+        position: { top: "58%", left: "3%" },
+        blur: 1,
+        opacity: 0.25,
+        rotate: -2,
+    },
+    {
+        content: "useEffect(() => { tapioca(); }, [giuilius]);",
+        position: { top: "72%", left: "5%" },
+        blur: 1,
+        opacity: 0.22,
+        rotate: 1,
+    },
+    {
+        content: t("comment"),
+        position: { top: "82%", right: "8%" },
+        blur: 1,
+        opacity: 0.25,
+        rotate: -1,
+    },
+    {
+        content:
+            "export default function SecondSection() { return <SecondSection />; }",
+        position: { top: "88%", left: "8%" },
+        blur: 1,
+        opacity: 0.2,
+        rotate: 2,
+    },
+];
 
 const IMAGE_SOURCES = [
     "/images/about-me/1.webp",
@@ -118,6 +225,7 @@ export default function SecondSection() {
     const lowvibesImageRef = useRef<HTMLDivElement>(null);
     const t = useTranslations("aboutSection");
     const img = useTranslations("images");
+    const bgTexts = useTranslations("backgroundTexts");
 
     const captions = [
         img("caption1"),
@@ -131,11 +239,38 @@ export default function SecondSection() {
         img("caption9"),
     ];
 
+    const backgroundTexts = getBackgroundTexts(bgTexts);
+
     return (
         <div
-            className="bg-[#330014] text-[#FFF5F5] relative"
+            className="bg-[#330014] text-[#FFF5F5] relative overflow-hidden"
             data-navbar-theme="dark"
         >
+            {/* Background images */}
+            {BACKGROUND_IMAGES.map((img, index) => (
+                <BackgroundElement
+                    key={`img-${index}`}
+                    type="image"
+                    src={img.src}
+                    position={img.position}
+                    blur={img.blur}
+                    opacity={img.opacity}
+                    size={img.size}
+                    parallaxSpeed={img.parallaxSpeed}
+                />
+            ))}
+            {/* Background texts */}
+            {backgroundTexts.map((text, index) => (
+                <BackgroundElement
+                    key={`text-${index}`}
+                    type="text"
+                    content={text.content}
+                    position={text.position}
+                    blur={text.blur}
+                    opacity={text.opacity}
+                    rotate={text.rotate}
+                />
+            ))}
             <StoryPath />
             <div className="px-4 md:px-10 lg:px-16 py-12 md:py-16">
                 <SectionTitle>{t("title")}</SectionTitle>

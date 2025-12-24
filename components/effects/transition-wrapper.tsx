@@ -9,19 +9,29 @@ interface TransitionWrapperProps {
     children: React.ReactNode;
 }
 
-export default function TransitionWrapper({ children }: TransitionWrapperProps) {
+export default function TransitionWrapper({
+    children,
+}: TransitionWrapperProps) {
     const { isTransitioning, endTransition } = usePageTransition();
     const pathname = usePathname();
     const prevPathname = useRef(pathname);
 
     useEffect(() => {
-        if (prevPathname.current !== pathname && isTransitioning) {
-            const timer = setTimeout(() => {
-                endTransition();
-            }, 100);
+        if (isTransitioning) {
+            if (prevPathname.current !== pathname) {
+                const timer = setTimeout(() => {
+                    endTransition();
+                }, 100);
 
-            prevPathname.current = pathname;
-            return () => clearTimeout(timer);
+                prevPathname.current = pathname;
+                return () => clearTimeout(timer);
+            } else {
+                const fallbackTimer = setTimeout(() => {
+                    endTransition();
+                }, 1500);
+
+                return () => clearTimeout(fallbackTimer);
+            }
         }
         prevPathname.current = pathname;
     }, [pathname, isTransitioning, endTransition]);
