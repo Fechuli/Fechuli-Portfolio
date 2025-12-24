@@ -134,6 +134,9 @@
         "back": "Back",
         "pressKeys": "Press number keys to navigate"
     },
+    "scrollIndicator": {
+        "text": "Scroll to discover"
+    },
     "entity": {
         "yes": "YES",
         "no": "NO",

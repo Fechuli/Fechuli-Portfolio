@@ -6,10 +6,12 @@ import AnimatedTitle from "@/components/ui/animated-title";
 import { usePageTransition } from "@/lib/transition-context";
 import gsap from "gsap";
 import Library from "@/components/about/library";
+import WireframeGlobe from "@/components/about/wireframe-globe";
 
 export default function AboutPage() {
     const t = useTranslations("aboutPage");
     const subtitleRef = useRef<HTMLParagraphElement>(null);
+    const sectionRef = useRef<HTMLDivElement>(null);
     const { isTransitioning } = usePageTransition();
 
     useEffect(() => {
@@ -27,7 +29,7 @@ export default function AboutPage() {
 
     return (
         <>
-            <div className="sm:min-h-screen bg-[#FFF5F5] text-[#330014] relative overflow-hidden pb-8 sm:pb-0">
+            <div ref={sectionRef} className="sm:min-h-screen bg-[#FFF5F5] text-[#330014] relative overflow-hidden pb-8 sm:pb-0">
                 <svg
                     className="absolute inset-0 w-full h-full pointer-events-none hidden sm:block"
                     viewBox="0 0 100 100"
@@ -52,13 +54,20 @@ export default function AboutPage() {
 
                 <div className="h-12 sm:hidden" aria-hidden="true" />
 
-                <div className="px-4 pb-16 sm:pb-0 sm:px-0 sm:absolute sm:bottom-10 md:bottom-20 lg:bottom-52 sm:right-6 md:right-10 lg:right-16 z-10 sm:max-w-sm md:max-w-lg lg:max-w-xl sm:text-right">
+                <div className="px-4 pb-16 sm:pb-0 sm:px-0 sm:absolute sm:top-1/2 sm:-translate-y-1/2 sm:right-6 md:right-10 lg:right-16 z-10 sm:max-w-xs md:max-w-sm lg:max-w-md sm:text-right">
                     <p
                         ref={subtitleRef}
-                        className="text-lg sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-light leading-relaxed text-[#330014] sm:text-[#FFF5F5] opacity-0"
+                        className="text-base sm:text-sm md:text-base lg:text-lg xl:text-xl font-light leading-relaxed text-[#330014] sm:text-[#FFF5F5] opacity-0"
                     >
                         {t("subtitle")}
                     </p>
+                </div>
+
+                {/* Globo wireframe al centro - solo desktop */}
+                <div className="hidden sm:flex absolute inset-0 items-center justify-center pointer-events-none z-0">
+                    <div className="sm:w-[400px] sm:h-[400px] md:w-[500px] md:h-[500px] lg:w-[600px] lg:h-[600px]">
+                        <WireframeGlobe containerRef={sectionRef} />
+                    </div>
                 </div>
             </div>
             <Library />

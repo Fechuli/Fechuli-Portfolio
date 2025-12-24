@@ -20,6 +20,7 @@ import {
 } from "@/lib/haunted-cursor-context";
 import HauntedCursor from "@/components/effects/haunted-cursor";
 import { NavbarThemeProvider } from "@/lib/navbar-theme-context";
+import ScrollIndicator from "@/components/ui/scroll-indicator";
 
 const emptySubscribe = () => () => {};
 
@@ -67,6 +68,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
                     <LenisProvider>
                         <NavbarThemeProvider>
                             <CornerGrids />
+                            <ScrollIndicator />
                             <div className="sm:rounded-t-3xl bg-[#FFF5F5]">
                                 <Navbar />
                                 <ViewTransition>{children}</ViewTransition>

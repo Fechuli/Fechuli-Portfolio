@@ -134,6 +134,9 @@
         "back": "Indietro",
         "pressKeys": "Premi i tasti numerici per navigare"
     },
+    "scrollIndicator": {
+        "text": "Scorri per scoprire"
+    },
     "entity": {
         "yes": "SÌ",
         "no": "NO",
