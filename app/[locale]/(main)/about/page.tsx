@@ -4,6 +4,7 @@ import { useRef, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import AnimatedTitle from "@/components/ui/animated-title";
 import { usePageTransition } from "@/lib/transition-context";
+import { useLoader } from "@/lib/loader-context";
 import gsap from "gsap";
 import Library from "@/components/about/library";
 import WireframeGlobe from "@/components/about/wireframe-globe";
@@ -12,10 +13,22 @@ export default function AboutPage() {
     const t = useTranslations("aboutPage");
     const subtitleRef = useRef<HTMLParagraphElement>(null);
     const sectionRef = useRef<HTMLDivElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
     const { isTransitioning } = usePageTransition();
+    const { isLoading } = useLoader();
 
     useEffect(() => {
-        if (!subtitleRef.current || isTransitioning) return;
+        if (!containerRef.current || isLoading) return;
+
+        gsap.to(containerRef.current, {
+            opacity: 1,
+            duration: 0.5,
+            ease: "power2.out",
+        });
+    }, [isLoading]);
+
+    useEffect(() => {
+        if (!subtitleRef.current || isTransitioning || isLoading) return;
 
         gsap.set(subtitleRef.current, { opacity: 0, y: 30 });
         gsap.to(subtitleRef.current, {
@@ -25,10 +38,10 @@ export default function AboutPage() {
             ease: "power2.out",
             delay: 0.8,
         });
-    }, [isTransitioning]);
+    }, [isTransitioning, isLoading]);
 
     return (
-        <>
+        <div ref={containerRef} style={{ opacity: 0 }}>
             <div ref={sectionRef} className="sm:min-h-screen bg-[#FFF5F5] text-[#330014] relative overflow-hidden pb-8 sm:pb-0">
                 <svg
                     className="absolute inset-0 w-full h-full pointer-events-none hidden sm:block"
@@ -71,6 +84,6 @@ export default function AboutPage() {
                 </div>
             </div>
             <Library />
-        </>
+        </div>
     );
 }

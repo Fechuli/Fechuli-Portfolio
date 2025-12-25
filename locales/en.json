@@ -137,6 +137,42 @@
     "scrollIndicator": {
         "text": "Scroll to discover"
     },
+    "library": {
+        "intro": "Since I was a child, I have always read many books. During my adolescence, I stopped for some reason. With the pandemic, I wanted to resume this habit. Essays, books on programming and mathematics. These are my favorites. If you find something interesting, feel free to explore.",
+        "closeBook": "Close",
+        "rotateHint": "Drag to rotate",
+        "sections": {
+            "description": "What it's about",
+            "comment": "Comment"
+        },
+        "books": {
+            "g_e_b": {
+                "title": "Gödel, Escher, Bach",
+                "author": "Douglas Hofstadter",
+                "description": "The book that revealed to an immense number of readers, worldwide, the charms and traps of an Eternal Golden Braid whose threads are called artificial intelligence, Turing machine, Gödel's theorem. A 'metaphorical escape' into the variegated world that unfolds between the mind, the brain, and computers.",
+                "comment": "I bought the book on Vinted, only discovering upon its arrival that it was a brick of more than 800 pages. However, Gödel, Escher, Bach is an extremely dense book that branches out into paradoxes and theorems always accompanied by the protagonists: Achilles and the Tortoise. My summer 2024 reading."
+            },
+            "mathematica": {
+                "title": "Mathematica",
+                "author": "David Bessis",
+                "description": "Against the common belief that mathematics is an elitist and abstract discipline, David Bessis shows that Mathematics is actually a subject within everyone's reach: a true practice for which no innate talent is required.",
+                "comment": "This book has irreversibly entered the top three books I have read in 2025. A book that talks about mathematics and not about mathematics. Truly fascinating concepts such as the conception of mathematics by the mathematicians themselves, or how you don't necessarily have to be a genius to understand it. It is not a heavy book at all, on the contrary, it flows wonderfully. Highly recommended."
+            },
+            "munari_d_c_n_c": {
+                "title": "Da cosa nasce cosa",
+                "author": "Bruno Munari",
+                "description": "“The knowledge of the design method, of how to do or know things, is a liberating value: it is 'do it yourself' yourself.” Among Munari's great books, this is perhaps the one that makes readers happiest for the enchanted lightness with which it leads them to discover that knowing how to design is not an exclusive and innate gift of a few. There is in each of us a creativity that Munari in these pages helps to develop and bring to light.",
+                "comment": "The story of this book is quite curious. I and the guys from Backdoor were on vacation in Viareggio: four days of well-deserved sea. Between an aperitif and another, it came out that Tommaso and I — the two profiles furthest from design within a radius of kilometers — had no theoretical knowledge on the subject. Lore and Duccio, visibly disturbed by this unforgivable gap, practically forced us to buy Munari's books, described as 'absolute must-haves'. And I believed them. In short, I didn't like the book. The other Munari's works, more or less, left me something. This one, unfortunately, did not."
+        
+            },
+            "munari_d_c_v": {
+                "title": "Design e comunicazione visiva",
+                "author": "Bruno Munari",
+                "description": "The book retraces the lessons given by Bruno Munari at Harvard University in 1967. It is (was) a course with a decidedly practical and experimental approach, and, at the same time, general – which somewhat destabilized his students. Munari's lessons – which focus on the exploration and rediscovery of textures, colors, shapes, structures, contrasts, and relationships – are designed to demonstrate that a project is good when it is consistent in all its parts. This is, in summary, the designer's task: not only to deal with aesthetic qualities but with all phases of an object or project, including economic ones. And, above all, the designer knows that when they create, they are addressing an audience to which they must convey a message – that is, communicate. A technical book, certainly, but also a perfect manual for those approaching design or those already in the profession who want to retrace their steps.",
+                "comment": "This is the second Munari book I've read, and I find it significantly more interesting than the previous one. I find Munari's irony particularly sharp."
+            }
+        }
+    },
     "entity": {
         "yes": "YES",
         "no": "NO",

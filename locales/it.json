@@ -137,6 +137,41 @@
     "scrollIndicator": {
         "text": "Scorri per scoprire"
     },
+    "library": {
+        "intro": "Fin da piccolo ho sempre letto moltissimi libri, durante l'adolescenza ho smesso per qualche motivo. Con la pandemia ho voluto riprendere questa abitudine. Saggi, libri sulla programmazione e matematica. Questi sono i miei preferiti. Se trovi qualcosa di interessante sentiti liber* di esplorare.",
+        "closeBook": "Chiudi",
+        "rotateHint": "Trascina per ruotare",
+        "sections": {
+            "description": "Di cosa parla",
+            "comment": "Commento"
+        },
+        "books": {
+            "g_e_b": {
+                "title": "Gödel, Escher, Bach",
+                "author": "Douglas Hofstadter",
+                "description": "Il libro che ha svelato a una immensa quantità di lettori, in tutto il mondo, gli incanti e le trappole di un’Eterna Ghirlanda Brillante i cui fili si chiamano intelligenza artificiale, macchina di Turing, teorema di Gödel. Una «fuga metaforica» nel variegato mondo che si dispiega fra la mente, il cervello e i computer.",
+                "comment": "Comprai il libro su Vinted scoprendo solo al suo arrivo che era un mattone da più di 800 pagine. Tuttavia Gödel, Escher, Bach è un libro estremamente denso che si dirama in paradossi e teoremi sempre accompagnati dai protagonisti: Achille e la Tartaruga. La mia lettura estiva 2024."
+            },
+            "mathematica": {
+                "title": "Mathematica",
+                "author": "David Bessis",
+                "description": "Contro i luoghi comuni che ne fanno una disciplina elitaria e astratta, David Bessis mostra che la Matematica è in realtà una materia alla portata di tutti: una vera e propria pratica per la quale non è richiesto un talento innato.",
+                "comment": "Questo libro è entrato in maniera irreversibile nella top tre dei libri che ho letto nel 2025. Un libro che parla della matematica e non di matematica. Veramente affascinanti concetti come la concezione della matematica dai matematici stessi, o sul come non si debba essere necessariamente dei geni per capirla. Non è assolutamente un libro pesante, anzi, scorre che è una meraviglia. Consigliatissimo."
+            },
+            "munari_d_c_n_c": {
+                "title": "Da cosa nasce cosa",
+                "author": "Bruno Munari",
+                "description": "«La conoscenza del metodo progettuale, del come si fa a fare o a conoscere le cose, è un valore liberatorio: è ‘fai da te’ te stesso.» Tra i grandi libri di Munari, questo è quello che forse maggiormente rende felici i lettori per la leggerezza incantata con cui li porta a scoprire che saper progettare non è dote esclusiva e innata di pochi. C’è in ognuno di noi una creatività che Munari in queste pagine aiuta a sviluppare e a mettere in luce.",
+                "comment": "La storia di questo libro è piuttosto curiosa. Io e i ragazzi di Backdoor eravamo a Viareggio in vacanza: quattro giorni di meritato mare. Tra un aperitivo e l'altro, viene fuori che io e Tommaso — i due profili più lontani dal design nel raggio di chilometri — non avevamo la minima conoscenza teorica sull'argomento. Lore e Duccio, visibilmente turbati da questa lacuna imperdonabile, ci hanno praticamente obbligato a comprare i libri di Munari, descritti come 'must have assoluti'. E io ci ho creduto. In poche parole il libro non mi è piaciuto. Gli altri di Munari, bene o male, qualcosa me l'hanno lasciato. Questo purtroppo no."
+            },
+            "munari_d_c_v": {
+                "title": "Design e comunicazione visiva",
+                "author": "Bruno Munari",
+                "description": "Il libro ripercorre le lezioni tenute da Bruno Munari alla Harvard University nel 1967. Si tratta(va) di un corso con un deciso approccio pratico e sperimentale, e, allo stesso tempo, generale – cosa che destabilizzò alquanto i suoi studenti. Le lezioni di Munari – che si concentrano sull’esplorazione e la riscoperta di texture, colori, forme, strutture, contrasti e relazioni – sono pensate per dimostrare che un progetto è buono quando è coerente in tutte le sue parti. Questo è, in sintesi, il compito del designer: non occuparsi solo delle qualità estetiche, ma di tutte le fasi di un oggetto o un progetto, comprese quelle economiche. E, soprattutto, il designer sa che, quando crea, si sta rivolgendo a un pubblico a cui deve far arrivare un messaggio – cioè comunicare. Un libro tecnico, certo, ma anche un manuale perfetto per chi si avvicina al design o a chi è già del mestiere e vuole ritornare sui suoi passi.",
+                "comment": "Questo è il secondo libro di Munari che ho letto e lo trovo nettamente più interessante del precedente. Trovo l'ironia di Munari particolarmente pungente."
+            }
+        }
+    },
     "entity": {
         "yes": "SÌ",
         "no": "NO",
