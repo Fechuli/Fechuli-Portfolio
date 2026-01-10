@@ -7,7 +7,10 @@
       "Bash(findstr:*)",
       "Bash(npm install:*)",
       "Bash(del \"c:\\Users\\VGpc\\Desktop\\fechuli\\lib\\transition-context.tsx\")",
-      "Bash(del \"c:\\Users\\VGpc\\Desktop\\fechuli\\components\\transition-link.tsx\")"
+      "Bash(del \"c:\\Users\\VGpc\\Desktop\\fechuli\\components\\transition-link.tsx\")",
+      "Bash(Get-Content \"c:\\\\Users\\\\VGpc\\\\Desktop\\\\fechuli\\\\locales\\\\it.json\")",
+      "Bash(Measure-Object -Line)",
+      "Bash(Select-Object -ExpandProperty Lines)"
     ],
     "deny": [],
     "ask": []

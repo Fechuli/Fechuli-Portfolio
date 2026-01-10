@@ -15,6 +15,12 @@ export default function CloseButton({ onClick }: CloseButtonProps) {
         const button = buttonRef.current;
         if (!button) return;
 
+        // Kill any ongoing animations to prevent glitching
+        gsap.killTweensOf(button);
+        linesRef.current.forEach((line) => {
+            if (line) gsap.killTweensOf(line);
+        });
+
         gsap.to(button, {
             backgroundColor: "#FFF5F5",
             borderColor: "#330014",
@@ -47,6 +53,12 @@ export default function CloseButton({ onClick }: CloseButtonProps) {
     const handleMouseLeave = () => {
         const button = buttonRef.current;
         if (!button) return;
+
+        // Kill any ongoing animations to prevent glitching
+        gsap.killTweensOf(button);
+        linesRef.current.forEach((line) => {
+            if (line) gsap.killTweensOf(line);
+        });
 
         gsap.to(button, {
             backgroundColor: "#330014",

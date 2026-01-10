@@ -69,7 +69,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
                         <NavbarThemeProvider>
                             <CornerGrids />
                             <ScrollIndicator />
-                            <div className="sm:rounded-t-3xl bg-[#FFF5F5]">
+                            <div className="sm:rounded-t-3xl bg-[#FFF5F5] max-w-[2000px] mx-auto">
                                 <Navbar />
                                 <ViewTransition>{children}</ViewTransition>
                                 <Footer />

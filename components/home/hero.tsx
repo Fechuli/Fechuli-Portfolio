@@ -8,11 +8,13 @@ import VerticalKnob from "../ui/vertical-knob";
 import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
 import { useLoader } from "@/lib/loader-context";
+import { useMobileDetect } from "@/lib/use-mobile-detect";
 
 gsap.registerPlugin(SplitText);
 
 export default function Hero() {
     const t = useTranslations("hero.roles");
+    const { isLowPerformance } = useMobileDetect();
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const mouseRef = useRef({ x: 0, y: 0, isOver: false });
     const pixelsRef = useRef<
@@ -149,7 +151,7 @@ export default function Hero() {
 
         renderRef.current = render;
 
-        if (!fontLoaded) return;
+        if (!fontLoaded || isLowPerformance) return;
 
         initPixels();
         render();
@@ -164,7 +166,7 @@ export default function Hero() {
             window.removeEventListener("resize", handleResize);
             cancelAnimationFrame(animationRef.current);
         };
-    }, [initPixels, fontLoaded]);
+    }, [initPixels, fontLoaded, isLowPerformance]);
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
         const rect = fechuliContainerRef.current?.getBoundingClientRect();
@@ -240,6 +242,8 @@ export default function Hero() {
                 duration: 0.5,
                 ease: "power2.out",
                 onComplete: () => {
+                    if (isLowPerformance) return;
+
                     const animatePixels = () => {
                         const pixels = pixelsRef.current;
 
@@ -329,17 +333,25 @@ export default function Hero() {
                     <div
                         ref={fechuliContainerRef}
                         className="pointer-events-auto relative w-[70%] sm:w-[50%] md:w-[40%] lg:w-[35%] h-12 sm:h-16 md:h-20 lg:h-24 xl:h-28 2xl:h-36 overflow-visible opacity-0"
-                        onMouseMove={handleMouseMove}
-                        onMouseLeave={handleMouseLeave}
+                        onMouseMove={isLowPerformance ? undefined : handleMouseMove}
+                        onMouseLeave={isLowPerformance ? undefined : handleMouseLeave}
                     >
-                        <canvas
-                            ref={canvasRef}
-                            className="absolute overflow-visible left-1/2 -translate-x-1/2"
-                            style={{
-                                overflow: "visible",
-                                top: -(DISTORT_STRENGTH + 10),
-                            }}
-                        />
+                        {isLowPerformance ? (
+                            <div className="flex items-center justify-center h-full">
+                                <span className="resin text-[#330014] text-[2rem] sm:text-[3rem] md:text-[4rem] lg:text-[5rem] xl:text-[6rem] 2xl:text-[8rem]">
+                                    Fechuli
+                                </span>
+                            </div>
+                        ) : (
+                            <canvas
+                                ref={canvasRef}
+                                className="absolute overflow-visible left-1/2 -translate-x-1/2"
+                                style={{
+                                    overflow: "visible",
+                                    top: -(DISTORT_STRENGTH + 10),
+                                }}
+                            />
+                        )}
                     </div>
                 </div>
             </div>

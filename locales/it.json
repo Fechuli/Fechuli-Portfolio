@@ -539,5 +539,105 @@
                 "anche questo."
             ]
         }
+    },
+    "music": {
+        "intro": {
+            "title": "Musica",
+            "text": "Il viaggio musicale con i Lowvibes inizia nel 2019, quando la passione per i beat lofi e i sintetizzatori vintage si trasforma in qualcosa di più. Dalle prime sperimentazioni in home studio alle esibizioni live, ogni traccia racconta una storia di suoni retrowave e atmosfere nostalgiche."
+        },
+        "timeline": {
+            "title": "Il Percorso",
+            "categories": {
+                "formation": "Formazione",
+                "release": "Pubblicazione",
+                "performance": "Esibizione",
+                "studio": "Studio",
+                "journey": "Viaggio"
+            }
+        },
+        "spotify": {
+            "title": "Ascolta su Spotify",
+            "listen": "Ascolta",
+            "viewProfile": "Vedi profilo completo"
+        },
+        "synth": {
+            "title": "Juno Synthesizer",
+            "intro": "Ricrea i suoni retro dei Lowvibes. Un sintetizzatore completo ispirato al leggendario Roland Juno-60, con tutti gli effetti e controlli per creare il tuo sound.",
+            "sections": {
+                "oscillator": "Oscillatore",
+                "filter": "Filtro",
+                "envelope": "Inviluppo",
+                "lfo": "LFO",
+                "effects": "Effetti",
+                "master": "Master"
+            },
+            "controls": {
+                "waveform": "Forma d'onda",
+                "subOsc": "Sub-Osc",
+                "pwm": "PWM",
+                "detune": "Detune",
+                "hpf": "HPF Cutoff",
+                "lpf": "LPF Cutoff",
+                "resonance": "Risonanza",
+                "filterEnv": "Mod. Filtro",
+                "attack": "Attack",
+                "decay": "Decay",
+                "sustain": "Sustain",
+                "release": "Release",
+                "lfoRate": "Rate",
+                "lfoWave": "Waveform",
+                "lfoRoute": "Routing",
+                "lfoDepth": "Depth",
+                "chorus": "Chorus",
+                "chorusDepth": "Depth",
+                "chorusRate": "Rate",
+                "chorusMix": "Mix",
+                "delay": "Delay",
+                "delayTime": "Time",
+                "delayFeedback": "Feedback",
+                "delayMix": "Mix",
+                "reverb": "Reverb",
+                "reverbSize": "Size",
+                "reverbDamp": "Damping",
+                "reverbMix": "Mix",
+                "glide": "Glide",
+                "volume": "Volume"
+            },
+            "waveforms": {
+                "sawtooth": "Sawtooth",
+                "square": "Square",
+                "triangle": "Triangle",
+                "sine": "Sine"
+            },
+            "lfoRouting": {
+                "pitch": "Pitch",
+                "filter": "Filter",
+                "pwm": "PWM",
+                "volume": "Volume"
+            },
+            "presets": {
+                "select": "Seleziona Preset",
+                "category": "Categoria",
+                "all": "Tutti",
+                "bass": "Bass",
+                "lead": "Lead",
+                "pad": "Pad",
+                "fx": "FX",
+                "share": "Condividi",
+                "copied": "Link copiato!",
+                "init": "Init"
+            },
+            "keyboard": {
+                "hint": "Usa QWERTY o clicca sui tasti",
+                "octaveUp": "Ottava +",
+                "octaveDown": "Ottava -"
+            },
+            "mobile": {
+                "hint": "Usa un desktop per l'esperienza completa del synth",
+                "presetsOnly": "In modalità mobile puoi selezionare i preset e suonare la tastiera"
+            },
+            "loading": "Inizializzazione audio engine...",
+            "clickToEnable": "Clicca per attivare l'audio"
+        }
     }
 }
