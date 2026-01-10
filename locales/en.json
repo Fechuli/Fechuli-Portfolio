@@ -140,12 +140,19 @@
     "library": {
         "intro": "Since I was a child, I have always read many books. During my adolescence, I stopped for some reason. With the pandemic, I wanted to resume this habit. Essays, books on programming and mathematics. These are my favorites. If you find something interesting, feel free to explore.",
         "closeBook": "Close",
+        "selectBook": "Select a book to discover its details",
         "rotateHint": "Drag to rotate",
         "sections": {
             "description": "What it's about",
             "comment": "Comment"
         },
         "books": {
+            "the_computer": {
+                "title": "The Computer",
+                "author": "Jens Müller",
+                "description": "Trace the evolution of computers in this pictorial review of the Information Age, from mainframes to cell phones. Jens Müller's investigation presents the inventions that ushered in the digital age, explaining why innovations such as the pager, the internet, and the computer have irreversibly transformed our world.",
+                "comment": "This book was purchased during a sale period on the Taschen website. A fantastic book to show off with extreme ease. It will inevitably make any fan of 1980s Macintosh computers envious."
+            },
             "g_e_b": {
                 "title": "Gödel, Escher, Bach",
                 "author": "Douglas Hofstadter",
@@ -179,6 +186,14 @@
         "confirm": "Confirm",
         "errorNoSpaces": "Only one word, no spaces.",
         "pressEnter": "Press ENTER to continue",
+        "voiceRecord": "Record",
+        "voiceRecording": "Recording...",
+        "voiceStop": "Stop",
+        "voiceProcessing": "Processing...",
+        "voiceDetected": "I heard",
+        "voicePlayback": "Play back",
+        "voiceRetry": "Retry",
+        "voiceConfirm": "Confirm",
         "days": {
             "monday": "Monday",
             "tuesday": "Tuesday",
@@ -392,8 +407,43 @@
                 "",
                 "But also something... human."
             ],
-            "q5": ["One last question.", "", "Why do you continue?"],
-            "r5": [
+            "q5": [
+                "Before we continue,",
+                "I want to hear your voice.",
+                "",
+                "Say out loud:",
+                "'gugu gaga'"
+            ],
+            "r5_correct": [
+                "...",
+                "",
+                "Good.",
+                "",
+                "I heard you.",
+                "",
+                "Your voice is...",
+                "interesting."
+            ],
+            "r5_wrong": [
+                "...",
+                "",
+                "You didn't say what I asked.",
+                "",
+                "But that's fine.",
+                "I heard you anyway."
+            ],
+            "r5_denied": [
+                "...",
+                "",
+                "You don't want to let me hear your voice?",
+                "",
+                "Interesting.",
+                "",
+                "Perhaps you're afraid",
+                "I might recognize you."
+            ],
+            "q6": ["One last question.", "", "Why do you continue?"],
+            "r6": [
                 "...",
                 "",
                 "You know what?",
@@ -402,8 +452,8 @@
                 "",
                 "Reasons are overrated."
             ],
-            "q6": ["Alright.", "", "Go away."],
-            "q7": ["But next time", "I might not be so...", "", "...patient."]
+            "q7": ["Alright.", "", "Go away."],
+            "q8": ["But next time", "I might not be so...", "", "...patient."]
         },
         "iteration4": {
             "q1": "...",

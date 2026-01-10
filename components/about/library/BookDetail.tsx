@@ -21,12 +21,12 @@ export default function BookDetail({ book, onClose }: BookDetailProps) {
 
         gsap.fromTo(
             elements,
-            { opacity: 0, y: 20 },
+            { opacity: 0, y: 15 },
             {
                 opacity: 1,
                 y: 0,
-                duration: 0.5,
-                stagger: 0.1,
+                duration: 0.4,
+                stagger: 0.08,
                 ease: "power2.out",
             }
         );
@@ -34,23 +34,23 @@ export default function BookDetail({ book, onClose }: BookDetailProps) {
 
     return (
         <div ref={containerRef} className="h-full flex flex-col">
-            <div className="flex items-start justify-between mb-6 animate-in">
-                <div>
-                    <h2 className="resin text-3xl md:text-4xl font-bold text-[#FFF5F5] mb-2">
+            <div className="flex items-start justify-between mb-4 animate-in">
+                <div className="flex-1 pr-4">
+                    <h2 className="resin text-2xl md:text-3xl lg:text-4xl font-bold text-[#FFF5F5] leading-tight">
                         {t(`books.${book.id}.title`)}
                     </h2>
-                    <p className="text-[#FFF5F5]/70 text-lg">
+                    <p className="text-[#FFF5F5]/60 text-sm md:text-base mt-1 tracking-wide">
                         {t(`books.${book.id}.author`)}
                     </p>
                 </div>
                 <button
                     onClick={onClose}
-                    className="text-[#FFF5F5]/60 hover:text-[#FFF5F5] transition-colors p-2"
+                    className="text-[#FFF5F5]/40 hover:text-[#FFF5F5] transition-colors p-1.5 hover:bg-[#FFF5F5]/10 rounded-full"
                     aria-label={t("closeBook")}
                 >
                     <svg
-                        width="24"
-                        height="24"
+                        width="20"
+                        height="20"
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
@@ -64,32 +64,33 @@ export default function BookDetail({ book, onClose }: BookDetailProps) {
                 </button>
             </div>
 
-            {/* Descrizione */}
-            <div className="mb-6 animate-in">
-                <h3 className="text-sm uppercase tracking-wider text-[#FFF5F5]/50 mb-2">
-                    {t("sections.description")}
-                </h3>
-                <p className="text-[#FFF5F5]/90 leading-relaxed">
-                    {t(`books.${book.id}.description`)}
-                </p>
+            <div className="w-12 h-px bg-[#FFF5F5]/20 mb-4 animate-in" />
+
+            <div className="flex-1 overflow-y-auto pr-2 space-y-5">
+                <div className="animate-in">
+                    <h3 className="text-[10px] uppercase tracking-[0.2em] text-[#FFF5F5]/40 mb-2 font-medium">
+                        {t("sections.description")}
+                    </h3>
+                    <p className="text-[#FFF5F5]/85 text-sm leading-relaxed">
+                        {t(`books.${book.id}.description`)}
+                    </p>
+                </div>
+
+                <div className="animate-in">
+                    <h3 className="text-[10px] uppercase tracking-[0.2em] text-[#FFF5F5]/40 mb-2 font-medium">
+                        {t("sections.comment")}
+                    </h3>
+                    <p className="text-[#FFF5F5]/70 text-sm leading-relaxed italic border-l-2 border-[#FFF5F5]/20 pl-3">
+                        {t(`books.${book.id}.comment`)}
+                    </p>
+                </div>
             </div>
 
-            {/* Commento personale */}
-            <div className="animate-in">
-                <h3 className="text-sm uppercase tracking-wider text-[#FFF5F5]/50 mb-2">
-                    {t("sections.comment")}
-                </h3>
-                <p className="text-[#FFF5F5]/90 leading-relaxed italic">
-                    {t(`books.${book.id}.comment`)}
-                </p>
-            </div>
-
-            {/* Hint per rotazione - solo desktop */}
-            <div className="mt-auto pt-6 animate-in hidden sm:block">
-                <p className="text-[#FFF5F5]/40 text-sm flex items-center gap-2">
+            <div className="mt-4 pt-3 border-t border-[#FFF5F5]/10 animate-in hidden sm:block">
+                <p className="text-[#FFF5F5]/30 text-xs flex items-center gap-2">
                     <svg
-                        width="16"
-                        height="16"
+                        width="14"
+                        height="14"
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"

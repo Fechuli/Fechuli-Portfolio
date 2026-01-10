@@ -154,7 +154,6 @@ const COMMAND_KEYS = [
     "social",
     "skills",
     "ascii",
-    "vocabolario",
     "changelog",
     "clear",
     "exit",
@@ -186,6 +185,7 @@ export default function Sys() {
     const welcomeText = `\n${t("welcome")}\n`;
 
     const destructionCmd = locale === "it" ? "autodistruzione" : "selfdestruct";
+    const vocabolarioCmd = locale === "it" ? "vocabolario" : "vocabulary";
 
     useEffect(() => {
         const updateTime = () => {
@@ -258,13 +258,20 @@ export default function Sys() {
 
         let output: string;
 
-        // Build commands list with translations
-        const commandsWithDestruction = [...COMMAND_KEYS, destructionCmd];
+        const commandsWithDestruction = [...COMMAND_KEYS, vocabolarioCmd, destructionCmd];
 
         switch (cmd) {
             case "help":
                 output = `\n${t("available")}\n═══════════════════════════════════════\n${commandsWithDestruction
-                    .map((name) => `  ${name.padEnd(14)} - ${t(`commands.${name === destructionCmd ? (locale === "it" ? "autodistruzione" : "selfdestruct") : name}`)}`)
+                    .map((name) => {
+                        let translationKey = name;
+                        if (name === destructionCmd) {
+                            translationKey = locale === "it" ? "autodistruzione" : "selfdestruct";
+                        } else if (name === vocabolarioCmd) {
+                            translationKey = "vocabolario";
+                        }
+                        return `  ${name.padEnd(14)} - ${t(`commands.${translationKey}`)}`;
+                    })
                     .join("\n")}\n═══════════════════════════════════════\n`;
                 break;
             case "about":
@@ -285,6 +292,7 @@ export default function Sys() {
                 output = t("openingChangelog");
                 break;
             case "vocabolario":
+            case "vocabulary":
                 setCurrentSection("vocabolario");
                 output = t("openingVocabolario");
                 break;
@@ -489,7 +497,7 @@ export default function Sys() {
                     onClick={() => setCurrentSection("vocabolario")}
                     className="hover:opacity-100 transition-opacity"
                 >
-                    [3] Vocabolario
+                    [3] {locale === "it" ? "Vocabolario" : "Vocabulary"}
                 </button>
                 <Link href="/" className="hover:opacity-100 transition-opacity">
                     [0] Exit
@@ -563,7 +571,7 @@ export default function Sys() {
     const renderVocabolario = () => (
         <div>
             <pre className="text-[#00ff00] mb-4">
-                {`\n╔══════════════════════════════════════╗\n║         ${t("sections.vocabolario").padEnd(28)}║\n╚══════════════════════════════════════╝\n`}
+                {`\n╔══════════════════════════════════════╗\n║         ${"VOCABOLARIO".padEnd(28)}║\n╚══════════════════════════════════════╝\n`}
             </pre>
             <div className="space-y-6">
                 {VOCABOLARIO.map((entry, index) => (
@@ -572,7 +580,7 @@ export default function Sys() {
                             {entry.termine}
                         </p>
                         <p className="opacity-70 leading-relaxed">
-                            {entry.definizione}
+                            {locale === "it" ? entry.definizione : entry.definition}
                         </p>
                     </div>
                 ))}

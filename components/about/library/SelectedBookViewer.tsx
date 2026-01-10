@@ -25,17 +25,7 @@ function SelectedBook({ book }: { book: BookType }) {
         });
     }, [frontTexture, backTexture, spineTexture]);
 
-    // Stesso mapping del Book sullo scaffale
-    // Box: [thickness, height, width]
-    // Mapping:
-    // +X = spine (costa)
-    // -X = back (retro, opposto a spine)
-    // +Y = pagine sopra
-    // -Y = pagine sotto
-    // +Z = front (copertina fronte)
-    // -Z = pagine (bordo)
     const materials = useMemo(() => {
-        // Creo una texture procedurale per le pagine
         const pagesCanvas = document.createElement("canvas");
         pagesCanvas.width = 128;
         pagesCanvas.height = 256;
@@ -44,9 +34,8 @@ function SelectedBook({ book }: { book: BookType }) {
             ctx.fillStyle = book.pagesColor;
             ctx.fillRect(0, 0, 128, 256);
 
-            // Righe verticali per simulare le pagine
             ctx.strokeStyle = "#e8e4d4";
-            ctx.lineWidth = 0.5;
+            ctx.lineWidth = 1;
             for (let i = 0; i < 128; i += 2) {
                 const offset = Math.sin(i * 0.7) * 0.3;
                 ctx.beginPath();
@@ -57,7 +46,7 @@ function SelectedBook({ book }: { book: BookType }) {
 
             ctx.strokeStyle = "#d5d0c0";
             ctx.lineWidth = 0.3;
-            for (let i = 0; i < 128; i += 7) {
+            for (let i = 0; i < 256; i += 7) {
                 ctx.beginPath();
                 ctx.moveTo(i, 0);
                 ctx.lineTo(i, 256);
@@ -115,7 +104,7 @@ function SelectedBook({ book }: { book: BookType }) {
     const width = book.width * scale;
 
     return (
-        <mesh ref={meshRef} material={materials} rotation={[0, 0.3, 0]}>
+        <mesh ref={meshRef} material={materials} rotation={[0, -0.6, 0]}>
             <boxGeometry args={[thickness, height, width]} />
         </mesh>
     );
@@ -135,7 +124,7 @@ export default function SelectedBookViewer({ book }: SelectedBookViewerProps) {
         <div className="w-full h-full min-h-[350px]">
             <Canvas
                 camera={{
-                    position: [0, 0, 3],
+                    position: [2, 0.5, 3.5],
                     fov: 45,
                     near: 0.1,
                     far: 100,
@@ -168,6 +157,14 @@ export default function SelectedBookViewer({ book }: SelectedBookViewerProps) {
                 <Suspense fallback={<LoadingFallback />}>
                     <SelectedBook book={book} />
                 </Suspense>
+
+                {/* Grid under the book */}
+                <gridHelper
+                    args={[8, 20, "#FFF5F5", "#FFF5F5"]}
+                    position={[0, -2, 0]}
+                    material-opacity={0.15}
+                    material-transparent={true}
+                />
 
                 <OrbitControls
                     enableZoom={false}

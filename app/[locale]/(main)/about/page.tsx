@@ -7,6 +7,7 @@ import { usePageTransition } from "@/lib/transition-context";
 import { useLoader } from "@/lib/loader-context";
 import gsap from "gsap";
 import Library from "@/components/about/library";
+import LibraryIntro from "@/components/about/library/library-intro";
 import WireframeGlobe from "@/components/about/wireframe-globe";
 
 export default function AboutPage() {
@@ -76,13 +77,13 @@ export default function AboutPage() {
                     </p>
                 </div>
 
-                {/* Globo wireframe al centro - solo desktop */}
                 <div className="hidden sm:flex absolute inset-0 items-center justify-center pointer-events-none z-0">
                     <div className="sm:w-[400px] sm:h-[400px] md:w-[500px] md:h-[500px] lg:w-[600px] lg:h-[600px]">
                         <WireframeGlobe containerRef={sectionRef} />
                     </div>
                 </div>
             </div>
+            <LibraryIntro />
             <Library />
         </div>
     );

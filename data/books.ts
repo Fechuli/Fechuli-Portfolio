@@ -13,6 +13,18 @@ export interface Book {
 
 export const BOOKS: Book[] = [
     {
+        id: "the_computer",
+        textures: {
+            front: "/images/about-me/library/the_computer/the_computer_lato.webp",
+            back: "/images/about-me/library/the_computer/the_computer_retro.webp",
+            spine: "/images/about-me/library/the_computer/the_computer_fronte.webp",
+        },
+        pagesColor: "#f5f5dc",
+        width: 0.8,
+        height: 1,
+        thickness: 1.3,
+    },
+    {
         id: "g_e_b",
         textures: {
             front: "/images/about-me/library/g_e_b/g_e_b_lato.webp",
@@ -34,7 +46,7 @@ export const BOOKS: Book[] = [
         pagesColor: "#f5f5dc",
         width: 0.5,
         height: 0.7,
-        thickness: 0.7,
+        thickness: 0.6,
     },
     {
         id: "munari_d_c_n_c",

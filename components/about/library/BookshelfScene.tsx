@@ -10,7 +10,7 @@ interface BookshelfSceneProps {
     selectedBook: BookType | null;
 }
 
-function Shelf({ position, width = 2 }: { position: [number, number, number]; width?: number }) {
+function Shelf({ position, width = 10 }: { position: [number, number, number]; width?: number }) {
     return (
         <group position={position}>
             <mesh position={[0, 0, 0]}>
@@ -32,17 +32,27 @@ function Bookshelf({
     onSelectBook: (book: BookType) => void;
     selectedBook: BookType | null;
 }) {
-    const shelfWidth = 1.5;
+    const shelfWidth = 6;
     const shelfY = 0;
 
     return (
         <group>
-            <Shelf position={[0, shelfY - 0.55, 0]} width={shelfWidth} />
+            <Shelf position={[0, shelfY - 0.55, 0.3]} width={shelfWidth} />
 
             {BOOKS.map((book, index) => {
-                const bookSpacing = 0.13;
-                const startX = -((BOOKS.length - 1) * bookSpacing) / 2;
-                const x = startX + index * bookSpacing;
+                const gap = 0.02; 
+
+                let x = 0;
+                for (let i = 0; i < index; i++) {
+                    x += BOOKS[i].thickness * 0.1 + gap;
+                }
+                x += (book.thickness * 0.1) / 2;
+
+                const totalWidth = BOOKS.reduce((acc, b, i) => {
+                    return acc + b.thickness * 0.1 + (i < BOOKS.length - 1 ? gap : 0);
+                }, 0);
+
+                x -= totalWidth / 2;
 
                 return (
                     <Book
@@ -74,7 +84,7 @@ export default function BookshelfScene({
     return (
         <Canvas
             camera={{
-                position: [0, 0, 3],
+                position: [0, 0, 2],
                 fov: 45,
                 near: 0.1,
                 far: 100,

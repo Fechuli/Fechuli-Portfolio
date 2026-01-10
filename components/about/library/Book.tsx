@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useMemo } from "react";
+import { useRef, useState, useMemo, useEffect } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useTexture } from "@react-three/drei";
 import * as THREE from "three";
@@ -15,7 +15,18 @@ interface BookProps {
 
 export default function Book({ book, position, onClick, isSelected }: BookProps) {
     const meshRef = useRef<THREE.Mesh>(null);
-    const [hovered, setHovered] = useState(false);
+    const [hoveredRaw, setHoveredRaw] = useState(false);
+
+    // Reset hover state when book gets selected (since mesh unmounts and onPointerLeave won't fire)
+    useEffect(() => {
+        if (isSelected) {
+            setHoveredRaw(false);
+            document.body.style.cursor = "auto";
+        }
+    }, [isSelected]);
+
+    // Hover is only active when not selected
+    const hovered = hoveredRaw && !isSelected;
 
     const [frontTexture, backTexture, spineTexture] = useTexture([
         book.textures.front,
@@ -150,11 +161,11 @@ export default function Book({ book, position, onClick, isSelected }: BookProps)
             }}
             onPointerEnter={(e) => {
                 e.stopPropagation();
-                setHovered(true);
+                setHoveredRaw(true);
                 document.body.style.cursor = "pointer";
             }}
             onPointerLeave={() => {
-                setHovered(false);
+                setHoveredRaw(false);
                 document.body.style.cursor = "auto";
             }}
             material={materials}

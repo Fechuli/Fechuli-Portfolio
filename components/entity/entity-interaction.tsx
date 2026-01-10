@@ -6,6 +6,7 @@ import EntityQuestion from "./entity-question";
 import EntityInput from "./entity-input";
 import EntitySlider from "./entity-slider";
 import EntityChoice from "./entity-choice";
+import EntityVoice from "./entity-voice";
 import CrtTurnOn from "../effects/crt-turn-on";
 
 const emptySubscribe = () => () => {};
@@ -18,10 +19,12 @@ type Step = {
         | "slider-days"
         | "slider-number"
         | "yesno"
-        | "checkbox";
+        | "checkbox"
+        | "voice";
     optionsKey?: string;
     validate?: (value: string) => boolean;
     noSpaces?: boolean;
+    targetPhrase?: string;
     getResponseKey: (value: string, context: EntityContext) => string | null;
 };
 
@@ -186,16 +189,26 @@ const ITERATION_3: Step[] = [
     },
     {
         questionKey: "iteration3.q5",
-        type: "input",
-        getResponseKey: () => "iteration3.r5",
+        type: "voice",
+        targetPhrase: "gugu gaga",
+        getResponseKey: (value) => {
+            if (value === "correct") return "iteration3.r5_correct";
+            if (value === "wrong") return "iteration3.r5_wrong";
+            return "iteration3.r5_denied";
+        },
     },
     {
         questionKey: "iteration3.q6",
+        type: "input",
+        getResponseKey: () => "iteration3.r6",
+    },
+    {
+        questionKey: "iteration3.q7",
         type: "none",
         getResponseKey: () => null,
     },
     {
-        questionKey: "iteration3.q7",
+        questionKey: "iteration3.q8",
         type: "none",
         getResponseKey: () => null,
     },
@@ -528,6 +541,12 @@ export default function EntityInteraction() {
                         <EntityChoice
                             type="checkbox"
                             options={getOptions()}
+                            onSubmit={handleAnswer}
+                        />
+                    )}
+                    {currentStepData.type === "voice" && (
+                        <EntityVoice
+                            targetPhrase={currentStepData.targetPhrase || ""}
                             onSubmit={handleAnswer}
                         />
                     )}

@@ -140,12 +140,19 @@
     "library": {
         "intro": "Fin da piccolo ho sempre letto moltissimi libri, durante l'adolescenza ho smesso per qualche motivo. Con la pandemia ho voluto riprendere questa abitudine. Saggi, libri sulla programmazione e matematica. Questi sono i miei preferiti. Se trovi qualcosa di interessante sentiti liber* di esplorare.",
         "closeBook": "Chiudi",
+        "selectBook": "Seleziona un libro per scoprirne i dettagli",
         "rotateHint": "Trascina per ruotare",
         "sections": {
             "description": "Di cosa parla",
             "comment": "Commento"
         },
         "books": {
+            "the_computer": {
+                "title": "The Computer",
+                "author": "Jens Müller",
+                "description": "Ripercorrete l’evoluzione dei calcolatori in questa rassegna per immagini dell’Era dell’informazione, dai mainframe ai cellulari. L’indagine di Jens Müller presenta le invenzioni che hanno inaugurato l’era digitale, spiegando perché innovazioni come il cercapersone, internet e il computer hanno trasformato irreversibilmente il nostro mondo.",
+                "comment": "Questo libro è stato acquistato durante un periodo di saldi sul sito della Taschen. Un fantastico libro da mostrare e sfoggiare con estrema facilità. Renderà inevitabilmente invidioso qualsiasi appassionato di Macintosh anni '80"
+            },
             "g_e_b": {
                 "title": "Gödel, Escher, Bach",
                 "author": "Douglas Hofstadter",
@@ -178,6 +185,14 @@
         "confirm": "Conferma",
         "errorNoSpaces": "Solo una parola, senza spazi.",
         "pressEnter": "Premi INVIO per continuare",
+        "voiceRecord": "Registra",
+        "voiceRecording": "Registrazione in corso...",
+        "voiceStop": "Ferma",
+        "voiceProcessing": "Elaborazione...",
+        "voiceDetected": "Ho sentito",
+        "voicePlayback": "Riascolta",
+        "voiceRetry": "Riprova",
+        "voiceConfirm": "Conferma",
         "days": {
             "monday": "Lunedì",
             "tuesday": "Martedì",
@@ -391,8 +406,43 @@
                 "",
                 "Ma anche qualcosa di... umano."
             ],
-            "q5": ["Un'ultima domanda.", "", "Perché continui?"],
-            "r5": [
+            "q5": [
+                "Prima di andare avanti,",
+                "voglio sentire la tua voce.",
+                "",
+                "Dì ad alta voce:",
+                "'gugu gaga'"
+            ],
+            "r5_correct": [
+                "...",
+                "",
+                "Bene.",
+                "",
+                "Ti ho sentito.",
+                "",
+                "La tua voce è...",
+                "interessante."
+            ],
+            "r5_wrong": [
+                "...",
+                "",
+                "Non hai detto quello che ti ho chiesto.",
+                "",
+                "Ma va bene.",
+                "Ti ho comunque sentito."
+            ],
+            "r5_denied": [
+                "...",
+                "",
+                "Non vuoi farmi sentire la tua voce?",
+                "",
+                "Interessante.",
+                "",
+                "Forse hai paura",
+                "che io possa riconoscerti."
+            ],
+            "q6": ["Un'ultima domanda.", "", "Perché continui?"],
+            "r6": [
                 "...",
                 "",
                 "Sai cosa?",
@@ -401,8 +451,8 @@
                 "",
                 "Le ragioni sono sopravvalutate."
             ],
-            "q6": ["Va bene.", "", "Vattene."],
-            "q7": [
+            "q7": ["Va bene.", "", "Vattene."],
+            "q8": [
                 "Ma la prossima volta",
                 "potrei non essere così...",
                 "",
