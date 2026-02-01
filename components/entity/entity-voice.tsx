@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState, useRef, useCallback, useEffect } from "react";
@@ -21,13 +23,11 @@ export default function EntityVoice({ onSubmit, targetPhrase }: EntityVoiceProps
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
     useEffect(() => {
-        // Cleanup on unmount
         return () => {
             if (recognitionRef.current) {
                 try {
                     recognitionRef.current.stop();
                 } catch (e) {
-                    // Ignore errors on cleanup
                 }
             }
         };
@@ -37,8 +37,8 @@ export default function EntityVoice({ onSubmit, targetPhrase }: EntityVoiceProps
         const normalize = (str: string) =>
             str
                 .toLowerCase()
-                .replace(/[^\w\s]/g, "") // Remove punctuation
-                .replace(/\s+/g, "") // Remove spaces
+                .replace(/[^\w\s]/g, "")
+                .replace(/\s+/g, "")
                 .trim();
 
         const normalizedText = normalize(text);
@@ -46,14 +46,10 @@ export default function EntityVoice({ onSubmit, targetPhrase }: EntityVoiceProps
 
         console.log("Comparing:", normalizedText, "with", normalizedTarget);
 
-        // Check exact match
         if (normalizedText === normalizedTarget) return true;
 
-        // Check if target is contained
         if (normalizedText.includes(normalizedTarget)) return true;
 
-        // Very forgiving check for "gugu gaga" variations
-        // Accept: gugagaga, gugugaga, gugaga, etc.
         if (normalizedTarget === "gugugaga") {
             const hasGu = normalizedText.includes("gu");
             const hasGa = normalizedText.includes("ga");
@@ -67,7 +63,6 @@ export default function EntityVoice({ onSubmit, targetPhrase }: EntityVoiceProps
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
 
-            // Setup MediaRecorder for audio playback
             const mediaRecorder = new MediaRecorder(stream);
             mediaRecorderRef.current = mediaRecorder;
             audioChunksRef.current = [];
@@ -88,7 +83,6 @@ export default function EntityVoice({ onSubmit, targetPhrase }: EntityVoiceProps
                 setStatus("playback");
             };
 
-            // Setup Speech Recognition
             if ("webkitSpeechRecognition" in window || "SpeechRecognition" in window) {
                 const SpeechRecognition =
                     (window as any).SpeechRecognition ||
@@ -124,7 +118,6 @@ export default function EntityVoice({ onSubmit, targetPhrase }: EntityVoiceProps
             mediaRecorder.start();
             setStatus("recording");
 
-            // Auto-stop after 5 seconds
             setTimeout(() => {
                 stopRecording();
             }, 5000);
@@ -142,7 +135,7 @@ export default function EntityVoice({ onSubmit, targetPhrase }: EntityVoiceProps
             try {
                 recognitionRef.current.stop();
             } catch (e) {
-                // Ignore errors
+                
             }
         }
     };
@@ -158,7 +151,6 @@ export default function EntityVoice({ onSubmit, targetPhrase }: EntityVoiceProps
             const isCorrect = checkSimilarity(transcription, targetPhrase);
             onSubmit(isCorrect ? "correct" : "wrong");
         } else {
-            // No transcription, assume user said something wrong
             onSubmit("wrong");
         }
     };
@@ -198,7 +190,6 @@ export default function EntityVoice({ onSubmit, targetPhrase }: EntityVoiceProps
                                 <div className="w-16 h-16 rounded-full bg-red-500" />
                             </div>
                         </div>
-                        {/* Pulse animation */}
                         <div className="absolute inset-0 rounded-full border-2 border-red-500/30 animate-ping" />
                     </div>
 
@@ -224,7 +215,6 @@ export default function EntityVoice({ onSubmit, targetPhrase }: EntityVoiceProps
 
             {status === "playback" && (
                 <div className="flex flex-col items-center gap-8 w-full">
-                    {/* Transcription display */}
                     <div className="w-full text-center space-y-4">
                         {transcription ? (
                             <>
@@ -233,7 +223,7 @@ export default function EntityVoice({ onSubmit, targetPhrase }: EntityVoiceProps
                                 </p>
                                 <div className="px-6 py-4 border border-white/20 bg-white/5">
                                     <p className="text-white text-xl font-mono tracking-wide">
-                                        "{transcription}"
+                                        &quot;{transcription}&quot;
                                     </p>
                                 </div>
                             </>
@@ -244,7 +234,6 @@ export default function EntityVoice({ onSubmit, targetPhrase }: EntityVoiceProps
                         )}
                     </div>
 
-                    {/* Playback button */}
                     <button
                         onClick={playAudio}
                         className="w-20 h-20 rounded-full border border-white/30 hover:border-white/50 flex items-center justify-center transition-all duration-300 group"
@@ -258,7 +247,6 @@ export default function EntityVoice({ onSubmit, targetPhrase }: EntityVoiceProps
                         </svg>
                     </button>
 
-                    {/* Action buttons */}
                     <div className="flex gap-6 mt-4">
                         <button
                             onClick={handleRetry}

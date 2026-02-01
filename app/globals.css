@@ -12,20 +12,17 @@ body {
     font-family: var(--font-arimo), sans-serif;
 }
 
-/* Accessibility: Focus visible states */
 *:focus-visible {
     outline: 2px solid #330014;
     outline-offset: 2px;
 }
 
-/* Dark backgrounds need light focus ring */
 [data-navbar-theme="dark"] *:focus-visible,
 .bg-black *:focus-visible,
 .bg-\[\#330014\] *:focus-visible {
     outline-color: #FFF5F5;
 }
 
-/* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -67,7 +64,6 @@ html::-webkit-scrollbar {
     color: #FFF5F5;
 }
 
-/* Nascondi controlli video su mobile */
 video::-webkit-media-controls {
     display: none !important;
 }
@@ -97,7 +93,6 @@ button {
     cursor: pointer;
 }
 
-/* Scroll indicator animations */
 @keyframes ping-slow {
     0% {
         transform: scale(1);
@@ -156,4 +151,14 @@ button {
 
 .animate-bounce-subtle {
     animation: bounce-subtle 1.5s ease-in-out infinite;
+}
+
+
+@keyframes waveMove {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50px);
+    }
 }

@@ -83,12 +83,12 @@ function SelectedBook({ book }: { book: BookType }) {
         });
 
         return [
-            spineMaterial,  // +X - spine (costa)
-            backMaterial,   // -X - back (retro, opposto a spine)
-            pagesMaterial,  // +Y - sopra
-            pagesMaterial,  // -Y - sotto
-            frontMaterial,  // +Z - front (copertina fronte)
-            pagesMaterial,  // -Z - bordo pagine
+            spineMaterial,
+            backMaterial,
+            pagesMaterial,
+            pagesMaterial,
+            frontMaterial,
+            pagesMaterial,
         ];
     }, [book.pagesColor, frontTexture, backTexture, spineTexture]);
 
@@ -158,7 +158,6 @@ export default function SelectedBookViewer({ book }: SelectedBookViewerProps) {
                     <SelectedBook book={book} />
                 </Suspense>
 
-                {/* Grid under the book */}
                 <gridHelper
                     args={[8, 20, "#FFF5F5", "#FFF5F5"]}
                     position={[0, -2, 0]}

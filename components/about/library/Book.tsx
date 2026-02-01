@@ -13,20 +13,22 @@ interface BookProps {
     isSelected?: boolean;
 }
 
-export default function Book({ book, position, onClick, isSelected }: BookProps) {
+export default function Book({
+    book,
+    position,
+    onClick,
+    isSelected,
+}: BookProps) {
     const meshRef = useRef<THREE.Mesh>(null);
     const [hoveredRaw, setHoveredRaw] = useState(false);
 
-    // Reset hover state when book gets selected (since mesh unmounts and onPointerLeave won't fire)
+    const hovered = hoveredRaw && !isSelected;
+
     useEffect(() => {
         if (isSelected) {
-            setHoveredRaw(false);
             document.body.style.cursor = "auto";
         }
     }, [isSelected]);
-
-    // Hover is only active when not selected
-    const hovered = hoveredRaw && !isSelected;
 
     const [frontTexture, backTexture, spineTexture] = useTexture([
         book.textures.front,
@@ -98,12 +100,12 @@ export default function Book({ book, position, onClick, isSelected }: BookProps)
         });
 
         return [
-            spineMaterial,  // +X - spine (costa, verso utente)
-            backMaterial,   // -X - back (retro, opposto a spine)
-            pagesMaterial,  // +Y - sopra
-            pagesMaterial,  // -Y - sotto
-            frontMaterial,  // +Z - front (copertina fronte)
-            pagesMaterial,  // -Z - bordo pagine
+            spineMaterial,
+            backMaterial,
+            pagesMaterial,
+            pagesMaterial,
+            frontMaterial,
+            pagesMaterial,
         ];
     }, [book.pagesColor, frontTexture, backTexture, spineTexture]);
 

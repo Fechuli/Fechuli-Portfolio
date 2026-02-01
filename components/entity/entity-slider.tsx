@@ -41,7 +41,6 @@ export default function EntitySlider({
                     delay: 0.5,
                 }
             );
-            // Auto-focus the container so keyboard navigation works immediately
             setTimeout(() => {
                 containerRef.current?.focus();
             }, 600);
@@ -49,7 +48,6 @@ export default function EntitySlider({
     }, []);
 
     useEffect(() => {
-        // Animate items on selection change
         itemsRef.current.forEach((item, index) => {
             if (!item) return;
 
@@ -117,16 +115,13 @@ export default function EntitySlider({
             onKeyDown={handleKeyDown}
             tabIndex={0}
         >
-            {/* Main display */}
             <div className="flex flex-col items-center gap-12">
-                {/* Selected value display */}
                 <div className="text-center">
                     <div className="text-6xl sm:text-8xl font-mono text-white tracking-wider">
                         {type === "days" ? days[selected] : selected}
                     </div>
                 </div>
 
-                {/* Items list */}
                 <div className="flex items-center justify-center gap-1 sm:gap-2 flex-wrap max-w-full px-4">
                     {items.map((item, index) => {
                         const isSelected =
@@ -160,7 +155,6 @@ export default function EntitySlider({
                             >
                                 {type === "days" ? item.substring(0, 3).toUpperCase() : item}
 
-                                {/* Selection indicator */}
                                 {isSelected && (
                                     <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 bg-white rounded-full" />
                                 )}
@@ -169,13 +163,11 @@ export default function EntitySlider({
                     })}
                 </div>
 
-                {/* Keyboard hint */}
                 <div className="text-white/50 text-sm font-mono text-center">
                     ← → {t("pressEnter")}
                 </div>
             </div>
 
-            {/* Confirm button */}
             <button
                 onClick={handleSubmit}
                 className="mt-12 block mx-auto px-8 py-3 text-white/40 text-sm font-mono hover:text-white border border-white/10 hover:border-white/30 transition-all duration-300"

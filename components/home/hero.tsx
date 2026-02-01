@@ -297,7 +297,7 @@ export default function Hero() {
             tl.kill();
             split.revert();
         };
-    }, [isLoading, fontLoaded]);
+    }, [isLoading, fontLoaded, isLowPerformance]);
 
     return (
         <div className="bg-[#fff5f5] text-[#330014] h-dvh flex flex-col justify-between w-full relative pb-4 sm:pb-26">

@@ -9,6 +9,7 @@ import gsap from "gsap";
 import Library from "@/components/about/library";
 import LibraryIntro from "@/components/about/library/library-intro";
 import WireframeGlobe from "@/components/about/wireframe-globe";
+import MusicSection from "@/components/about/music";
 
 export default function AboutPage() {
     const t = useTranslations("aboutPage");
@@ -85,6 +86,7 @@ export default function AboutPage() {
             </div>
             <LibraryIntro />
             <Library />
+            <MusicSection />
         </div>
     );
 }

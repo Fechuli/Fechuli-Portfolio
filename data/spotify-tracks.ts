@@ -1,5 +1,3 @@
-// Spotify embed data for Lowvibes tracks
-
 export interface SpotifyTrack {
     id: string;
     name: string;
@@ -34,19 +32,16 @@ export const FEATURED_TRACKS: SpotifyTrack[] = [
 export const SPOTIFY_EMBEDS = {
     artistProfile:
         "https://open.spotify.com/intl-it/artist/0QoH2ffwsLCEdr25Yrk26z",
-    // Optional: album embed if user wants to feature full album
-    albumEmbed: "https://open.spotify.com/embed/album/...", // TO BE FILLED
+    albumEmbed: "https://open.spotify.com/embed/album/...",
 };
 
-// Link to artist page
 export const ARTIST_URL =
     "https://open.spotify.com/intl-it/artist/0QoH2ffwsLCEdr25Yrk26z";
 
-// Helper to get standard Spotify embed parameters
 export function getSpotifyEmbedParams(trackId: string): string {
     const params = new URLSearchParams({
         utm_source: "generator",
-        theme: "0", // Dark theme to match site aesthetic
+        theme: "0",
     });
     return `https://open.spotify.com/embed/track/${trackId}?${params.toString()}`;
 }

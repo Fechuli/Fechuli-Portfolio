@@ -15,7 +15,6 @@ export default function MenuButton({ onClick }: MenuButtonProps) {
         const button = buttonRef.current;
         if (!button) return;
 
-        // Kill any ongoing animations to prevent glitching
         gsap.killTweensOf(button);
         linesRef.current.forEach((line) => {
             if (line) gsap.killTweensOf(line);
@@ -55,7 +54,6 @@ export default function MenuButton({ onClick }: MenuButtonProps) {
         const button = buttonRef.current;
         if (!button) return;
 
-        // Kill any ongoing animations to prevent glitching
         gsap.killTweensOf(button);
         linesRef.current.forEach((line) => {
             if (line) gsap.killTweensOf(line);

@@ -246,7 +246,6 @@ export default function SecondSection() {
             className="bg-[#330014] text-[#FFF5F5] relative overflow-hidden"
             data-navbar-theme="dark"
         >
-            {/* Background images */}
             {BACKGROUND_IMAGES.map((img, index) => (
                 <BackgroundElement
                     key={`img-${index}`}
@@ -259,7 +258,6 @@ export default function SecondSection() {
                     parallaxSpeed={img.parallaxSpeed}
                 />
             ))}
-            {/* Background texts */}
             {backgroundTexts.map((text, index) => (
                 <BackgroundElement
                     key={`text-${index}`}
