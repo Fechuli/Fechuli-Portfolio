@@ -65,6 +65,7 @@ export default function EntityChoice({
                         text-white/70 text-2xl sm:text-3xl font-mono
                         hover:bg-white hover:text-black
                         transition-all duration-200
+                        outline-none focus:outline-none
                     `}
                 >
                     {t("yes")}
@@ -77,6 +78,7 @@ export default function EntityChoice({
                         text-white/70 text-2xl sm:text-3xl font-mono
                         hover:bg-white hover:text-black
                         transition-all duration-200
+                        outline-none focus:outline-none
                     `}
                 >
                     {t("no")}
@@ -95,6 +97,7 @@ export default function EntityChoice({
                         flex items-center gap-4 w-full
                         text-left text-xl sm:text-2xl font-mono
                         transition-all duration-200
+                        outline-none focus:outline-none
                         ${
                             selected === option.key
                                 ? "text-white"
@@ -124,7 +127,7 @@ export default function EntityChoice({
             {selected && (
                 <button
                     onClick={handleSubmit}
-                    className="mt-8 text-white/40 text-sm font-mono hover:text-white/70 transition-colors"
+                    className="mt-8 text-white/40 text-sm font-mono hover:text-white/70 transition-colors outline-none focus:outline-none"
                 >
                     {t("confirm")}
                 </button>

@@ -365,10 +365,14 @@ export default function EntityInteraction() {
 
     const replaceVariables = useCallback(
         (text: string | string[], value?: string): string | string[] => {
+            const translatedValue = value && DAY_KEYS.includes(value)
+                ? t(`days.${value}`)
+                : (value || "");
+
             const replace = (str: string) =>
                 str
                     .replace(/{name}/g, context.name || "...")
-                    .replace(/{value}/g, value || "")
+                    .replace(/{value}/g, translatedValue)
                     .replace(/{previousName}/g, context.previousName || "")
                     .replace(/{correct}/g, getCurrentDayTranslated());
             if (Array.isArray(text)) {
@@ -376,7 +380,7 @@ export default function EntityInteraction() {
             }
             return replace(text);
         },
-        [context.name, context.previousName, getCurrentDayTranslated]
+        [context.name, context.previousName, getCurrentDayTranslated, t]
     );
 
     const getTranslation = useCallback((key: string): string | string[] => {

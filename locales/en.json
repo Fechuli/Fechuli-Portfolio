@@ -538,7 +538,8 @@
     },
     "music": {
         "intro": {
-            "title": "",
+            "title": "LowVibes",
+            "label": "Est. 28/12/17 — Firenze",
             "text": "I hope the library wasn't too dusty, you're now in one of the cornerstones of my life. Music has in fact forged a large part of my adolescence and I'd like to share a piece of it with you. Lorenzo and I founded LowVibes on 28/12/17. The desire to make music, in addition to paternal influences, comes from travel (an ever-present feature in almost all our tracks). We had this habit of doing Florence Livorno, Livorno Florence and Florence Puntala and back, and in these moments we managed to enjoy music differently this led us to become LowVibes"
         },
         "timeline": {
@@ -553,6 +554,7 @@
         },
         "spotify": {
             "title": "Listen on Spotify",
+            "stats": "12 tracks · 2 EPs · since 2017",
             "listen": "Listen",
             "viewProfile": "View full profile"
         },
@@ -634,6 +636,20 @@
             },
             "loading": "Initializing audio engine...",
             "clickToEnable": "Click to enable audio"
+        }
+    },
+    "filters": {
+        "liquify": {
+            "label": "Liquify",
+            "description": "Organic wave distortion"
+        },
+        "crt": {
+            "label": "Vintage CRT",
+            "description": "Retro tube screen with barrel distortion"
+        },
+        "chromatic": {
+            "label": "Chromatic",
+            "description": "RGB channel separation"
         }
     }
 }

@@ -11,152 +11,172 @@ gsap.registerPlugin(ScrollTrigger);
 export default function MusicalTimeline() {
     const t = useTranslations("music.timeline");
     const containerRef = useRef<HTMLDivElement>(null);
-    const milestonesRefs = useRef<(HTMLDivElement | null)[]>([]);
+    const spineRef = useRef<HTMLDivElement>(null);
+    const titleRef = useRef<HTMLHeadingElement>(null);
+    const milestonesRefs = useRef<(HTMLLIElement | null)[]>([]);
 
     useEffect(() => {
-        if (!containerRef.current) return;
+        const container = containerRef.current;
+        const titleEl = titleRef.current;
+        const spineEl = spineRef.current;
 
-        milestonesRefs.current.forEach((milestone) => {
-            if (milestone) {
-                gsap.set(milestone, {
-                    opacity: 0,
-                    y: 30,
-                });
-            }
-        });
+        if (!container) return;
 
-        milestonesRefs.current.forEach((milestone) => {
-            if (milestone) {
-                ScrollTrigger.create({
-                    trigger: milestone,
-                    start: "top 85%",
-                    onEnter: () => {
-                        gsap.to(milestone, {
-                            opacity: 1,
-                            y: 0,
-                            duration: 0.8,
-                            ease: "power2.out",
-                        });
-                    },
-                });
-            }
-        });
-
-        return () => {
-            ScrollTrigger.getAll().forEach((trigger) => {
-                trigger.kill();
+        // Respect reduced motion preference
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            if (titleEl) gsap.set(titleEl, { opacity: 1 });
+            if (spineEl) gsap.set(spineEl, { scaleY: 1 });
+            milestonesRefs.current.forEach((el) => {
+                if (el) gsap.set(el, { opacity: 1 });
             });
-        };
+            return;
+        }
+
+        const ctx = gsap.context(() => {
+            // Title entrance
+            if (titleEl) {
+                gsap.fromTo(
+                    titleEl,
+                    { y: 60, opacity: 0 },
+                    {
+                        y: 0,
+                        opacity: 1,
+                        duration: 1.2,
+                        ease: "expo.out",
+                        scrollTrigger: {
+                            trigger: titleEl,
+                            start: "top 80%",
+                        },
+                    }
+                );
+            }
+
+            // Spine grows with scroll
+            if (spineEl) {
+                gsap.fromTo(
+                    spineEl,
+                    { scaleY: 0 },
+                    {
+                        scaleY: 1,
+                        ease: "none",
+                        scrollTrigger: {
+                            trigger: container,
+                            start: "top 40%",
+                            end: "bottom 60%",
+                            scrub: 0.3,
+                        },
+                    }
+                );
+            }
+
+            // Milestones slide in from alternating sides
+            milestonesRefs.current.forEach((el, i) => {
+                if (!el) return;
+
+                const isLeft = i % 2 === 0;
+
+                gsap.fromTo(
+                    el,
+                    { opacity: 0, x: isLeft ? -30 : 30 },
+                    {
+                        opacity: 1,
+                        x: 0,
+                        duration: 1.2,
+                        ease: "expo.out",
+                        scrollTrigger: {
+                            trigger: el,
+                            start: "top 85%",
+                        },
+                    }
+                );
+            });
+        }, container);
+
+        return () => ctx.revert();
     }, []);
 
     return (
         <div
             ref={containerRef}
             data-navbar-theme="light"
-            className="relative py-20 sm:py-32 px-6 sm:px-12 overflow-hidden bg-[#FFF5F5]"
+            className="relative py-32 sm:py-40 px-6 sm:px-12 md:px-20 bg-[#FFF5F5]"
         >
-            <div className="max-w-7xl mx-auto mb-16 sm:mb-24">
-                <h2 className="resin text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-center text-[#330014]">
-                    {t("title")}
-                </h2>
-            </div>
+            {/* Section title */}
+            <h2
+                ref={titleRef}
+                className="resin text-[clamp(3rem,8vw,9rem)] text-[#330014] tracking-[-0.06em] leading-[0.9] mb-24 sm:mb-32 opacity-0"
+            >
+                {t("title")}
+            </h2>
 
-            <div className="relative max-w-7xl mx-auto space-y-24 sm:space-y-32">
-                {LOWVIBES_TIMELINE.map((milestone, index) => {
-                    const isLeft = index % 2 === 0;
-                    const rotation = isLeft ? -1.5 : 1.5;
+            {/* Timeline container */}
+            <div className="relative max-w-6xl mx-auto">
+                {/* Spine — mobile: left edge, desktop: centered */}
+                <div className="absolute left-1.75 lg:left-1/2 lg:-translate-x-px top-0 bottom-0">
+                    <div
+                        ref={spineRef}
+                        className="w-px h-full bg-[#330014]/15 origin-top"
+                    />
+                </div>
 
-                    return (
-                        <div
-                            key={`${milestone.year}-${milestone.title}`}
-                            ref={(el) => {
-                                milestonesRefs.current[index] = el;
-                            }}
-                            className={`flex flex-col ${
-                                isLeft
-                                    ? "lg:flex-row"
-                                    : "lg:flex-row-reverse"
-                            } gap-8 lg:gap-16 items-center`}
-                        >
-                            <div className="w-full lg:w-1/2 shrink-0">
+                {/* Milestones — semantic ordered list */}
+                <ol className="space-y-20 sm:space-y-28 lg:space-y-36 list-none">
+                    {LOWVIBES_TIMELINE.map((milestone, index) => {
+                        const isLeft = index % 2 === 0;
+                        const number = String(index + 1).padStart(2, "0");
+
+                        return (
+                            <li
+                                key={`${milestone.year}-${index}`}
+                                ref={(el) => {
+                                    milestonesRefs.current[index] = el;
+                                }}
+                                className="relative pl-10 lg:pl-0"
+                            >
+                                {/* Dot on the spine */}
+                                <div className="absolute left-0 lg:left-1/2 lg:-translate-x-1/2 top-1.5">
+                                    <div className="w-3.75 h-3.75 rounded-full border-2 border-[#330014] bg-[#FFF5F5]" />
+                                </div>
+
+                                {/* Content — alternates sides on desktop */}
                                 <div
-                                    className="relative bg-black border-4 border-[#FFF5F5] aspect-4/3 overflow-hidden"
-                                    style={{
-                                        transform: `rotate(${rotation}deg)`,
-                                        boxShadow:
-                                            "0 10px 40px rgba(0,0,0,0.3)",
-                                    }}
+                                    className={`lg:w-[45%] ${
+                                        isLeft
+                                            ? "lg:mr-auto lg:pr-20"
+                                            : "lg:ml-auto lg:pl-20"
+                                    }`}
                                 >
-                                    <div
-                                        className="absolute inset-0 flex items-center justify-center bg-linear-to-br from-[#330014] to-[#1a000a]"
-                                        style={{
-                                            filter: "contrast(1.1) saturate(0.8)",
-                                        }}
-                                    >
-                                        <div
-                                            className="absolute inset-0 pointer-events-none opacity-10"
-                                            style={{
-                                                backgroundImage:
-                                                    "repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255,255,255,0.05) 3px, rgba(255,255,255,0.05) 6px)",
-                                            }}
-                                        />
+                                    {/* Number marker */}
+                                    <span className="font-mono text-xs text-[#330014]/25 tracking-[0.2em]">
+                                        {number}.
+                                    </span>
 
-                                        <div
-                                            className="absolute inset-0 opacity-20 mix-blend-overlay"
-                                            style={{
-                                                backgroundImage:
-                                                    'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 400 400\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'1.5\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E")',
-                                                backgroundRepeat: "repeat",
-                                            }}
-                                        />
-
-                                        <div className="relative z-10 text-center">
-                                            <div className="font-mono text-sm text-[#FFE4D6]/40 mb-2">
-                                                [{milestone.year}]
-                                            </div>
-                                            <div className="text-6xl opacity-20">
-                                                🎵
-                                            </div>
-                                            <div className="font-mono text-xs text-[#FFE4D6]/30 mt-2 uppercase tracking-wider">
-                                                GIF Placeholder
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div
-                                        className="absolute inset-0 pointer-events-none"
-                                        style={{
-                                            background:
-                                                "radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.4) 100%)",
-                                        }}
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="w-full lg:w-1/2">
-                                <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 bg-[#330014]/10 border border-[#330014]/20 backdrop-blur-sm">
-                                    <div className="font-mono text-sm text-[#330014] font-bold">
+                                    {/* Year — typographic, large */}
+                                    <div className="resin text-[clamp(2.5rem,5vw,5rem)] text-[#330014] tracking-[-0.05em] leading-[0.9] mt-1">
                                         {milestone.year}
-                                        {milestone.month &&
-                                            `.${String(milestone.month).padStart(2, "0")}`}
                                     </div>
-                                    <div className="w-1 h-1 rounded-full bg-[#330014]/60" />
-                                    <div className="font-mono text-xs uppercase tracking-wider text-[#330014]/70">
-                                        {t(`categories.${milestone.category}`)}
-                                    </div>
+
+                                    {/* Category */}
+                                    <span className="inline-block font-mono text-[10px] uppercase tracking-[0.15em] text-[#330014]/35 mt-3">
+                                        {t(
+                                            `categories.${milestone.category}`
+                                        )}
+                                    </span>
+
+                                    {/* Title */}
+                                    <h3 className="resin text-xl sm:text-2xl md:text-3xl text-[#330014] mt-3 leading-tight">
+                                        {milestone.title}
+                                    </h3>
+
+                                    {/* Description */}
+                                    <p className="arimo text-sm sm:text-base text-[#330014]/60 leading-relaxed mt-3">
+                                        {milestone.description}
+                                    </p>
                                 </div>
-
-                                <h3 className="resin text-3xl sm:text-4xl md:text-5xl text-[#330014] mb-4 leading-tight">
-                                    {milestone.title}
-                                </h3>
-
-                                <p className="arimo text-base sm:text-lg md:text-xl text-[#330014]/90 leading-relaxed">
-                                    {milestone.description}
-                                </p>
-                            </div>
-                        </div>
-                    );
-                })}
+                            </li>
+                        );
+                    })}
+                </ol>
             </div>
         </div>
     );

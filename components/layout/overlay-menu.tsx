@@ -10,7 +10,7 @@ import InteractiveLogo, {
 import AnimatedLink from "../ui/animated-link";
 import TransitionLink from "../ui/transition-link";
 import { useLenis } from "@/lib/lenis-context";
-import { useHauntedCursor } from "@/lib/haunted-cursor-context";
+import { useFilter } from "@/lib/filter-context";
 
 interface OverlayMenuProps {
     isOpen: boolean;
@@ -26,7 +26,7 @@ export default function OverlayMenu({ isOpen, onClose }: OverlayMenuProps) {
     const [hoveredLink, setHoveredLink] = useState<number | null>(null);
     const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const { lenis } = useLenis();
-    const { isUnlocked, isEnabled, toggle } = useHauntedCursor();
+    const { isUnlocked, isEnabled, toggle } = useFilter();
 
     const handleLinkHover = (index: number | null) => {
         if (hoverTimeoutRef.current) {
@@ -255,7 +255,7 @@ export default function OverlayMenu({ isOpen, onClose }: OverlayMenuProps) {
                         <div className="flex-1 flex items-center justify-center w-full overflow-visible">
                             <InteractiveLogo
                                 ref={logoRef}
-                                className="w-full h-full max-w-[500px] overflow-visible"
+                                className="w-full h-full max-w-125 overflow-visible"
                                 animate={isOpen}
                                 hoveredLink={hoveredLink}
                             />

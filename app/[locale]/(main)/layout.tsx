@@ -14,21 +14,13 @@ import CornerGrids from "@/components/ui/corner-grids";
 import Footer from "@/components/layout/footer";
 import OfflineOverlay from "@/components/effects/offline-overlay";
 import EntityInteraction from "@/components/entity/entity-interaction";
-import {
-    HauntedCursorProvider,
-    useHauntedCursor,
-} from "@/lib/haunted-cursor-context";
-import HauntedCursor from "@/components/effects/haunted-cursor";
+import { FilterProvider } from "@/lib/filter-context";
+import FilterController from "@/components/effects/filters/filter-controller";
+import FilterAccordionMenu from "@/components/effects/filters/filter-accordion-menu";
 import { NavbarThemeProvider } from "@/lib/navbar-theme-context";
 import ScrollIndicator from "@/components/ui/scroll-indicator";
 
 const emptySubscribe = () => () => {};
-
-function HauntedCursorEffect() {
-    const { isEnabled } = useHauntedCursor();
-    if (!isEnabled) return null;
-    return <HauntedCursor />;
-}
 
 function LayoutContent({ children }: { children: React.ReactNode }) {
     const { setIsLoading } = useLoader();
@@ -61,7 +53,8 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
     return (
         <>
             <GrainOverlay />
-            <HauntedCursorEffect />
+            <FilterController />
+            <FilterAccordionMenu />
             <PageLoader onComplete={() => setIsLoading(false)} />
             <TransitionProvider>
                 <TransitionWrapper>
@@ -69,7 +62,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
                         <NavbarThemeProvider>
                             <CornerGrids />
                             <ScrollIndicator />
-                            <div className="sm:rounded-t-3xl bg-[#FFF5F5] max-w-[2000px] mx-auto">
+                            <div className="sm:rounded-t-3xl bg-[#FFF5F5] max-w-500 mx-auto">
                                 <Navbar />
                                 <ViewTransition>{children}</ViewTransition>
                                 <Footer />
@@ -88,10 +81,10 @@ export default function MainLayout({
     children: React.ReactNode;
 }) {
     return (
-        <HauntedCursorProvider>
+        <FilterProvider>
             <LoaderProvider>
                 <LayoutContent>{children}</LayoutContent>
             </LoaderProvider>
-        </HauntedCursorProvider>
+        </FilterProvider>
     );
 }

@@ -111,17 +111,12 @@ export default function EntitySlider({
         <div
             ref={containerRef}
             className="w-full max-w-3xl outline-none focus:outline-none"
-            style={{ opacity: 0 }}
+            style={{ opacity: 0, outline: 'none' }}
             onKeyDown={handleKeyDown}
+            onFocus={(e) => e.currentTarget.style.outline = 'none'}
             tabIndex={0}
         >
             <div className="flex flex-col items-center gap-12">
-                <div className="text-center">
-                    <div className="text-6xl sm:text-8xl font-mono text-white tracking-wider">
-                        {type === "days" ? days[selected] : selected}
-                    </div>
-                </div>
-
                 <div className="flex items-center justify-center gap-1 sm:gap-2 flex-wrap max-w-full px-4">
                     {items.map((item, index) => {
                         const isSelected =
@@ -139,9 +134,12 @@ export default function EntitySlider({
                                         type === "days" ? index : min + index
                                     )
                                 }
+                                onMouseDown={(e) => e.preventDefault()}
+                                tabIndex={-1}
                                 className={`
                                     relative px-2 py-1 sm:px-3 sm:py-2 font-mono text-xs sm:text-sm
                                     transition-all duration-300
+                                    outline-none focus:outline-none
                                     ${
                                         isSelected
                                             ? "text-white"
@@ -170,7 +168,7 @@ export default function EntitySlider({
 
             <button
                 onClick={handleSubmit}
-                className="mt-12 block mx-auto px-8 py-3 text-white/40 text-sm font-mono hover:text-white border border-white/10 hover:border-white/30 transition-all duration-300"
+                className="mt-12 block mx-auto px-8 py-3 text-white/40 text-sm font-mono hover:text-white border border-white/10 hover:border-white/30 transition-all duration-300 outline-none focus:outline-none"
             >
                 {t("confirm")}
             </button>

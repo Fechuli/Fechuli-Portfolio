@@ -542,7 +542,8 @@
     },
     "music": {
         "intro": {
-            "title": "",
+            "title": "LowVibes",
+            "label": "Est. 28/12/17 — Firenze",
             "text": "Spero che la libreria non fosse troppo polverosa, ti trovi ora in una dei punti cardini della mia vita. La musica ha di fatto forgiato gran parte della mia adolescenza e vorrei condividerne un pezzo con te. Io e il mio socio Lorenzo fondiamo i LowVibes nel 28/12/17. La voglia di fare musica, oltre alle influenze paterne, viene dal viaggio (caratteristica onnipresente in quasi tutti i nostri brani). Avevamo questo vizio di fare Firenze Livorno, Livorno Firenze e Firenze Puntala e ritorno e in questi momenti riuscivamo a goderci la musica in maniera diversa questo ci ha portato ad essere i LowVibes"
         },
         "timeline": {
@@ -557,6 +558,7 @@
         },
         "spotify": {
             "title": "Ascolta su Spotify",
+            "stats": "12 brani · 2 EP · dal 2017",
             "listen": "Ascolta",
             "viewProfile": "Vedi profilo completo"
         },
@@ -638,6 +640,20 @@
             },
             "loading": "Inizializzazione audio engine...",
             "clickToEnable": "Clicca per attivare l'audio"
+        }
+    },
+    "filters": {
+        "liquify": {
+            "label": "Liquefa",
+            "description": "Distorsione organica ad onde"
+        },
+        "crt": {
+            "label": "CRT Vintage",
+            "description": "Schermo a tubo catodico con distorsione barrel"
+        },
+        "chromatic": {
+            "label": "Cromatico",
+            "description": "Separazione canali RGB"
         }
     }
 }

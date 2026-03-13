@@ -121,7 +121,7 @@ function LoadingFallback() {
 
 export default function SelectedBookViewer({ book }: SelectedBookViewerProps) {
     return (
-        <div className="w-full h-full min-h-[350px]">
+        <div className="w-full h-full min-h-87.5">
             <Canvas
                 camera={{
                     position: [2, 0.5, 3.5],

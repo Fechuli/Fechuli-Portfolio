@@ -175,7 +175,7 @@ export default function EntityVoice({ onSubmit, targetPhrase }: EntityVoiceProps
                     </div>
                     <button
                         onClick={startRecording}
-                        className="px-12 py-4 text-white/70 text-base font-mono hover:text-white border border-white/20 hover:border-white/40 transition-all duration-300"
+                        className="px-12 py-4 text-white/70 text-base font-mono hover:text-white border border-white/20 hover:border-white/40 transition-all duration-300 outline-none focus:outline-none"
                     >
                         {t("voiceRecord")}
                     </button>
@@ -206,7 +206,7 @@ export default function EntityVoice({ onSubmit, targetPhrase }: EntityVoiceProps
 
                     <button
                         onClick={stopRecording}
-                        className="px-8 py-2 text-white/50 text-sm font-mono hover:text-white/70 border border-white/20 hover:border-white/30 transition-all duration-300"
+                        className="px-8 py-2 text-white/50 text-sm font-mono hover:text-white/70 border border-white/20 hover:border-white/30 transition-all duration-300 outline-none focus:outline-none"
                     >
                         {t("voiceStop")}
                     </button>
@@ -236,7 +236,7 @@ export default function EntityVoice({ onSubmit, targetPhrase }: EntityVoiceProps
 
                     <button
                         onClick={playAudio}
-                        className="w-20 h-20 rounded-full border border-white/30 hover:border-white/50 flex items-center justify-center transition-all duration-300 group"
+                        className="w-20 h-20 rounded-full border border-white/30 hover:border-white/50 flex items-center justify-center transition-all duration-300 group outline-none focus:outline-none"
                     >
                         <svg
                             className="w-8 h-8 text-white/50 group-hover:text-white/70 transition-colors"
@@ -250,13 +250,13 @@ export default function EntityVoice({ onSubmit, targetPhrase }: EntityVoiceProps
                     <div className="flex gap-6 mt-4">
                         <button
                             onClick={handleRetry}
-                            className="px-8 py-3 text-white/40 text-sm font-mono hover:text-white/60 border border-white/10 hover:border-white/20 transition-all duration-300"
+                            className="px-8 py-3 text-white/40 text-sm font-mono hover:text-white/60 border border-white/10 hover:border-white/20 transition-all duration-300 outline-none focus:outline-none"
                         >
                             {t("voiceRetry")}
                         </button>
                         <button
                             onClick={handleConfirm}
-                            className="px-8 py-3 text-white/70 text-sm font-mono hover:text-white border border-white/30 hover:border-white/50 transition-all duration-300"
+                            className="px-8 py-3 text-white/70 text-sm font-mono hover:text-white border border-white/30 hover:border-white/50 transition-all duration-300 outline-none focus:outline-none"
                         >
                             {t("voiceConfirm")}
                         </button>

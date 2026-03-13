@@ -11,68 +11,108 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
 export default function MusicIntro() {
     const t = useTranslations("music.intro");
     const containerRef = useRef<HTMLDivElement>(null);
+    const titleRef = useRef<HTMLHeadingElement>(null);
+    const labelRef = useRef<HTMLDivElement>(null);
     const textRef = useRef<HTMLParagraphElement>(null);
 
     useEffect(() => {
-        if (!containerRef.current || !textRef.current) return;
-
         const container = containerRef.current;
+        const titleEl = titleRef.current;
+        const labelEl = labelRef.current;
+        const textEl = textRef.current;
 
-        gsap.set(textRef.current, { opacity: 1 });
+        if (!container || !titleEl || !textEl) return;
 
-        const split = new SplitText(textRef.current, { type: "chars" });
-        const chars = split.chars;
+        // Respect reduced motion preference
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            gsap.set(titleEl, { opacity: 1 });
+            if (labelEl) gsap.set(labelEl, { opacity: 1 });
+            gsap.set(textEl, { opacity: 1 });
+            return;
+        }
 
-        if (!chars || chars.length === 0) return;
+        let split: SplitText | null = null;
 
-        gsap.set(chars, {
-            opacity: 0,
-            x: -20,
-        });
+        const ctx = gsap.context(() => {
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: container,
+                    start: "top 75%",
+                },
+            });
 
-        ScrollTrigger.create({
-            trigger: container,
-            start: "top 75%",
-            onEnter: () => {
-                chars.forEach((char, i) => {
-                    gsap.to(char, {
+            // Title — dramatic entrance (Victor.work-inspired expo ease)
+            tl.fromTo(
+                titleEl,
+                { y: 100, opacity: 0 },
+                { y: 0, opacity: 1, duration: 1.4, ease: "expo.out" }
+            );
+
+            // Label line
+            if (labelEl) {
+                tl.fromTo(
+                    labelEl,
+                    { opacity: 0, y: 20 },
+                    { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" },
+                    "-=0.8"
+                );
+            }
+
+            // Body text — character-by-character reveal
+            gsap.set(textEl, { opacity: 1 });
+            split = new SplitText(textEl, { type: "chars" });
+
+            if (split.chars && split.chars.length > 0) {
+                gsap.set(split.chars, { opacity: 0 });
+                tl.to(
+                    split.chars,
+                    {
                         opacity: 1,
-                        x: 0,
-                        duration: 0.3,
-                        delay: i * 0.015,
-                        ease: "power2.out",
-                    });
-                });
-            },
-        });
+                        duration: 0.03,
+                        stagger: 0.008,
+                        ease: "none",
+                    },
+                    "-=0.2"
+                );
+            }
+        }, container);
 
         return () => {
-            split.revert();
-            ScrollTrigger.getAll().forEach((trigger) => {
-                if (trigger.trigger === container) {
-                    trigger.kill();
-                }
-            });
+            split?.revert();
+            ctx.revert();
         };
     }, []);
-
-    const title = t("title");
 
     return (
         <div
             ref={containerRef}
-            data-navbar-theme="light"
-            className="bg-[#FFF5F5] text-[#330014] py-20 sm:py-32 px-6 sm:px-12 md:px-20"
+            data-navbar-theme="dark"
+            className="relative bg-[#330014] text-[#FFF5F5] pt-32 pb-24 sm:pt-40 sm:pb-32 md:pt-52 md:pb-40 px-6 sm:px-12 md:px-20 overflow-hidden"
         >
-            <div className="max-w-4xl mx-auto">
-                {title && (
-                    <h2 className="resin text-4xl sm:text-5xl md:text-6xl lg:text-7xl mb-8 sm:mb-12">
-                        {title}
-                    </h2>
-                )}
+            {/* Title at viewport scale */}
+            <h2
+                ref={titleRef}
+                className="resin text-[clamp(4rem,13vw,15rem)] leading-[0.85] tracking-[-0.07em] opacity-0"
+            >
+                {t("title")}
+            </h2>
+
+            {/* Metadata label */}
+            <div
+                ref={labelRef}
+                className="flex items-center gap-4 mt-6 sm:mt-8 opacity-0"
+            >
+                <div className="h-px w-12 bg-[#FFF5F5]/30" />
+                <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#FFF5F5]/40">
+                    {t("label")}
+                </span>
+            </div>
+
+            {/* Body text — pushed right for asymmetry */}
+            <div className="max-w-xl ml-auto mt-16 sm:mt-24">
                 <p
                     ref={textRef}
-                    className="arimo text-base sm:text-lg md:text-xl leading-relaxed opacity-0"
+                    className="arimo text-base sm:text-lg leading-relaxed text-[#FFF5F5]/70 opacity-0"
                 >
                     {t("text")}
                 </p>

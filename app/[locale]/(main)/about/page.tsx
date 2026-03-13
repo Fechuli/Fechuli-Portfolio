@@ -79,7 +79,7 @@ export default function AboutPage() {
                 </div>
 
                 <div className="hidden sm:flex absolute inset-0 items-center justify-center pointer-events-none z-0">
-                    <div className="sm:w-[400px] sm:h-[400px] md:w-[500px] md:h-[500px] lg:w-[600px] lg:h-[600px]">
+                    <div className="sm:w-100 sm:h-100 md:w-125 md:h-125 lg:w-150 lg:h-150">
                         <WireframeGlobe containerRef={sectionRef} />
                     </div>
                 </div>

@@ -6,7 +6,7 @@ import SpotifyPlayer from "./spotify-player";
 
 export default function MusicSection() {
     return (
-        <section className="w-full">
+        <section className="w-full" aria-label="Music">
             <MusicIntro />
             <MusicalTimeline />
             <SpotifyPlayer />
