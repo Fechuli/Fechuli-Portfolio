@@ -89,6 +89,11 @@ export default function SpotifyPlayer() {
                         </span>
                     </a>
                 </div>
+
+                {/* 3D model credits — CC-BY compliance */}
+                <p className="font-mono text-[9px] text-[#FFF5F5]/15 mt-16 text-center leading-relaxed">
+                    3D models CC-BY via Poly Pizza — M. Uherčík, G. Ibias, P. Simcoe, Poly by Google
+                </p>
             </div>
         </section>
     );
