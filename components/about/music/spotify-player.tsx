@@ -7,94 +7,80 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const SPOTIFY_ARTIST_EMBED =
-    "https://open.spotify.com/embed/artist/0QoH2ffwsLCEdr25Yrk26z?utm_source=generator&theme=0";
-const SPOTIFY_PROFILE_URL =
+const SPOTIFY_URL =
     "https://open.spotify.com/intl-it/artist/0QoH2ffwsLCEdr25Yrk26z";
 
 export default function SpotifyPlayer() {
     const t = useTranslations("music.spotify");
-    const sectionRef = useRef<HTMLElement>(null);
-    const contentRef = useRef<HTMLDivElement>(null);
+    const ctaRef = useRef<HTMLAnchorElement>(null);
+    const creditsRef = useRef<HTMLParagraphElement>(null);
 
     useEffect(() => {
-        const section = sectionRef.current;
-        const content = contentRef.current;
+        const cta = ctaRef.current;
+        if (!cta) return;
 
-        if (!section || !content) return;
-
-        // Respect reduced motion preference
         if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-            gsap.set(content, { opacity: 1 });
+            gsap.set([cta, creditsRef.current], { opacity: 1 });
             return;
         }
 
         const ctx = gsap.context(() => {
             gsap.fromTo(
-                content,
-                { opacity: 0, y: 40 },
+                cta,
+                { y: 60, opacity: 0 },
                 {
-                    opacity: 1,
                     y: 0,
-                    duration: 1.2,
+                    opacity: 1,
+                    duration: 1.4,
                     ease: "expo.out",
-                    scrollTrigger: {
-                        trigger: section,
-                        start: "top 70%",
-                    },
+                    scrollTrigger: { trigger: cta, start: "top 85%" },
                 }
             );
-        }, section);
+
+            if (creditsRef.current) {
+                gsap.fromTo(
+                    creditsRef.current,
+                    { opacity: 0 },
+                    {
+                        opacity: 1,
+                        duration: 1,
+                        scrollTrigger: { trigger: creditsRef.current, start: "top 90%" },
+                    }
+                );
+            }
+        });
 
         return () => ctx.revert();
     }, []);
 
     return (
-        <section
-            ref={sectionRef}
-            className="relative bg-[#330014] py-24 sm:py-32 md:py-40 px-6 sm:px-12 md:px-20"
-            data-navbar-theme="dark"
-        >
-            <div ref={contentRef} className="max-w-4xl mx-auto opacity-0">
-                {/* Spotify embed — clean, no decorative wrapper */}
-                <div className="w-full aspect-square sm:aspect-video max-h-100">
-                    <iframe
-                        src={SPOTIFY_ARTIST_EMBED}
-                        width="100%"
-                        height="100%"
-                        className="border-0"
-                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                        loading="lazy"
-                        title="Spotify — LowVibes"
-                    />
-                </div>
+        <div className="relative bg-[#FFF5F5] pb-24 sm:pb-32 md:pb-40 px-6 sm:px-12 md:px-20">
+            {/* Giant CTA — typographic link to Spotify */}
+            <a
+                ref={ctaRef}
+                href={SPOTIFY_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group block max-w-6xl mx-auto pt-16 sm:pt-24 border-t border-[#330014]/10 opacity-0"
+            >
+                <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#330014]/30">
+                    Spotify
+                </span>
+                <span className="block resin text-[clamp(3rem,10vw,12rem)] text-[#330014] tracking-[-0.06em] leading-[0.85] mt-2 transition-colors duration-500 group-hover:text-[#330014]/50">
+                    {t("listen")}
+                    <span className="inline-block ml-[0.1em] text-[0.4em] align-top opacity-0 -translate-x-4 transition-all duration-500 group-hover:opacity-50 group-hover:translate-x-0 arimo">
+                        &#x2197;
+                    </span>
+                </span>
+            </a>
 
-                {/* Stats + CTA — inline, minimal */}
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mt-8 sm:mt-10 pt-8 sm:pt-10 border-t border-[#FFF5F5]/10">
-                    <p className="font-mono text-sm text-[#FFF5F5]/40 tracking-wide">
-                        {t("stats")}
-                    </p>
-
-                    <a
-                        href={SPOTIFY_PROFILE_URL}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group inline-flex items-center gap-2 mt-4 sm:mt-0 text-[#FFF5F5]/60 hover:text-[#FFF5F5] transition-colors duration-300"
-                    >
-                        <span className="font-mono text-sm tracking-wide">
-                            {t("viewProfile")}
-                        </span>
-                        <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
-                            &rarr;
-                        </span>
-                    </a>
-                </div>
-
-                {/* 3D model credits — CC-BY compliance */}
-                <p className="font-mono text-[9px] text-[#FFF5F5]/15 mt-16 text-center leading-relaxed">
-                    3D models CC-BY via Poly Pizza — M. Uherčík, G. Ibias, P. Simcoe, Poly by Google
-                </p>
-            </div>
-        </section>
+            {/* CC-BY credits */}
+            <p
+                ref={creditsRef}
+                className="font-mono text-[9px] text-[#330014]/10 mt-16 max-w-6xl mx-auto opacity-0"
+            >
+                3D models CC-BY via Poly Pizza — M. Uherčík, G. Ibias, P. Simcoe, Poly by Google
+            </p>
+        </div>
     );
 }

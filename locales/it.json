@@ -554,13 +554,24 @@
                 "performance": "Esibizione",
                 "studio": "Studio",
                 "journey": "Viaggio"
+            },
+            "cta": {
+                "label": "∞",
+                "text": "Ascolta su Spotify"
             }
         },
         "spotify": {
             "title": "Ascolta su Spotify",
             "stats": "12 brani · 2 EP · dal 2017",
             "listen": "Ascolta",
-            "viewProfile": "Vedi profilo completo"
+            "viewProfile": "Vedi profilo completo",
+            "statLabel1": "Brani",
+            "statValue1": "12",
+            "statLabel2": "Uscite",
+            "statValue2": "2 EP",
+            "statLabel3": "Attivi dal",
+            "statValue3": "2017",
+            "closing": "Musica fatta in cameretta, esportata alle 3 di notte, ascoltata da gente che non incontreremo mai. Questo è il patto."
         },
         "synth": {
             "title": "Juno Synthesizer",

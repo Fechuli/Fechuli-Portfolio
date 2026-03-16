@@ -16,33 +16,39 @@ const TimelineModel = dynamic(
 
 gsap.registerPlugin(ScrollTrigger);
 
+const STICKY_BASE = 100;
+const STICKY_STEP = 25;
+
 export default function MusicalTimeline() {
     const t = useTranslations("music.timeline");
     const containerRef = useRef<HTMLDivElement>(null);
-    const spineRef = useRef<HTMLDivElement>(null);
     const titleRef = useRef<HTMLHeadingElement>(null);
+    const cardsRef = useRef<HTMLDivElement>(null);
     const milestonesRefs = useRef<(HTMLLIElement | null)[]>([]);
+    const ctaRef = useRef<HTMLDivElement>(null);
     const { isMobile } = useMobileDetect();
 
     useEffect(() => {
         const container = containerRef.current;
         const titleEl = titleRef.current;
-        const spineEl = spineRef.current;
 
         if (!container) return;
 
-        // Respect reduced motion preference
         if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
             if (titleEl) gsap.set(titleEl, { opacity: 1 });
-            if (spineEl) gsap.set(spineEl, { scaleY: 1 });
             milestonesRefs.current.forEach((el) => {
-                if (el) gsap.set(el, { opacity: 1 });
+                if (el) {
+                    gsap.set(el, { opacity: 1 });
+                    const content = el.querySelector("[data-content]");
+                    if (content) gsap.set(content, { opacity: 1 });
+                }
             });
+            if (ctaRef.current) gsap.set(ctaRef.current, { opacity: 1 });
             return;
         }
 
         const ctx = gsap.context(() => {
-            // Title entrance
+            // --- Title: scrub-based entrance ---
             if (titleEl) {
                 gsap.fromTo(
                     titleEl,
@@ -50,55 +56,80 @@ export default function MusicalTimeline() {
                     {
                         y: 0,
                         opacity: 1,
-                        duration: 1.2,
-                        ease: "expo.out",
-                        scrollTrigger: {
-                            trigger: titleEl,
-                            start: "top 80%",
-                        },
-                    }
-                );
-            }
-
-            // Spine grows with scroll
-            if (spineEl) {
-                gsap.fromTo(
-                    spineEl,
-                    { scaleY: 0 },
-                    {
-                        scaleY: 1,
                         ease: "none",
                         scrollTrigger: {
-                            trigger: container,
-                            start: "top 40%",
-                            end: "bottom 60%",
-                            scrub: 0.3,
+                            trigger: titleEl,
+                            start: "top 90%",
+                            end: "top 55%",
+                            scrub: 0.5,
                         },
                     }
                 );
             }
 
-            // Milestones slide in from alternating sides
-            milestonesRefs.current.forEach((el, i) => {
-                if (!el) return;
+            // --- Stacking card animations ---
+            const milestones = milestonesRefs.current.filter(Boolean) as HTMLLIElement[];
+            const total = milestones.length;
 
+            milestones.forEach((el, i) => {
                 const isLeft = i % 2 === 0;
 
+                // Content slides in from the side
+                const content = el.querySelector("[data-content]");
+                if (content) {
+                    gsap.fromTo(
+                        content,
+                        { x: isLeft ? -60 : 60, opacity: 0 },
+                        {
+                            x: 0,
+                            opacity: 1,
+                            ease: "none",
+                            scrollTrigger: {
+                                trigger: el,
+                                start: "top 85%",
+                                end: "top 50%",
+                                scrub: 0.4,
+                            },
+                        }
+                    );
+                }
+
+                // When the NEXT card approaches, this card dims + scales down
+                if (i < total - 1) {
+                    const nextEl = milestones[i + 1];
+                    if (nextEl) {
+                        gsap.to(el, {
+                            scale: 0.95,
+                            ease: "none",
+                            scrollTrigger: {
+                                trigger: nextEl,
+                                start: "top 85%",
+                                end: `top ${STICKY_BASE + (i + 1) * STICKY_STEP + 20}px`,
+                                scrub: true,
+                            },
+                        });
+                    }
+                }
+            });
+
+            // --- CTA entrance ---
+            if (ctaRef.current) {
                 gsap.fromTo(
-                    el,
-                    { opacity: 0, x: isLeft ? -30 : 30 },
+                    ctaRef.current,
+                    { y: 30, opacity: 0 },
                     {
+                        y: 0,
                         opacity: 1,
-                        x: 0,
-                        duration: 1.2,
-                        ease: "expo.out",
+                        ease: "none",
                         scrollTrigger: {
-                            trigger: el,
+                            trigger: ctaRef.current,
                             start: "top 85%",
+                            end: "top 55%",
+                            scrub: 0.5,
                         },
                     }
                 );
-            });
+            }
         }, container);
 
         return () => ctx.revert();
@@ -108,10 +139,10 @@ export default function MusicalTimeline() {
         <div
             ref={containerRef}
             data-navbar-theme="light"
-            className="relative py-32 sm:py-40 px-6 sm:px-12 md:px-20 bg-[#FFF5F5] overflow-visible"
+            className="relative px-6 sm:px-12 md:px-20 bg-[#FFF5F5]"
         >
-            {/* Logo curves — positioned so straight edges exit the viewport, only arcs visible */}
-            <div className="absolute -top-[5%] -right-[20%] w-[70vw] max-w-225 aspect-square overflow-hidden pointer-events-none select-none">
+            {/* Logo curves — background decoration */}
+            <div className="absolute -top-[5%] -right-[20%] w-[70vw] max-w-225 aspect-square overflow-visible pointer-events-none select-none z-0">
                 <svg
                     viewBox="0 0 55 55"
                     fill="none"
@@ -145,28 +176,22 @@ export default function MusicalTimeline() {
             </div>
 
             {/* Section title */}
-            <h2
-                ref={titleRef}
-                className="resin text-[clamp(3rem,8vw,9rem)] text-[#330014] tracking-[-0.06em] leading-[0.9] mb-24 sm:mb-32 opacity-0"
-            >
-                {t("title")}
-            </h2>
+            <div className="pt-32 sm:pt-40 pb-24 sm:pb-32">
+                <h2
+                    ref={titleRef}
+                    className="resin text-[clamp(3rem,8vw,9rem)] text-[#330014] tracking-[-0.06em] leading-[0.9] opacity-0"
+                >
+                    {t("title")}
+                </h2>
+            </div>
 
-            {/* Timeline container */}
-            <div className="relative max-w-6xl mx-auto">
-                {/* Spine — mobile: left edge, desktop: centered */}
-                <div className="absolute left-1.75 lg:left-1/2 lg:-translate-x-px top-0 bottom-0">
-                    <div
-                        ref={spineRef}
-                        className="w-px h-full bg-[#330014]/15 origin-top"
-                    />
-                </div>
-
-                {/* Milestones — semantic ordered list */}
-                <ol className="space-y-20 sm:space-y-28 lg:space-y-36 list-none">
+            {/* Stacking cards */}
+            <div ref={cardsRef} className="relative max-w-6xl mx-auto">
+                <ol className="list-none relative">
                     {LOWVIBES_TIMELINE.map((milestone, index) => {
                         const isLeft = index % 2 === 0;
                         const number = String(index + 1).padStart(2, "0");
+                        const stickyTop = STICKY_BASE + index * STICKY_STEP;
 
                         return (
                             <li
@@ -174,50 +199,48 @@ export default function MusicalTimeline() {
                                 ref={(el) => {
                                     milestonesRefs.current[index] = el;
                                 }}
-                                className="relative pl-10 lg:pl-0 overflow-visible"
+                                className={`
+                                    sticky will-change-transform
+                                    pt-14 pb-[35vh] px-4 lg:px-0
+                                    overflow-visible
+                                    ${index > 0 ? "bg-[#FFF5F5] shadow-[0_-8px_30px_-12px_rgba(51,0,20,0.06)]" : ""}
+                                `}
+                                style={{
+                                    top: `${stickyTop}px`,
+                                    zIndex: 10 + index,
+                                }}
                             >
-                                {/* Dot on the spine */}
-                                <div className="absolute left-0 lg:left-1/2 lg:-translate-x-1/2 top-1.5">
-                                    <div className="w-3.75 h-3.75 rounded-full border-2 border-[#330014] bg-[#FFF5F5]" />
-                                </div>
-
                                 {/* Content — alternates sides on desktop */}
                                 <div
-                                    className={`lg:w-[45%] ${
+                                    data-content
+                                    className={`lg:w-[45%] opacity-0 ${
                                         isLeft
                                             ? "lg:mr-auto lg:pr-20"
                                             : "lg:ml-auto lg:pl-20"
                                     }`}
                                 >
-                                    {/* Number marker */}
                                     <span className="font-mono text-xs text-[#330014]/25 tracking-[0.2em]">
                                         {number}.
                                     </span>
 
-                                    {/* Year — typographic, large */}
                                     <div className="resin text-[clamp(2.5rem,5vw,5rem)] text-[#330014] tracking-[-0.05em] leading-[0.9] mt-1">
                                         {milestone.year}
                                     </div>
 
-                                    {/* Category */}
                                     <span className="inline-block font-mono text-[10px] uppercase tracking-[0.15em] text-[#330014]/35 mt-3">
-                                        {t(
-                                            `categories.${milestone.category}`
-                                        )}
+                                        {t(`categories.${milestone.category}`)}
                                     </span>
 
-                                    {/* Title */}
                                     <h3 className="resin text-xl sm:text-2xl md:text-3xl text-[#330014] mt-3 leading-tight">
                                         {milestone.title}
                                     </h3>
 
-                                    {/* Description */}
                                     <p className="arimo text-sm sm:text-base text-[#330014]/60 leading-relaxed mt-3">
                                         {milestone.description}
                                     </p>
                                 </div>
 
-                                {/* 3D model on the empty side — desktop only */}
+                                {/* 3D model — desktop only, clipped to card */}
                                 {!isMobile &&
                                     TIMELINE_ARTIFACTS.filter(
                                         (a) => a.milestoneIndex === index
@@ -248,7 +271,38 @@ export default function MusicalTimeline() {
                         );
                     })}
                 </ol>
+
+                {/* Final node — Spotify CTA */}
+                <div
+                    ref={ctaRef}
+                    className="sticky bg-[#FFF5F5] pt-14 pb-20 opacity-0 shadow-[0_-8px_30px_-12px_rgba(51,0,20,0.06)]"
+                    style={{
+                        top: `${STICKY_BASE + LOWVIBES_TIMELINE.length * STICKY_STEP}px`,
+                        zIndex: 10 + LOWVIBES_TIMELINE.length,
+                    }}
+                >
+                    <div className="lg:w-[45%] lg:ml-auto lg:pl-20">
+                        <a
+                            href="https://open.spotify.com/intl-it/artist/0QoH2ffwsLCEdr25Yrk26z"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group"
+                        >
+                            <span className="font-mono text-xs text-[#330014]/25 tracking-[0.2em]">
+                                {t("cta.label")}
+                            </span>
+                            <span className="block resin text-[clamp(1.8rem,4vw,3.5rem)] text-[#330014] tracking-[-0.04em] leading-[0.9] mt-1 transition-colors duration-400 group-hover:text-[#330014]/50">
+                                {t("cta.text")}
+                            </span>
+                        </a>
+                    </div>
+                </div>
             </div>
+
+            {/* CC-BY credits */}
+            <p className="font-mono text-[9px] text-[#330014]/10 py-16 max-w-6xl mx-auto relative" style={{ zIndex: 10 + LOWVIBES_TIMELINE.length + 1 }}>
+                3D models CC-BY via Poly Pizza — M. Uherčík, G. Ibias, P. Simcoe, Poly by Google
+            </p>
         </div>
     );
 }

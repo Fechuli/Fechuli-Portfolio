@@ -23,7 +23,6 @@ export default function MusicIntro() {
 
         if (!container || !titleEl || !textEl) return;
 
-        // Respect reduced motion preference
         if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
             gsap.set(titleEl, { opacity: 1 });
             if (labelEl) gsap.set(labelEl, { opacity: 1 });
@@ -34,31 +33,34 @@ export default function MusicIntro() {
         let split: SplitText | null = null;
 
         const ctx = gsap.context(() => {
+            // --- Scrub-based entrance ---
             const tl = gsap.timeline({
                 scrollTrigger: {
                     trigger: container,
-                    start: "top 75%",
+                    start: "top 85%",
+                    end: "top 20%",
+                    scrub: 0.6,
                 },
             });
 
-            // Title — dramatic entrance (Victor.work-inspired expo ease)
+            // Title rises into view
             tl.fromTo(
                 titleEl,
                 { y: 100, opacity: 0 },
-                { y: 0, opacity: 1, duration: 1.4, ease: "expo.out" }
+                { y: 0, opacity: 1, duration: 0.4 }
             );
 
-            // Label line
+            // Label fades in
             if (labelEl) {
                 tl.fromTo(
                     labelEl,
                     { opacity: 0, y: 20 },
-                    { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" },
-                    "-=0.8"
+                    { opacity: 1, y: 0, duration: 0.2 },
+                    0.3
                 );
             }
 
-            // Body text — character-by-character reveal
+            // Body text — char-by-char reveal tied to scroll
             gsap.set(textEl, { opacity: 1 });
             split = new SplitText(textEl, { type: "chars" });
 
@@ -66,14 +68,37 @@ export default function MusicIntro() {
                 gsap.set(split.chars, { opacity: 0 });
                 tl.to(
                     split.chars,
-                    {
-                        opacity: 1,
-                        duration: 0.03,
-                        stagger: 0.008,
-                        ease: "none",
-                    },
-                    "-=0.2"
+                    { opacity: 1, stagger: 0.01, duration: 0.01 },
+                    0.45
                 );
+            }
+
+            // --- Parallax layers as user scrolls past ---
+            // Title drifts up slower → creates depth
+            gsap.to(titleEl, {
+                y: -80,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: container,
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: true,
+                },
+            });
+
+            // Body text drifts at different speed
+            const textWrapper = textEl.parentElement;
+            if (textWrapper) {
+                gsap.to(textWrapper, {
+                    y: -30,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: container,
+                        start: "top top",
+                        end: "bottom top",
+                        scrub: true,
+                    },
+                });
             }
         }, container);
 
@@ -89,15 +114,13 @@ export default function MusicIntro() {
             data-navbar-theme="dark"
             className="relative bg-[#330014] text-[#FFF5F5] pt-32 pb-24 sm:pt-40 sm:pb-32 md:pt-52 md:pb-40 px-6 sm:px-12 md:px-20 overflow-hidden"
         >
-            {/* Title at viewport scale */}
             <h2
                 ref={titleRef}
-                className="resin text-[clamp(4rem,13vw,15rem)] leading-[0.85] tracking-[-0.07em] opacity-0"
+                className="resin text-[clamp(4rem,13vw,15rem)] leading-[0.85] tracking-[-0.07em] opacity-0 will-change-transform"
             >
                 {t("title")}
             </h2>
 
-            {/* Metadata label */}
             <div
                 ref={labelRef}
                 className="flex items-center gap-4 mt-6 sm:mt-8 opacity-0"
@@ -108,8 +131,7 @@ export default function MusicIntro() {
                 </span>
             </div>
 
-            {/* Body text — pushed right for asymmetry */}
-            <div className="max-w-xl ml-auto mt-16 sm:mt-24">
+            <div className="max-w-xl ml-auto mt-16 sm:mt-24 will-change-transform">
                 <p
                     ref={textRef}
                     className="arimo text-base sm:text-lg leading-relaxed text-[#FFF5F5]/70 opacity-0"

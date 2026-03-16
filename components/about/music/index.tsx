@@ -2,14 +2,17 @@
 
 import MusicIntro from "./music-intro";
 import MusicalTimeline from "./musical-timeline";
-import SpotifyPlayer from "./spotify-player";
 
 export default function MusicSection() {
     return (
         <section className="w-full" aria-label="Music">
-            <MusicIntro />
-            <MusicalTimeline />
-            <SpotifyPlayer />
+            {/* Intro sticks at top — timeline scrolls over it */}
+            <div className="sticky top-0 z-0">
+                <MusicIntro />
+            </div>
+            <div className="relative z-10">
+                <MusicalTimeline />
+            </div>
         </section>
     );
 }

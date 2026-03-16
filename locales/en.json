@@ -550,13 +550,24 @@
                 "performance": "Performance",
                 "studio": "Studio",
                 "journey": "Journey"
+            },
+            "cta": {
+                "label": "∞",
+                "text": "Listen on Spotify"
             }
         },
         "spotify": {
             "title": "Listen on Spotify",
             "stats": "12 tracks · 2 EPs · since 2017",
             "listen": "Listen",
-            "viewProfile": "View full profile"
+            "viewProfile": "View full profile",
+            "statLabel1": "Tracks",
+            "statValue1": "12",
+            "statLabel2": "Releases",
+            "statValue2": "2 EPs",
+            "statLabel3": "Active since",
+            "statValue3": "2017",
+            "closing": "Music made in bedrooms, exported at 3am, listened to by people we'll never meet. That's the deal."
         },
         "synth": {
             "title": "Juno Synthesizer",
