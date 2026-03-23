@@ -142,7 +142,7 @@ export default function MusicalTimeline() {
             className="relative px-6 sm:px-12 md:px-20 bg-[#FFF5F5]"
         >
             {/* Logo curves — background decoration */}
-            <div className="absolute -top-[5%] -right-[20%] w-[70vw] max-w-225 aspect-square overflow-visible pointer-events-none select-none z-0">
+            <div className="absolute -top-[5%] -right-[20%] w-[70vw] max-w-225 aspect-square overflow-visible pointer-events-none select-none z-50">
                 <svg
                     viewBox="0 0 55 55"
                     fill="none"
@@ -199,12 +199,7 @@ export default function MusicalTimeline() {
                                 ref={(el) => {
                                     milestonesRefs.current[index] = el;
                                 }}
-                                className={`
-                                    sticky will-change-transform
-                                    pt-14 pb-[35vh] px-4 lg:px-0
-                                    overflow-visible
-                                    ${index > 0 ? "bg-[#FFF5F5] shadow-[0_-8px_30px_-12px_rgba(51,0,20,0.06)]" : ""}
-                                `}
+                                className="sticky will-change-transform pt-14 pb-[35vh] px-4 lg:px-0 overflow-visible bg-[#FFF5F5]"
                                 style={{
                                     top: `${stickyTop}px`,
                                     zIndex: 10 + index,
@@ -275,7 +270,7 @@ export default function MusicalTimeline() {
                 {/* Final node — Spotify CTA */}
                 <div
                     ref={ctaRef}
-                    className="sticky bg-[#FFF5F5] pt-14 pb-20 opacity-0 shadow-[0_-8px_30px_-12px_rgba(51,0,20,0.06)]"
+                    className="sticky bg-[#FFF5F5] pt-14 pb-20 opacity-0"
                     style={{
                         top: `${STICKY_BASE + LOWVIBES_TIMELINE.length * STICKY_STEP}px`,
                         zIndex: 10 + LOWVIBES_TIMELINE.length,

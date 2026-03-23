@@ -86,6 +86,20 @@ export default function MusicIntro() {
                 },
             });
 
+            // Label follows the title at a similar speed
+            if (labelEl) {
+                gsap.to(labelEl, {
+                    y: -70,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: container,
+                        start: "top top",
+                        end: "bottom top",
+                        scrub: true,
+                    },
+                });
+            }
+
             // Body text drifts at different speed
             const textWrapper = textEl.parentElement;
             if (textWrapper) {
